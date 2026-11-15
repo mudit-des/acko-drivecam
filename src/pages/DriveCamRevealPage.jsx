@@ -689,9 +689,14 @@ function LookCloser() {
           ))}
         </div>
 
-        <Reveal className="flex justify-center">
-          <Typography textStyle="body-lg-regular" className="text-center! text-[#b4aad6]!">{behaviours.map((b) => b.title).join(' · ')}</Typography>
-        </Reveal>
+        <div className="flex flex-col gap-24 md:flex-row md:gap-32">
+          {behaviours.map(({ title, text }, i) => (
+            <Reveal key={title} delay={i * 110} className="flex min-w-0 flex-1 flex-col gap-8 border-t border-surface-static-white/20 pt-20">
+              <Typography textStyle="heading-lg" as="h3" color="static" className={H_CARD}>{title}</Typography>
+              <Typography textStyle="body-md-regular" className="text-[#b4aad6]!">{text}</Typography>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   )
@@ -702,7 +707,6 @@ export default function DriveCamRevealPage() {
   const [errors, setErrors] = useState({})
   const [submitted, setSubmitted] = useState(false)
   const [showBar, setShowBar] = useState(false)
-  const [barLate, setBarLate] = useState(false)
   const [allFaqs, setAllFaqs] = useState(false)
 
   // Slim "Get early access" bar: shown once the opening film has finished, hidden while the form itself is on screen.
@@ -718,8 +722,6 @@ export default function DriveCamRevealPage() {
       const formBox = form.getBoundingClientRect()
       const formOnScreen = formBox.top < vh * 0.9 && formBox.bottom > vh * 0.1
       setShowBar(intro.getBoundingClientRect().bottom < vh * 0.4 && !formOnScreen)
-      const features = document.getElementById('drivecam-features')
-      setBarLate(Boolean(features) && features.getBoundingClientRect().bottom < vh * 0.5)
     }
     const onScroll = () => { if (!frame) frame = window.requestAnimationFrame(update) }
     update()
@@ -781,7 +783,7 @@ export default function DriveCamRevealPage() {
         <div className="flex w-full max-w-[1200px] flex-col items-center gap-32 px-20 py-72 md:gap-48 md:px-56 md:py-[120px]">
           <Reveal className="flex">
             <Typography textStyle="display-xl" as="h3" className={`text-center! text-text-static-dark! ${H_SECTION}`}>
-              One call. One person. <span className="text-text-brand-default!">Everything after.</span>
+              Exclusive <span className="text-text-brand-default!">Platinum benefits.</span>
             </Typography>
           </Reveal>
           {/* Four in a row from md up. On phones the cards pin one over the next as you scroll. */}
@@ -794,7 +796,6 @@ export default function DriveCamRevealPage() {
               >
                 <div aria-hidden="true" className="flex h-[160px] w-full bg-cover bg-center md:h-[180px]" style={{ backgroundImage: `url(${asset(image)})` }} />
                 <div className="flex flex-col gap-8 px-24 pb-24 pt-20">
-                  <Typography textStyle="label-md-semibold" className="text-text-brand-default!">{String(i + 1).padStart(2, '0')}</Typography>
                   <Typography textStyle="heading-lg" as="h4" className={`text-text-static-dark! ${H_CARD}`}>{title}</Typography>
                   <Typography textStyle="body-md-regular" className="text-text-static-dark/70!">{text}</Typography>
                 </div>
@@ -854,9 +855,9 @@ export default function DriveCamRevealPage() {
 
       <footer aria-label="ACKO footer" data-figma-id="drivecam-footer" className="relative flex w-full flex-col items-center bg-surface-page-static-black">
         <div className="flex w-full max-w-[1200px] flex-col gap-48 px-20 pb-32 pt-72 md:gap-64 md:px-56 md:pt-[120px]">
-          <h2 className="flex flex-col pb-24 md:pb-48">
-            <Typography textStyle="display-2xl" as="span" className="text-[44px]! leading-[1]! tracking-[-0.055em]! font-semibold! text-[#928b9f]! md:text-[88px]! xl:text-[112px]!">DriveCam</Typography>
-            <Typography textStyle="display-2xl" as="span" className="text-[44px]! leading-[1.05]! tracking-[-0.055em]! font-light! text-[#928b9f]! md:text-[88px]! xl:text-[112px]!">launching soon.</Typography>
+          <h2 className="flex flex-row flex-wrap items-baseline gap-x-12 pb-24 md:gap-x-16 md:pb-48 xl:gap-x-20">
+            <Typography textStyle="display-2xl" as="span" className="text-[36px]! leading-[1]! tracking-[-0.05em]! font-semibold! text-[#928b9f]! md:text-[56px]! xl:text-[72px]!">DriveCam</Typography>
+            <Typography textStyle="display-2xl" as="span" className="text-[36px]! leading-[1.05]! tracking-[-0.05em]! font-light! text-[#928b9f]! md:text-[56px]! xl:text-[72px]!">launching soon.</Typography>
           </h2>
           <div className="h-1 w-full bg-surface-static-white/15" />
           <div className="flex items-center justify-between gap-16">
@@ -872,14 +873,8 @@ export default function DriveCamRevealPage() {
         <div className={`pointer-events-auto flex w-full max-w-[640px] items-center justify-between gap-12 rounded-full bg-surface-card-default py-8 pl-20 pr-8 shadow-m transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none ${showBar ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-24 opacity-0'}`}>
           <div className="flex min-w-0 items-center gap-12">
             <Link to="/acko" aria-label="ACKO home" tabIndex={showBar ? 0 : -1} className="flex"><AckoLogo /></Link>
-            {/* Like the Clinic's bar: what it is first, then a launch note once you're past the product part. */}
-            <div className="relative hidden pl-12 md:flex">
-              <div aria-hidden={barLate} className={`flex items-center whitespace-nowrap transition-[opacity,transform] duration-300 ${barLate ? '-translate-y-8 opacity-0' : 'translate-y-0 opacity-100'}`}>
-                <Typography textStyle="label-md-medium" color="secondary">Comes with ACKO car insurance</Typography>
-              </div>
-              <div aria-hidden={!barLate} className={`absolute inset-y-0 left-12 flex items-center whitespace-nowrap transition-[opacity,transform] duration-300 ${barLate ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-                <Typography textStyle="label-md-medium" color="secondary">DriveCam · Launching soon</Typography>
-              </div>
+            <div className="hidden pl-12 md:flex">
+              <Typography textStyle="label-md-medium" color="secondary">DriveCam · Launching soon</Typography>
             </div>
           </div>
           <Button variant="primary" size="sm" tabIndex={showBar ? 0 : -1} onClick={() => go('drivecam-early-access')}>Get early access</Button>
