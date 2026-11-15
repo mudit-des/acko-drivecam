@@ -702,6 +702,99 @@ function LookCloser() {
   )
 }
 
+// Primary and secondary buttons on this page are black instead of brand purple. The design-system Button has no black variant, so
+// its own colour tokens are pointed at the static black greys here (hover a touch lighter, pressed a touch darker).
+const BLACK_BUTTONS = {
+  '--buttonFillPrimaryDefault': '#141414',
+  '--buttonFillPrimaryHover': '#1e1e1f',
+  '--buttonFillPrimaryActive': '#0a0a0a',
+  '--buttonFillPrimaryText': '#ffffff',
+  '--buttonBorderDefaultGradientTop': '#3a3a3c',
+  '--buttonBorderDefaultGradientBottom': 'transparent',
+  // Secondary: black outline and label on a clear fill.
+  '--buttonFillSecondaryText': '#141414',
+  '--buttonFillSecondaryDefault': 'transparent',
+  '--buttonFillSecondaryHover': 'rgba(20, 20, 20, 0.06)',
+  '--buttonFillSecondaryActive': 'rgba(20, 20, 20, 0.12)',
+  '--buttonBorderSecondaryDefault': '#141414',
+}
+
+// The footer reads as a road at night: the sentence sits on a dashed lane line, and a low dark car is parked on it at
+// the right, facing the text, its headlight throwing a soft beam that lights up the dashes ahead. Car, beam and lit
+// stretch drive in from the right (towards the text) the first time the footer comes into view (already in place with
+// reduced motion).
+const ROAD_DASHES = 'repeating-linear-gradient(to right, rgba(255,255,255,0.22) 0 18px, transparent 18px 32px)'
+const ROAD_DASHES_LIT = 'repeating-linear-gradient(to right, rgba(255,255,255,0.8) 0 18px, transparent 18px 32px)'
+
+function FooterRoad() {
+  const ref = useRef(null)
+  const [shown, setShown] = useState(() => isStaticMode())
+  useEffect(() => {
+    if (shown || !ref.current) return undefined
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setShown(true)
+        io.disconnect()
+      }
+    }, { threshold: 0.6 })
+    io.observe(ref.current)
+    return () => io.disconnect()
+  }, [shown])
+  const glide = { opacity: shown ? 1 : 0, transform: shown ? 'none' : 'translateX(220px)', transition: 'opacity 1.2s ease-out, transform 2s cubic-bezier(0.22, 1, 0.36, 1)' }
+  // The sentence is lit by the headlight: dim on the left, bright nearest the car. It starts all dim and brightens as
+  // the car arrives (the gradient is twice as wide as the text and slides from its dim half to its lit half).
+  const lit = {
+    backgroundImage: 'linear-gradient(to right, #4a4652 0%, #4a4652 50%, #8e889b 74%, #f3f0fb 100%)',
+    backgroundSize: '200% 100%',
+    backgroundPosition: shown ? '100% 0' : '0% 0',
+    transition: 'background-position 1.8s ease-out',
+    WebkitBackgroundClip: 'text',
+    backgroundClip: 'text',
+  }
+
+  return (
+    <div ref={ref} className="flex flex-col gap-10">
+      <div className="flex items-end justify-between gap-24">
+        <Typography textStyle="body-lg-regular" as="p" className={`min-w-0 text-[24px]! leading-[1.15]! tracking-[-0.02em]! font-light! md:text-[30px]! xl:text-[34px]! xl:whitespace-nowrap ${IS_AUTOMATION ? 'text-[#a39daf]!' : 'text-transparent!'}`}>
+          <span className="inline" style={IS_AUTOMATION ? undefined : lit}>
+            Building the <span className="font-semibold!">protection destination</span> for your car
+          </span>
+        </Typography>
+        <div role="img" aria-label="A car driving towards the text with its headlight on" className="relative flex h-[42px] w-[230px] shrink-0 md:h-[52px] md:w-[300px]" style={glide}>
+          {!IS_AUTOMATION && (
+            <div aria-hidden="true" className="absolute bottom-[-1px] right-[78px] flex h-[36px] w-[calc(100%-78px)] md:right-[97px] md:h-[44px] md:w-[calc(100%-97px)]" style={{ filter: 'blur(5px)' }}>
+              <div
+                className="absolute inset-0 flex"
+                style={{ backgroundImage: 'linear-gradient(to left, rgba(255,255,255,0.6), rgba(210,200,255,0.22) 40%, rgba(165,140,247,0))', clipPath: 'polygon(100% 62%, 100% 92%, 0 100%, 0 8%)' }}
+              />
+            </div>
+          )}
+          {/* Facing left: long bonnet and raked windscreen at the front, short boot and a faint tail light at the back. */}
+          <svg viewBox="0 0 80 26" aria-hidden="true" className="absolute bottom-[-3px] right-0 h-[27px] w-[84px] md:h-[34px] md:w-[104px]">
+            <path d="M2 17.6c0-1.7 1.1-2.7 3-3l17.5-1.8 8.5-5.6c1.6-.9 3.3-1.3 5.2-1.3H50c3.6 0 6.2 1.1 8.5 3.3l3.5 3.4 11.5.8c2.9.3 4.5 1.8 4.5 4.2v2c0 .8-.6 1.4-1.4 1.4H3.4c-.8 0-1.4-.6-1.4-1.4z" fill="#26242b" stroke="#3d3a45" strokeWidth=".8" />
+            <path d="M24.8 12.4l6.8-4.4c1.4-.8 2.8-1.1 4.4-1.1h5.5v5.5zM43.5 6.9h6.1c2.8 0 5 .9 6.8 2.7l3 2.8H43.5z" fill="#121114" />
+            <rect x="75.6" y="14.4" width="2" height="1.6" rx=".8" fill="#7a2a33" />
+            <circle cx="16" cy="21" r="4.4" fill="#0d0d0f" stroke="#3d3a45" strokeWidth="1" />
+            <circle cx="64" cy="21" r="4.4" fill="#0d0d0f" stroke="#3d3a45" strokeWidth="1" />
+            <circle cx="5.4" cy="16.6" r="2.1" fill="#ffffff" />
+          </svg>
+          {/* Glow around the round headlight, which sits in the nose below the bonnet line. */}
+          <div aria-hidden="true" className="absolute bottom-[3px] right-[75px] flex size-7 rounded-full shadow-[0_0_9px_3px_rgba(255,255,255,0.8),0_0_24px_8px_rgba(165,140,247,0.45)] md:bottom-[5px] md:right-[93px] md:size-8" />
+        </div>
+      </div>
+      <div aria-hidden="true" className={`relative flex h-2 w-full ${IS_AUTOMATION ? 'bg-surface-static-white/30' : ''}`} style={IS_AUTOMATION ? undefined : { backgroundImage: ROAD_DASHES }}>
+        {!IS_AUTOMATION && (
+          <>
+            {/* The stretch of road under the beam: same dashes, brighter, fading out away from the car. */}
+            <div className="absolute inset-0 flex" style={{ ...glide, backgroundImage: ROAD_DASHES_LIT, WebkitMaskImage: 'linear-gradient(to left, transparent 84px, #000 98px, transparent 360px)', maskImage: 'linear-gradient(to left, transparent 84px, #000 98px, transparent 360px)' }} />
+            <div className="absolute right-[96px] top-[-6px] flex h-[14px] w-[170px] rounded-full md:right-[112px]" style={{ ...glide, backgroundImage: 'radial-gradient(closest-side, rgba(220,212,255,0.22), rgba(165,140,247,0))' }} />
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
 export default function DriveCamRevealPage() {
   const [form, setForm] = useState({ reg: '', mobile: '', pincode: '' })
   const [errors, setErrors] = useState({})
@@ -749,7 +842,7 @@ export default function DriveCamRevealPage() {
   const go = (id) => document.getElementById(id).scrollIntoView({ block: 'start' })
 
   return (
-    <main aria-label="ACKO DriveCam" data-figma-id="drivecam-home" className="flex min-h-screen w-full flex-col items-center bg-[#f7f6f2]">
+    <main aria-label="ACKO DriveCam" data-figma-id="drivecam-home" className="flex min-h-screen w-full flex-col items-center bg-[#f7f6f2]" style={BLACK_BUTTONS}>
       <FilmIntro />
 
       <Statement />
@@ -853,13 +946,9 @@ export default function DriveCamRevealPage() {
         </div>
       </section>
 
-      <footer aria-label="ACKO footer" data-figma-id="drivecam-footer" className="relative flex w-full flex-col items-center bg-surface-page-static-black">
-        <div className="flex w-full max-w-[1200px] flex-col gap-48 px-20 pb-32 pt-72 md:gap-64 md:px-56 md:pt-[120px]">
-          <h2 className="flex flex-row flex-wrap items-baseline gap-x-12 pb-24 md:gap-x-16 md:pb-48 xl:gap-x-20">
-            <Typography textStyle="display-2xl" as="span" className="text-[36px]! leading-[1]! tracking-[-0.05em]! font-light! text-[#928b9f]! md:text-[56px]! xl:text-[72px]!">Building the protection destination</Typography>
-            <Typography textStyle="display-2xl" as="span" className="text-[36px]! leading-[1.05]! tracking-[-0.05em]! font-semibold! text-[#928b9f]! md:text-[56px]! xl:text-[72px]!">for your car.</Typography>
-          </h2>
-          <div className="h-1 w-full bg-surface-static-white/15" />
+      <footer aria-label="ACKO footer" data-figma-id="drivecam-footer" className="relative flex w-full flex-col items-center overflow-hidden bg-surface-page-static-black">
+        <div className="flex w-full max-w-[1200px] flex-col gap-32 px-20 pb-40 pt-72 md:gap-40 md:px-56 md:pb-48 md:pt-[96px]">
+          <FooterRoad />
           <div className="flex items-center justify-between gap-16">
             <AckoLogo textFill="#ffffff" />
             {/* Small links, like the Clinic's footer. */}
