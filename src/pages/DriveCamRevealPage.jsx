@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { asset } from '../asset'
 import { Accordion, AccordionItem } from '@acko/accordion'
 import { Button } from '@acko/button'
 import { Checkbox } from '@acko/checkbox'
@@ -66,7 +67,7 @@ const introLines = [
 const INTRO_SIZE = 'text-[44px]! leading-[46px]! tracking-[-1.8px]! md:text-[88px]! md:leading-[90px]! md:tracking-[-3.5px]! xl:text-[120px]! xl:leading-[120px]! xl:tracking-[-5px]!'
 
 const FRAME_COUNT = 172
-const frameSrc = (i) => `/drivecam/frames/hero-alpha/f${String(i + 1).padStart(4, '0')}.webp`
+const frameSrc = (i) => asset(`/drivecam/frames/hero-alpha/f${String(i + 1).padStart(4, '0')}.webp`)
 const FRAMES_BEHIND = 24
 const FRAMES_AHEAD = 80
 const ease = (t) => t * t * (3 - 2 * t)
@@ -212,7 +213,7 @@ function CountUp({ to, suffix, delay = 0 }) {
   return <span ref={ref}>{`${to}${suffix}`}</span>
 }
 
-function Ambassador({ label, className, delay }) {
+function Ambassador({ label, className, delay, image }) {
   const [ref, shown] = useInView(0.1)
   return (
     <div
@@ -220,7 +221,7 @@ function Ambassador({ label, className, delay }) {
       role="img"
       aria-label={label}
       className={`${className} transition-[opacity,transform] duration-1000 ease-out motion-reduce:transition-none`}
-      style={{ opacity: shown ? 1 : 0, transform: shown ? 'none' : 'translateY(14%)', transitionDelay: `${delay}ms` }}
+      style={{ backgroundImage: image ? `url(${image})` : undefined, opacity: shown ? 1 : 0, transform: shown ? 'none' : 'translateY(14%)', transitionDelay: `${delay}ms` }}
     />
   )
 }
@@ -413,7 +414,7 @@ function FilmIntro() {
           </h1>
         </div>
         <div className="flex w-full flex-col items-center bg-surface-page-static-white px-20 py-48">
-          <div role="img" aria-label="DriveCam" className="flex aspect-square w-[min(86vw,560px)] bg-contain bg-center bg-no-repeat bg-[url(/drivecam/frames/hero/f0172.jpg)]" />
+          <div role="img" aria-label="DriveCam" className="flex aspect-square w-[min(86vw,560px)] bg-contain bg-center bg-no-repeat" style={{ backgroundImage: `url(${asset('/drivecam/frames/hero/f0172.jpg')})` }} />
         </div>
       </section>
     )
@@ -581,12 +582,12 @@ function ActionFilm() {
   return (
     <section ref={sectionRef} aria-label="See it in action" data-figma-id="drivecam-action" className="flex w-full justify-center bg-surface-page-static-black">
       {IS_AUTOMATION ? (
-        <div role="img" aria-label="DriveCam in action" className="flex aspect-[2/1] w-full max-w-[1600px] bg-cover bg-center bg-no-repeat bg-[url(/drivecam/in-action-poster.webp)]" />
+        <div role="img" aria-label="DriveCam in action" className="flex aspect-[2/1] w-full max-w-[1600px] bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${asset('/drivecam/in-action-poster.webp')})` }} />
       ) : (
         <video
           ref={videoRef}
-          src="/drivecam/in-action.mp4"
-          poster="/drivecam/in-action-poster.webp"
+          src={asset('/drivecam/in-action.mp4')}
+          poster={asset('/drivecam/in-action-poster.webp')}
           muted
           playsInline
           preload="none"
@@ -665,10 +666,10 @@ function LookCloser() {
         <div className="flex flex-col items-center gap-40 md:flex-row md:gap-24">
           <div className="order-2 flex w-full flex-col gap-32 md:order-1 md:min-w-0 md:flex-1">{hotspots.filter((h) => h.side === 'left').map(callout)}</div>
           <div
-            className="relative order-1 flex aspect-square w-[min(86vw,520px)] shrink-0 bg-contain bg-center bg-no-repeat bg-[url(/drivecam/frames/hero-alpha/f0172.webp)] md:order-2"
+            className="relative order-1 flex aspect-square w-[min(86vw,520px)] shrink-0 bg-contain bg-center bg-no-repeat md:order-2"
             role="img"
             aria-label="The DriveCam, with four points to look at"
-            style={IS_AUTOMATION ? undefined : { backgroundImage: 'url(/drivecam/frames/hero-alpha/f0172.webp), radial-gradient(48% 40% at 50% 56%, #ffffff1a 0%, #ffffff00 100%)' }}
+            style={{ backgroundImage: IS_AUTOMATION ? `url(${asset('/drivecam/frames/hero-alpha/f0172.webp')})` : `url(${asset('/drivecam/frames/hero-alpha/f0172.webp')}), radial-gradient(48% 40% at 50% 56%, #ffffff1a 0%, #ffffff00 100%)` }}
           >
             {hotspots.map(({ n, x, y, title }) => (
               <button
@@ -776,7 +777,7 @@ export default function DriveCamRevealPage() {
 
       <section id="drivecam-hero" aria-label="DriveCam with ACKO car insurance" data-figma-id="drivecam-hero" className="flex w-full flex-col items-center bg-[#f7f6f2]">
         <div className="flex w-full max-w-[1200px] flex-col-reverse items-center gap-32 px-20 pt-[96px] md:flex-row md:items-end md:gap-56 md:px-56 md:pt-[120px]">
-          <Ambassador label="Ambassador holding the DriveCam" delay={0} className="flex h-[340px] w-[233px] shrink-0 bg-contain bg-bottom bg-no-repeat bg-[url(/drivecam/ambassador-left.webp)] md:h-[520px] md:w-[356px] xl:h-[600px] xl:w-[410px]" />
+          <Ambassador image={asset('/drivecam/ambassador-left.webp')} label="Ambassador holding the DriveCam" delay={0} className="flex h-[340px] w-[233px] shrink-0 bg-contain bg-bottom bg-no-repeat md:h-[520px] md:w-[356px] xl:h-[600px] xl:w-[410px]" />
           <div className="flex min-w-0 flex-1 flex-col items-start gap-20 md:gap-24 md:pb-[140px]">
             <Reveal className="flex">
               <Typography textStyle="display-xl" as="h2" className="text-[34px]! leading-[1.12]! tracking-[-0.03em]! font-light! text-text-static-dark! md:text-[48px]! xl:text-[60px]!">
@@ -825,7 +826,7 @@ export default function DriveCamRevealPage() {
               ))}
             </div>
           </div>
-          <Ambassador label="Second ambassador showing the DriveCam" delay={0} className="flex h-[340px] w-[174px] shrink-0 bg-contain bg-bottom bg-no-repeat bg-[url(/drivecam/ambassador-right.webp)] md:h-[560px] md:w-[286px] xl:h-[620px] xl:w-[317px]" />
+          <Ambassador image={asset('/drivecam/ambassador-right.webp')} label="Second ambassador showing the DriveCam" delay={0} className="flex h-[340px] w-[174px] shrink-0 bg-contain bg-bottom bg-no-repeat md:h-[560px] md:w-[286px] xl:h-[620px] xl:w-[317px]" />
         </div>
       </section>
 

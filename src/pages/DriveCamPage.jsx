@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { asset } from '../asset'
 import { Accordion, AccordionItem } from '@acko/accordion'
 import { Button } from '@acko/button'
 import { Checkbox } from '@acko/checkbox'
@@ -24,9 +25,9 @@ const stats = [
 ]
 
 const videoCards = [
-  { src: '/drivecam/night.mp4', title: 'Clear after dark', description: 'Low-light recording keeps the detail long after sunset.' },
-  { src: '/drivecam/quad-hd.mp4', title: 'Quad HD recording', description: '1440p Quad HD with a 156° wide-angle view.' },
-  { src: '/drivecam/camera-360.mp4', title: 'Flips 360°', description: 'Flip the camera 360° to record the cabin as well as the road.' },
+  { src: asset('/drivecam/night.mp4'), title: 'Clear after dark', description: 'Low-light recording keeps the detail long after sunset.' },
+  { src: asset('/drivecam/quad-hd.mp4'), title: 'Quad HD recording', description: '1440p Quad HD with a 156° wide-angle view.' },
+  { src: asset('/drivecam/camera-360.mp4'), title: 'Flips 360°', description: 'Flip the camera 360° to record the cabin as well as the road.' },
 ]
 
 const benefits = [
@@ -165,9 +166,9 @@ export default function DriveCamPage() {
         </div>
 
         <div aria-label="DriveCam ambassadors" data-figma-id="drivecam-ambassadors" className="pointer-events-none relative flex h-[260px] w-full shrink-0 lg:absolute lg:inset-0 lg:h-auto">
-          <div role="img" aria-label="Ambassador holding the DriveCam" className="absolute bottom-0 left-0 z-0 flex h-[260px] w-[178px] bg-contain bg-bottom bg-no-repeat bg-[url(/drivecam/ambassador-left.webp)] lg:left-16 lg:h-[440px] lg:w-[301px] xl:left-0 xl:h-[560px] xl:w-[384px]">
+          <div role="img" aria-label="Ambassador holding the DriveCam" className="absolute bottom-0 left-0 z-0 flex h-[260px] w-[178px] bg-contain bg-bottom bg-no-repeat lg:left-16 lg:h-[440px] lg:w-[301px] xl:left-0 xl:h-[560px] xl:w-[384px]" style={{ backgroundImage: `url(${asset('/drivecam/ambassador-left.webp')})` }}>
           </div>
-          <div role="img" aria-label="Second ambassador showing the DriveCam" className="absolute bottom-0 right-0 z-10 flex h-[260px] w-[133px] bg-contain bg-bottom bg-no-repeat bg-[url(/drivecam/ambassador-right.webp)] lg:right-16 lg:h-[440px] lg:w-[225px] xl:right-0 xl:h-[560px] xl:w-[286px]">
+          <div role="img" aria-label="Second ambassador showing the DriveCam" className="absolute bottom-0 right-0 z-10 flex h-[260px] w-[133px] bg-contain bg-bottom bg-no-repeat lg:right-16 lg:h-[440px] lg:w-[225px] xl:right-0 xl:h-[560px] xl:w-[286px]" style={{ backgroundImage: `url(${asset('/drivecam/ambassador-right.webp')})` }}>
           </div>
         </div>
       </section>
@@ -190,7 +191,7 @@ export default function DriveCamPage() {
           </div>
 
           <div className="flex flex-col gap-24 md:flex-row md:items-stretch md:gap-48">
-            <ScrollVideo src="/drivecam/hero.mp4" label="DriveCam product film" className="md:w-[520px] md:shrink-0" />
+            <ScrollVideo src={asset('/drivecam/hero.mp4')} label="DriveCam product film" className="md:w-[520px] md:shrink-0" />
             <div className="flex min-w-0 flex-1 flex-col justify-between">
               {stats.map(({ value, label }) => (
                 <div key={label} className="flex flex-col gap-16 pt-16">

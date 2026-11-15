@@ -17,7 +17,8 @@
     "figma:export:diagnostic": "tsx tools/figma-export/cli.ts --allow-blocked-requests",
     "figma:export:diagnostic:check": "tsx tools/figma-export/cli.ts --allow-blocked-requests --check",
     "plugin:build": "tsc -p figma-plugin/tsconfig.json && node figma-plugin/build.mjs",
-    "plugin:check": "tsc -p figma-plugin/tsconfig.json --noEmit"
+    "plugin:check": "tsc -p figma-plugin/tsconfig.json --noEmit",
+    "deploy:pages": "sh scripts/deploy-pages.sh"
   },
   "dependencies": {
     "@acko/accordion": "4.0.0",

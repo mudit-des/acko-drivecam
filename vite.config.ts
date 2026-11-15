@@ -6,6 +6,8 @@ import tailwindcss from '@tailwindcss/vite'
 const ackoRoot = fileURLToPath(new URL('./node_modules/@acko', import.meta.url))
 
 export default defineConfig({
+  // GitHub Pages serves the site from /acko-drivecam/; local dev and the Figma export stay at /.
+  base: process.env.GH_PAGES ? '/acko-drivecam/' : '/',
   plugins: [tailwindcss(), react()],
   resolve: {
     alias: [
