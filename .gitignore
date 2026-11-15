@@ -1,0 +1,5 @@
+node_modules/
+dist/
+figma-export-output/
+.DS_Store
+.claude/settings.local.json

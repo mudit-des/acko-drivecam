@@ -1,0 +1,1077 @@
+{
+  "schemaVersion": "1.0",
+  "components": {
+    "Button": {
+      "package": "@acko/button",
+      "exportName": "Button",
+      "strategy": "INSTANCE",
+      "libraryName": "Button",
+      "sourceNodeId": "11754:617",
+      "matchWidth": {
+        "when": {
+          "fullWidth": true
+        }
+      },
+      "properties": {
+        "variant": {
+          "figmaProperty": "Type",
+          "values": {
+            "primary": "Primary",
+            "secondary": "Secondary",
+            "ghost": "Ghost",
+            "link": "Link",
+            "destructive-low": "Destructive-Low",
+            "destructive-high": "Destructive-High",
+            "primary-on-dark": "Primary-onDark",
+            "secondary-on-dark": "Secondary-onDark",
+            "ghost-on-dark": "Ghost-onDark",
+            "link-on-dark": "Link-onDark",
+            "destructive-on-dark": "Destructive-onDark",
+            "white": "White",
+            "translucent": "Translucent"
+          }
+        },
+        "size": {
+          "figmaProperty": "Size",
+          "values": {
+            "xs": "XS",
+            "sm": "SM",
+            "md": "MD",
+            "lg": "LG",
+            "xl": "XL"
+          }
+        },
+        "disabled": {
+          "figmaProperty": "State",
+          "trueValue": "Disabled",
+          "falseValue": "Default"
+        },
+        "children": {
+          "figmaProperty": "Label"
+        }
+      },
+      "derived": {
+        "Content": [
+          {
+            "when": {
+              "iconOnly": true
+            },
+            "value": "Icon"
+          },
+          {
+            "value": "Text"
+          }
+        ]
+      },
+      "reason": "Content is always sent (Icon when iconOnly, else Text): the component set's first variant is Content=Icon, so an unset Content turns every button into an icon-only one. Verified against Umbrella 11754:617: 13 Types x 4 States x 5 Sizes x 2 Contents, all 520 variants present."
+    },
+    "Badge": {
+      "package": "@acko/badge",
+      "exportName": "Badge",
+      "strategy": "INSTANCE",
+      "libraryName": "Badge",
+      "sourceNodeId": "7814:342",
+      "properties": {
+        "color": {
+          "figmaProperty": "Colour",
+          "values": {
+            "purple": "Purple",
+            "green": "Green",
+            "blue": "Blue",
+            "orange": "Orange",
+            "pink": "Pink",
+            "red": "Red",
+            "black": "Black",
+            "grey": "Grey"
+          }
+        },
+        "size": {
+          "figmaProperty": "Size",
+          "values": {
+            "sm": "SM",
+            "md": "MD",
+            "lg": "LG"
+          }
+        },
+        "variant": {
+          "figmaProperty": "Style",
+          "values": {
+            "solid": "Solid",
+            "outline": "Outline",
+            "dot": "Outline"
+          }
+        },
+        "children": {
+          "textLayer": "Label"
+        }
+      }
+    },
+    "CounterBadge": {
+      "package": "@acko/badge",
+      "exportName": "CounterBadge",
+      "strategy": "INSTANCE",
+      "libraryName": "CounterBadge",
+      "sourceNodeId": "7815:246",
+      "properties": {
+        "color": {
+          "figmaProperty": "Colour",
+          "values": {
+            "purple": "Purple",
+            "green": "Green",
+            "blue": "Blue",
+            "orange": "Orange",
+            "pink": "Pink",
+            "red": "Red",
+            "black": "Black",
+            "grey": "Gray"
+          }
+        },
+        "size": {
+          "figmaProperty": "Size",
+          "values": {
+            "sm": "SM",
+            "md": "MD"
+          }
+        },
+        "count": {
+          "textLayer": "Count"
+        }
+      }
+    },
+    "TextInput": {
+      "package": "@acko/text-input",
+      "exportName": "TextInput",
+      "strategy": "INSTANCE",
+      "libraryName": "TextInput",
+      "sourceNodeId": "7098:216",
+      "matchWidth": true,
+      "properties": {
+        "inputType": {
+          "figmaProperty": "Type",
+          "values": {
+            "text": "Regular input field",
+            "name": "Regular input field",
+            "email": "Regular input field",
+            "phone": "Phone number",
+            "number": "Regular input field",
+            "decimal": "Regular input field",
+            "currency": "Regular input field",
+            "url": "Regular input field",
+            "search": "Regular input field",
+            "password": "Regular input field",
+            "newPassword": "Regular input field",
+            "pincode": "Regular input field",
+            "aadhaar": "Regular input field",
+            "pan": "Regular input field",
+            "registrationNumber": "Registration number"
+          }
+        },
+        "size": {
+          "figmaProperty": "Size",
+          "values": {
+            "sm": "SM",
+            "md": "MD",
+            "lg": "LG"
+          }
+        },
+        "placeholder": {
+          "textLayer": "Placeholder Text"
+        },
+        "helperText": {
+          "figmaProperty": "ShowHelper",
+          "textLayer": "Helper Text",
+          "trueValue": true,
+          "falseValue": false
+        },
+        "label": {
+          "figmaProperty": "ShowLabel",
+          "trueValue": true,
+          "falseValue": false
+        }
+      }
+    },
+    "Accordion": {
+      "package": "@acko/accordion",
+      "exportName": "Accordion",
+      "strategy": "DOM",
+      "libraryName": "Accordion",
+      "sourceNodeId": "7104:182",
+      "reason": "The React component renders an item collection while the Figma component represents one item."
+    },
+    "Breadcrumb": {
+      "package": "@acko/breadcrumb",
+      "exportName": "Breadcrumb",
+      "strategy": "INSTANCE",
+      "libraryName": "Breadcrumb",
+      "sourceNodeId": "7105:152",
+      "reason": "Verified against Umbrella 7105:152: Size SM/MD/LG × State Default/Link Hover; every variant has exactly 2 'Parent Link' + 1 'Current Page' text layers, so a 3-item breadcrumb maps 1:1 (other lengths leave extra links at their default text).",
+      "properties": {
+        "size": {
+          "figmaProperty": "Size",
+          "values": {
+            "sm": "SM",
+            "md": "MD",
+            "lg": "LG"
+          }
+        },
+        "items": {
+          "listText": {
+            "take": "label",
+            "layer": "Parent Link",
+            "lastLayer": "Current Page"
+          }
+        }
+      }
+    },
+    "Card": {
+      "package": "@acko/card",
+      "exportName": "Card",
+      "strategy": "DOM"
+    },
+    "Dropdown": {
+      "package": "@acko/dropdown",
+      "exportName": "Dropdown",
+      "strategy": "INSTANCE",
+      "libraryName": "Dropdown",
+      "sourceNodeId": "7102:296",
+      "matchWidth": true,
+      "reason": "The instance shows the closed field; an open menu (portal) is not represented. Verified against Umbrella 7102:296: Default has Placeholder Text + Helper Text; Filled, Error, Success and Disabled show Value Text (no Placeholder Text), with Helper Text / Error Message / Success Message.",
+      "properties": {
+        "size": {
+          "figmaProperty": "Size",
+          "values": {
+            "sm": "SM",
+            "md": "MD",
+            "lg": "LG"
+          }
+        },
+        "label": {
+          "textLayer": "Field Label"
+        },
+        "placeholder": {
+          "textLayer": "Placeholder Text",
+          "textLayerWhen": [
+            {
+              "whenPresent": [
+                "value"
+              ],
+              "textLayer": null
+            },
+            {
+              "when": {
+                "disabled": true
+              },
+              "textLayer": "Value Text"
+            },
+            {
+              "when": {
+                "error": true
+              },
+              "textLayer": "Value Text"
+            },
+            {
+              "when": {
+                "success": true
+              },
+              "textLayer": "Value Text"
+            }
+          ]
+        },
+        "value": {
+          "textLayer": "Value Text",
+          "lookup": {
+            "in": "options",
+            "match": "value",
+            "take": "label"
+          }
+        },
+        "helperText": {
+          "textLayer": "Helper Text",
+          "textLayerWhen": [
+            {
+              "when": {
+                "error": true
+              },
+              "textLayer": null
+            },
+            {
+              "when": {
+                "success": true
+              },
+              "textLayer": "Success Message"
+            }
+          ]
+        },
+        "errorText": {
+          "textLayer": "Error Message",
+          "textLayerWhen": [
+            {
+              "when": {
+                "error": false
+              },
+              "textLayer": null
+            }
+          ]
+        }
+      },
+      "derived": {
+        "State": [
+          {
+            "when": {
+              "disabled": true
+            },
+            "value": "Disabled"
+          },
+          {
+            "when": {
+              "error": true
+            },
+            "value": "Error"
+          },
+          {
+            "when": {
+              "success": true
+            },
+            "value": "Success"
+          },
+          {
+            "when": {
+              "defaultOpen": true
+            },
+            "value": "Active"
+          },
+          {
+            "whenPresent": [
+              "value"
+            ],
+            "value": "Filled"
+          }
+        ]
+      }
+    },
+    "Typography": {
+      "package": "@acko/typography",
+      "exportName": "Typography",
+      "strategy": "DOM",
+      "reason": "Renders one Figma text style. In Figma the style is chosen from the text layer's applied text-style; in code it maps to the required `textStyle` prop.",
+      "properties": {
+        "textStyle": {
+          "figmaProperty": "Text Style",
+          "required": true,
+          "values": {
+            "display-md": "Display/MD/Semibold",
+            "display-lg": "Display/LG/Semibold",
+            "display-xl": "Display/XL/Semibold",
+            "display-2xl": "Display/2XL/Semibold",
+            "heading-xs": "Heading/XS/Semibold",
+            "heading-sm": "Heading/SM/Semibold",
+            "heading-md": "Heading/MD/Semibold",
+            "heading-lg": "Heading/LG/Semibold",
+            "heading-xl": "Heading/XL/Semibold",
+            "heading-2xl": "Heading/2XL/Semibold",
+            "body-sm-regular": "Body/SM/Regular",
+            "body-sm-medium": "Body/SM/Medium",
+            "body-md-regular": "Body/MD/Regular",
+            "body-md-medium": "Body/MD/Medium",
+            "body-md-semibold": "Body/MD/Semibold",
+            "body-lg-regular": "Body/LG/Regular",
+            "body-lg-medium": "Body/LG/Medium",
+            "label-xs-regular": "Label/XS/Regular",
+            "label-xs-medium": "Label/XS/Medium",
+            "label-xs-semibold": "Label/XS/Semibold",
+            "label-sm-regular": "Label/SM/Regular",
+            "label-sm-medium": "Label/SM/Medium",
+            "label-sm-semibold": "Label/SM/Semibold",
+            "label-md-regular": "Label/MD/Regular",
+            "label-md-medium": "Label/MD/Medium",
+            "label-md-semibold": "Label/MD/Semibold",
+            "label-lg-regular": "Label/LG/Regular",
+            "label-lg-medium": "Label/LG/Medium",
+            "label-lg-semibold": "Label/LG/Semibold",
+            "label-xl-regular": "Label/XL/Regular",
+            "label-xl-medium": "Label/XL/Medium",
+            "label-xl-semibold": "Label/XL/Semibold",
+            "label-2xl-regular": "Label/2XL/Regular",
+            "label-2xl-medium": "Label/2XL/Medium",
+            "label-2xl-semibold": "Label/2XL/Semibold",
+            "label-3xl-semibold": "Label/3XL/Semibold",
+            "helper-xs-regular": "Helper/XS/Regular",
+            "helper-xs-medium": "Helper/XS/Medium",
+            "helper-sm-regular": "Helper/SM/Regular",
+            "helper-sm-medium": "Helper/SM/Medium",
+            "article-md-regular": "Article/MD/Regular",
+            "article-md-semibold": "Article/MD/Semibold",
+            "article-lg-regular": "Article/LG/Regular",
+            "article-lg-semibold": "Article/LG/Semibold"
+          }
+        },
+        "color": {
+          "figmaProperty": "Color",
+          "values": {
+            "primary": "Primary",
+            "secondary": "Secondary",
+            "invert": "Invert",
+            "brand": "Brand",
+            "error": "Error",
+            "success": "Success",
+            "static": "Static"
+          }
+        },
+        "align": {
+          "figmaProperty": "Align",
+          "values": {
+            "left": "Left",
+            "center": "Center",
+            "right": "Right"
+          }
+        },
+        "italic": {
+          "figmaProperty": "Italic",
+          "trueValue": true,
+          "falseValue": false
+        },
+        "underline": {
+          "figmaProperty": "Underline",
+          "trueValue": true,
+          "falseValue": false
+        },
+        "truncate": {
+          "figmaProperty": "Truncate",
+          "trueValue": true,
+          "falseValue": false
+        },
+        "children": {
+          "textLayer": "Label"
+        }
+      }
+    },
+    "Avatar": {
+      "package": "@acko/avatar",
+      "exportName": "Avatar",
+      "strategy": "INSTANCE",
+      "libraryName": "Avatar",
+      "sourceNodeId": "7252:213",
+      "lenient": true,
+      "properties": {
+        "size": {
+          "figmaProperty": "Size",
+          "values": {
+            "24": "24",
+            "32": "32",
+            "40": "40",
+            "48": "48",
+            "64": "64"
+          }
+        },
+        "layout": {
+          "figmaProperty": "Layout",
+          "values": {
+            "stacked": "Stacked",
+            "horizontal": "Horizontal"
+          }
+        },
+        "online": {
+          "figmaProperty": "Show Status"
+        },
+        "name": {
+          "figmaProperty": "Show Text",
+          "textLayer": "Title",
+          "trueValue": true,
+          "falseValue": false
+        },
+        "subtext": {
+          "textLayer": "Subtitle"
+        },
+        "progress": {
+          "figmaProperty": "Show Progress",
+          "trueValue": true,
+          "falseValue": false
+        },
+        "initials": {
+          "textLayer": "AB"
+        }
+      },
+      "derived": {
+        "Type": [
+          {
+            "when": {
+              "story": true
+            },
+            "value": "Story"
+          },
+          {
+            "whenPresent": [
+              "src"
+            ],
+            "value": "Image"
+          },
+          {
+            "whenPresent": [
+              "initials"
+            ],
+            "value": "Initials"
+          }
+        ]
+      }
+    },
+    "Checkbox": {
+      "package": "@acko/checkbox",
+      "exportName": "Checkbox",
+      "strategy": "INSTANCE",
+      "libraryName": "Checkbox",
+      "sourceNodeId": "7094:218",
+      "matchWidth": {
+        "whenPresent": [
+          "description"
+        ]
+      },
+      "lenient": true,
+      "revealTextLayers": true,
+      "reason": "Verified against Umbrella 7094:218: the Default type (SM/MD/LG) has a hidden \"Field Label\" text layer (revealed); the Card type (MD/LG, chosen when a description is set) has Title + Description. Only the Card type is stretched to the measured width: the Default type centres its box and label, so widening it shifts them right.",
+      "properties": {
+        "size": {
+          "figmaProperty": "Size",
+          "values": {
+            "sm": "SM",
+            "md": "MD",
+            "lg": "LG"
+          }
+        },
+        "label": {
+          "textLayer": "Field Label",
+          "textLayerWhen": [
+            {
+              "whenPresent": [
+                "description"
+              ],
+              "textLayer": "Title"
+            }
+          ]
+        },
+        "description": {
+          "textLayer": "Description"
+        }
+      },
+      "derived": {
+        "State": [
+          {
+            "when": {
+              "disabled": true,
+              "checked": true
+            },
+            "value": "Disabled Checked"
+          },
+          {
+            "when": {
+              "disabled": true
+            },
+            "value": "Disabled"
+          },
+          {
+            "when": {
+              "indeterminate": true
+            },
+            "value": "Indeterminate"
+          },
+          {
+            "when": {
+              "error": true
+            },
+            "value": "Error"
+          },
+          {
+            "when": {
+              "checked": true
+            },
+            "value": "Checked"
+          }
+        ],
+        "Type": [
+          {
+            "whenPresent": [
+              "description"
+            ],
+            "value": "Card"
+          }
+        ]
+      }
+    },
+    "Chip": {
+      "package": "@acko/chip",
+      "exportName": "Chip",
+      "strategy": "INSTANCE",
+      "libraryName": "Chip",
+      "sourceNodeId": "12276:2",
+      "reason": "Show Icon is forced off: the Figma Chip shows its icon slot by default, and the icon prop (a React element) is not serialized, so a chip with an icon cannot be detected. Chips with icons therefore lose them in Figma until icon detection is added (read .acko-chip-icon from the DOM).",
+      "lenient": true,
+      "properties": {
+        "size": {
+          "figmaProperty": "Size",
+          "values": {
+            "sm": "SM",
+            "md": "MD",
+            "lg": "LG"
+          }
+        },
+        "label": {
+          "textLayer": "Label"
+        }
+      },
+      "derived": {
+        "State": [
+          {
+            "when": {
+              "disabled": true
+            },
+            "value": "Disabled"
+          },
+          {
+            "when": {
+              "selected": true
+            },
+            "value": "Selected"
+          }
+        ],
+        "Show Icon": [
+          {
+            "value": false
+          }
+        ]
+      }
+    },
+    "OtpInput": {
+      "package": "@acko/otp-input",
+      "exportName": "OtpInput",
+      "strategy": "INSTANCE",
+      "libraryName": "OtpInput",
+      "sourceNodeId": "7101:374",
+      "lenient": true,
+      "reason": "Entered digits are one text layer per cell in Figma and are not carried over.",
+      "properties": {
+        "size": {
+          "figmaProperty": "Size",
+          "values": {
+            "sm": "SM",
+            "md": "MD",
+            "lg": "LG"
+          }
+        },
+        "length": {
+          "figmaProperty": "Cells",
+          "values": {
+            "4": "4",
+            "6": "6"
+          }
+        },
+        "errorText": {
+          "textLayer": "Error Message"
+        },
+        "successText": {
+          "textLayer": "Success Message"
+        }
+      },
+      "derived": {
+        "State": [
+          {
+            "when": {
+              "disabled": true
+            },
+            "value": "Disabled"
+          },
+          {
+            "when": {
+              "error": true
+            },
+            "value": "Error"
+          },
+          {
+            "when": {
+              "success": true
+            },
+            "value": "Success"
+          }
+        ]
+      }
+    },
+    "Separator": {
+      "package": "@acko/separator",
+      "exportName": "Separator",
+      "strategy": "INSTANCE",
+      "libraryName": "Separator",
+      "sourceNodeId": "10578:736",
+      "properties": {
+        "orientation": {
+          "figmaProperty": "Orientation",
+          "values": {
+            "horizontal": "Horizontal",
+            "vertical": "Vertical"
+          }
+        },
+        "variant": {
+          "figmaProperty": "State",
+          "values": {
+            "default": "Default",
+            "strong": "Strong"
+          }
+        }
+      }
+    },
+    "Switch": {
+      "package": "@acko/switch",
+      "exportName": "Switch",
+      "strategy": "INSTANCE",
+      "libraryName": "Switch",
+      "sourceNodeId": "7099:176",
+      "lenient": true,
+      "properties": {
+        "size": {
+          "figmaProperty": "Size",
+          "values": {
+            "sm": "SM",
+            "md": "MD",
+            "lg": "LG"
+          }
+        },
+        "label": {
+          "textLayer": "Field Label"
+        }
+      },
+      "derived": {
+        "State": [
+          {
+            "when": {
+              "disabled": true,
+              "checked": true
+            },
+            "value": "Disabled On"
+          },
+          {
+            "when": {
+              "disabled": true
+            },
+            "value": "Disabled Off"
+          },
+          {
+            "when": {
+              "checked": true
+            },
+            "value": "On"
+          },
+          {
+            "value": "Off"
+          }
+        ]
+      }
+    },
+    "Textarea": {
+      "package": "@acko/textarea",
+      "exportName": "Textarea",
+      "strategy": "INSTANCE",
+      "libraryName": "Textarea",
+      "sourceNodeId": "7100:296",
+      "matchWidth": true,
+      "lenient": true,
+      "properties": {
+        "size": {
+          "figmaProperty": "Size",
+          "values": {
+            "sm": "SM",
+            "md": "MD",
+            "lg": "LG"
+          }
+        },
+        "label": {
+          "textLayer": "Field Label"
+        },
+        "placeholder": {
+          "textLayer": "Placeholder Text"
+        },
+        "defaultValue": {
+          "textLayer": "Value Text"
+        },
+        "helperText": {
+          "textLayer": "Helper Text"
+        },
+        "errorText": {
+          "textLayer": "Error Message"
+        }
+      },
+      "derived": {
+        "State": [
+          {
+            "when": {
+              "disabled": true
+            },
+            "value": "Disabled"
+          },
+          {
+            "when": {
+              "error": true
+            },
+            "whenPresent": [
+              "defaultValue"
+            ],
+            "value": "Error Filled"
+          },
+          {
+            "when": {
+              "error": true
+            },
+            "value": "Error"
+          },
+          {
+            "when": {
+              "success": true
+            },
+            "value": "Success"
+          }
+        ]
+      }
+    },
+    "RadioGroup": {
+      "package": "@acko/radio",
+      "exportName": "RadioGroup",
+      "strategy": "DOM",
+      "libraryName": "Radio",
+      "sourceNodeId": "7095:206",
+      "reason": "The React component renders a labelled group of options while the Figma component represents one option."
+    },
+    "Calendar": {
+      "package": "@acko/calendar",
+      "exportName": "Calendar",
+      "strategy": "DOM",
+      "libraryName": "Calendar",
+      "sourceNodeId": "7273:163",
+      "reason": "Selected dates and the shown month are application data the Figma component's variants can't express."
+    },
+    "AccordionItem": {
+      "strategy": "INSTANCE",
+      "libraryName": "Accordion",
+      "sourceNodeId": "7104:182",
+      "matchWidth": true,
+      "reason": "One Figma Accordion = one item. Each item is matched in the DOM (open state and size come from the parent Accordion's context, not props). Verified against Umbrella 7104:182: Size SM/MD/LG × State Default/Hover/Open/Disabled; Title Text, Body Text (Open only).",
+      "match": {
+        "selector": ".acko-accordion-item",
+        "props": {
+          "open": {
+            "hasClass": "acko-accordion-item-open"
+          },
+          "disabled": {
+            "hasClass": "acko-accordion-item-disabled"
+          },
+          "size": {
+            "closestClass": {
+              "closest": ".acko-accordion",
+              "prefix": "acko-accordion-",
+              "values": [
+                "sm",
+                "md",
+                "lg"
+              ]
+            }
+          },
+          "title": {
+            "text": ".acko-accordion-title"
+          },
+          "body": {
+            "text": ".acko-accordion-body"
+          }
+        }
+      },
+      "properties": {
+        "size": {
+          "figmaProperty": "Size",
+          "values": {
+            "sm": "SM",
+            "md": "MD",
+            "lg": "LG"
+          }
+        },
+        "title": {
+          "textLayer": "Title Text"
+        },
+        "body": {
+          "textLayer": "Body Text",
+          "textLayerWhen": [
+            {
+              "when": {
+                "open": false
+              },
+              "textLayer": null
+            }
+          ]
+        }
+      },
+      "derived": {
+        "State": [
+          {
+            "when": {
+              "disabled": true
+            },
+            "value": "Disabled"
+          },
+          {
+            "when": {
+              "open": true
+            },
+            "value": "Open"
+          },
+          {
+            "value": "Default"
+          }
+        ]
+      }
+    },
+    "RadioOption": {
+      "strategy": "INSTANCE",
+      "libraryName": "Radio",
+      "sourceNodeId": "7095:206",
+      "matchWidth": {
+        "when": {
+          "card": true
+        }
+      },
+      "revealTextLayers": true,
+      "lenient": true,
+      "reason": "One Figma Radio = one option; RadioGroupOption isn't exported, so options are matched in the DOM. Verified against Umbrella 7095:206: Size × State (Default/Selected/Error/Disabled/Disabled Selected…) × Type (Default/Card; Card only MD/LG). Default type has a hidden 'Field Label' (revealed); Card has Title + Description. Lenient: the Card variants are newer than the rest of the set and may not be published yet.",
+      "match": {
+        "selector": "label.acko-radio-item",
+        "props": {
+          "checked": {
+            "property": {
+              "selector": "input.acko-radio-native",
+              "name": "checked"
+            }
+          },
+          "disabled": {
+            "property": {
+              "selector": "input.acko-radio-native",
+              "name": "disabled"
+            }
+          },
+          "card": {
+            "hasClass": "acko-radio-card-item"
+          },
+          "error": {
+            "closestHasClass": {
+              "closest": ".acko-radio-group",
+              "className": "acko-radio-group-error"
+            }
+          },
+          "size": {
+            "closestClass": {
+              "closest": ".acko-radio-group",
+              "prefix": "acko-radio-",
+              "values": [
+                "sm",
+                "md",
+                "lg"
+              ]
+            }
+          },
+          "label": {
+            "text": ".acko-radio-label-text"
+          },
+          "description": {
+            "text": ".acko-radio-description"
+          }
+        }
+      },
+      "properties": {
+        "size": {
+          "figmaProperty": "Size",
+          "values": {
+            "sm": "SM",
+            "md": "MD",
+            "lg": "LG"
+          }
+        },
+        "label": {
+          "textLayer": "Field Label",
+          "textLayerWhen": [
+            {
+              "when": {
+                "card": true
+              },
+              "textLayer": "Title"
+            }
+          ]
+        },
+        "description": {
+          "textLayer": "Description",
+          "textLayerWhen": [
+            {
+              "when": {
+                "card": false
+              },
+              "textLayer": null
+            }
+          ]
+        }
+      },
+      "derived": {
+        "Type": [
+          {
+            "when": {
+              "card": true
+            },
+            "value": "Card"
+          },
+          {
+            "value": "Default"
+          }
+        ],
+        "State": [
+          {
+            "when": {
+              "disabled": true,
+              "checked": true
+            },
+            "value": "Disabled Selected"
+          },
+          {
+            "when": {
+              "disabled": true
+            },
+            "value": "Disabled"
+          },
+          {
+            "when": {
+              "error": true
+            },
+            "value": "Error"
+          },
+          {
+            "when": {
+              "checked": true
+            },
+            "value": "Selected"
+          },
+          {
+            "value": "Default"
+          }
+        ]
+      }
+    }
+  },
+  "tokens": {
+    "colors": {
+      "#fafafa": {
+        "reference": "surface/page/primary",
+        "libraryName": "surfacePagePrimary"
+      },
+      "#efeff0": {
+        "reference": "surface/page/secondary",
+        "libraryName": "surfacePageSecondary"
+      },
+      "#0f0f10": {
+        "reference": "text/primary",
+        "libraryName": "textPrimary"
+      },
+      "#474649": {
+        "reference": "text/secondary",
+        "libraryName": "textSecondary"
+      }
+    }
+  }
+}

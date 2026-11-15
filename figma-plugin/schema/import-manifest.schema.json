@@ -1,0 +1,398 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://acko.in/schemas/figma-import-manifest-1.0.json",
+  "title": "ACKO Figma Import Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "name", "screens"],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "name": { "type": "string", "minLength": 1 },
+    "variables": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/variableDefinition" }
+    },
+    "components": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/$defs/componentDefinition" }
+    },
+    "screens": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/screen" }
+    }
+  },
+  "$defs": {
+    "numberReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value"],
+      "properties": {
+        "value": { "type": "number" },
+        "variable": { "type": "string", "minLength": 1 }
+      }
+    },
+    "numberValue": {
+      "oneOf": [
+        { "type": "number" },
+        { "$ref": "#/$defs/numberReference" }
+      ]
+    },
+    "stringReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value"],
+      "properties": {
+        "value": { "type": "string" },
+        "variable": { "type": "string", "minLength": 1 }
+      }
+    },
+    "stringValue": {
+      "oneOf": [
+        { "type": "string" },
+        { "$ref": "#/$defs/stringReference" }
+      ]
+    },
+    "variableDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "key": { "type": "string" },
+        "name": { "type": "string" },
+        "libraryName": { "type": "string" },
+        "type": { "enum": ["BOOLEAN", "COLOR", "FLOAT", "STRING"] },
+        "required": { "type": "boolean", "default": true }
+      },
+      "anyOf": [
+        { "required": ["id"] },
+        { "required": ["key"] },
+        { "required": ["name"] },
+        { "required": ["libraryName"] }
+      ]
+    },
+    "propertyMapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["figmaProperty"],
+      "properties": {
+        "figmaProperty": { "type": "string", "minLength": 1 },
+        "values": {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [{ "type": "string" }, { "type": "boolean" }]
+          }
+        }
+      }
+    },
+    "componentDefinition": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "nodeId": { "type": "string" },
+        "sourceNodeId": { "type": "string" },
+        "componentKey": { "type": "string" },
+        "componentSetKey": { "type": "string" },
+        "libraryName": { "type": "string" },
+        "propertyMappings": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/propertyMapping" }
+        },
+        "lenient": { "type": "boolean" },
+        "revealTextLayers": { "type": "boolean" }
+      },
+      "anyOf": [
+        { "required": ["nodeId"] },
+        { "required": ["sourceNodeId"] },
+        { "required": ["componentKey"] },
+        { "required": ["componentSetKey"] },
+        { "required": ["libraryName"] }
+      ]
+    },
+    "solidPaint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "color"],
+      "properties": {
+        "type": { "const": "SOLID" },
+        "color": { "$ref": "#/$defs/stringValue" },
+        "opacity": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "shadow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "color", "offset", "radius"],
+      "properties": {
+        "type": { "enum": ["DROP_SHADOW", "INNER_SHADOW"] },
+        "color": { "$ref": "#/$defs/stringValue" },
+        "offset": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["x", "y"],
+          "properties": {
+            "x": { "$ref": "#/$defs/numberValue" },
+            "y": { "$ref": "#/$defs/numberValue" }
+          }
+        },
+        "radius": { "$ref": "#/$defs/numberValue" },
+        "spread": { "$ref": "#/$defs/numberValue" },
+        "visible": { "type": "boolean" },
+        "blendMode": { "type": "string" }
+      }
+    },
+    "style": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fills": { "type": "array", "items": { "$ref": "#/$defs/solidPaint" } },
+        "strokes": { "type": "array", "items": { "$ref": "#/$defs/solidPaint" } },
+        "strokeWeight": { "$ref": "#/$defs/numberValue" },
+        "cornerRadius": { "$ref": "#/$defs/numberValue" },
+        "corners": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["topLeft", "topRight", "bottomRight", "bottomLeft"],
+          "properties": {
+            "topLeft": { "$ref": "#/$defs/numberValue" },
+            "topRight": { "$ref": "#/$defs/numberValue" },
+            "bottomRight": { "$ref": "#/$defs/numberValue" },
+            "bottomLeft": { "$ref": "#/$defs/numberValue" }
+          }
+        },
+        "opacity": { "$ref": "#/$defs/numberValue" },
+        "effects": { "type": "array", "items": { "$ref": "#/$defs/shadow" } }
+      }
+    },
+    "padding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["top", "right", "bottom", "left"],
+      "properties": {
+        "top": { "$ref": "#/$defs/numberValue" },
+        "right": { "$ref": "#/$defs/numberValue" },
+        "bottom": { "$ref": "#/$defs/numberValue" },
+        "left": { "$ref": "#/$defs/numberValue" }
+      }
+    },
+    "layout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode"],
+      "properties": {
+        "mode": { "enum": ["NONE", "HORIZONTAL", "VERTICAL", "GRID"] },
+        "primaryAxisSizing": { "enum": ["FIXED", "AUTO"] },
+        "counterAxisSizing": { "enum": ["FIXED", "AUTO"] },
+        "primaryAxisAlign": { "enum": ["MIN", "MAX", "CENTER", "SPACE_BETWEEN"] },
+        "counterAxisAlign": { "enum": ["MIN", "MAX", "CENTER", "BASELINE"] },
+        "wrap": { "enum": ["NO_WRAP", "WRAP"] },
+        "strokesIncludedInLayout": { "type": "boolean" },
+        "padding": { "$ref": "#/$defs/padding" },
+        "gap": { "$ref": "#/$defs/numberValue" },
+        "counterAxisGap": { "$ref": "#/$defs/numberValue" },
+        "reverseZIndex": { "type": "boolean" },
+        "grid": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["rows", "columns"],
+          "properties": {
+            "rows": { "type": "integer", "minimum": 1 },
+            "columns": { "type": "integer", "minimum": 1 },
+            "rowGap": { "$ref": "#/$defs/numberValue" },
+            "columnGap": { "$ref": "#/$defs/numberValue" }
+          }
+        }
+      }
+    },
+    "layoutChild": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "align": { "enum": ["INHERIT", "STRETCH"] },
+        "grow": { "enum": [0, 1] },
+        "positioning": { "enum": ["AUTO", "ABSOLUTE"] },
+        "row": { "type": "integer", "minimum": 0 },
+        "column": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "expectedBounds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["width", "height"],
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "width": { "type": "number", "minimum": 0 },
+        "height": { "type": "number", "minimum": 0 },
+        "tolerance": { "type": "number", "minimum": 0 }
+      }
+    },
+    "baseLayer": {
+      "type": "object",
+      "required": ["id", "name", "type"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "type": { "enum": ["FRAME", "TEXT", "RECTANGLE", "ELLIPSE", "SVG", "COMPONENT_INSTANCE"] },
+        "visible": { "type": "boolean" },
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "width": { "$ref": "#/$defs/numberValue" },
+        "height": { "$ref": "#/$defs/numberValue" },
+        "minWidth": { "$ref": "#/$defs/numberValue" },
+        "maxWidth": { "$ref": "#/$defs/numberValue" },
+        "minHeight": { "$ref": "#/$defs/numberValue" },
+        "maxHeight": { "$ref": "#/$defs/numberValue" },
+        "constraints": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["horizontal", "vertical"],
+          "properties": {
+            "horizontal": { "enum": ["MIN", "CENTER", "MAX", "STRETCH", "SCALE"] },
+            "vertical": { "enum": ["MIN", "CENTER", "MAX", "STRETCH", "SCALE"] }
+          }
+        },
+        "layoutChild": { "$ref": "#/$defs/layoutChild" },
+        "style": { "$ref": "#/$defs/style" },
+        "expectedBounds": { "$ref": "#/$defs/expectedBounds" }
+      }
+    },
+    "frameLayer": {
+      "allOf": [
+        { "$ref": "#/$defs/baseLayer" },
+        {
+          "type": "object",
+          "required": ["type"],
+          "properties": {
+            "type": { "const": "FRAME" },
+            "layout": { "$ref": "#/$defs/layout" },
+            "clipsContent": { "type": "boolean" },
+            "children": { "type": "array", "items": { "$ref": "#/$defs/layer" } }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "textLayer": {
+      "allOf": [
+        { "$ref": "#/$defs/baseLayer" },
+        {
+          "type": "object",
+          "required": ["type", "characters"],
+          "properties": {
+            "type": { "const": "TEXT" },
+            "characters": { "$ref": "#/$defs/stringValue" },
+            "typography": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "fontFamily": { "$ref": "#/$defs/stringValue" },
+                "fontStyle": { "$ref": "#/$defs/stringValue" },
+                "fontSize": { "$ref": "#/$defs/numberValue" },
+                "fontWeight": { "$ref": "#/$defs/numberValue" },
+                "lineHeight": { "oneOf": [{ "const": "AUTO" }, { "$ref": "#/$defs/numberValue" }] },
+                "letterSpacing": { "$ref": "#/$defs/numberValue" },
+                "paragraphSpacing": { "$ref": "#/$defs/numberValue" },
+                "textAlignHorizontal": { "enum": ["LEFT", "CENTER", "RIGHT", "JUSTIFIED"] },
+                "textAlignVertical": { "enum": ["TOP", "CENTER", "BOTTOM"] },
+                "textAutoResize": { "enum": ["NONE", "WIDTH_AND_HEIGHT", "HEIGHT", "TRUNCATE"] },
+                "textDecoration": { "enum": ["NONE", "UNDERLINE", "STRIKETHROUGH"] },
+                "textCase": { "enum": ["ORIGINAL", "UPPER", "LOWER", "TITLE"] },
+                "textWrap": { "enum": ["BALANCE"] }
+              }
+            },
+            "ranges": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["start", "end"],
+                "additionalProperties": false,
+                "properties": {
+                  "start": { "type": "integer", "minimum": 0 },
+                  "end": { "type": "integer", "minimum": 0 },
+                  "fontStyle": { "type": "string" },
+                  "fills": { "type": "array", "items": { "$ref": "#/$defs/solidPaint" } },
+                  "textDecoration": { "enum": ["NONE", "UNDERLINE", "STRIKETHROUGH"] },
+                  "textCase": { "enum": ["ORIGINAL", "UPPER", "LOWER", "TITLE"] }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "rectangleLayer": {
+      "allOf": [{ "$ref": "#/$defs/baseLayer" }, { "properties": { "type": { "const": "RECTANGLE" } } }],
+      "unevaluatedProperties": false
+    },
+    "ellipseLayer": {
+      "allOf": [{ "$ref": "#/$defs/baseLayer" }, { "properties": { "type": { "const": "ELLIPSE" } } }],
+      "unevaluatedProperties": false
+    },
+    "svgLayer": {
+      "allOf": [
+        { "$ref": "#/$defs/baseLayer" },
+        { "required": ["svg"], "properties": { "type": { "const": "SVG" }, "svg": { "type": "string", "minLength": 1 } } }
+      ],
+      "unevaluatedProperties": false
+    },
+    "componentPropertyValue": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "boolean" },
+        { "$ref": "#/$defs/stringReference" }
+      ]
+    },
+    "componentLayer": {
+      "allOf": [
+        { "$ref": "#/$defs/baseLayer" },
+        {
+          "required": ["component"],
+          "properties": {
+            "type": { "const": "COMPONENT_INSTANCE" },
+            "component": { "type": "string", "minLength": 1 },
+            "properties": {
+              "type": "object",
+              "additionalProperties": { "$ref": "#/$defs/componentPropertyValue" }
+            },
+            "textOverrides": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "layer": {
+      "oneOf": [
+        { "$ref": "#/$defs/frameLayer" },
+        { "$ref": "#/$defs/textLayer" },
+        { "$ref": "#/$defs/rectangleLayer" },
+        { "$ref": "#/$defs/ellipseLayer" },
+        { "$ref": "#/$defs/svgLayer" },
+        { "$ref": "#/$defs/componentLayer" }
+      ]
+    },
+    "screen": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "viewport", "root"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "viewport": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["width", "height"],
+          "properties": {
+            "width": { "type": "number", "exclusiveMinimum": 0 },
+            "height": { "type": "number", "exclusiveMinimum": 0 }
+          }
+        },
+        "root": { "$ref": "#/$defs/layer" }
+      }
+    }
+  }
+}

@@ -1,0 +1,343 @@
+{
+  "schemaVersion": "1.0",
+  "name": "ACKO dashboard starter",
+  "variables": {
+    "surface/base/primary": {
+      "libraryName": "surfacePagePrimary",
+      "type": "COLOR",
+      "required": false
+    },
+    "surface/base/secondary": {
+      "libraryName": "surfacePageSecondary",
+      "type": "COLOR",
+      "required": false
+    },
+    "text/primary": {
+      "libraryName": "textPrimary",
+      "type": "COLOR",
+      "required": false
+    },
+    "text/secondary": {
+      "libraryName": "textSecondary",
+      "type": "COLOR",
+      "required": false
+    }
+  },
+  "components": {
+    "Button": {
+      "libraryName": "Button",
+      "sourceNodeId": "11754:617",
+      "propertyMappings": {
+        "variant": {
+          "figmaProperty": "Type",
+          "values": {
+            "primary": "Primary",
+            "secondary": "Secondary",
+            "ghost": "Ghost"
+          }
+        },
+        "size": {
+          "figmaProperty": "Size",
+          "values": {
+            "sm": "SM",
+            "md": "MD",
+            "lg": "LG"
+          }
+        },
+        "label": {
+          "figmaProperty": "Label"
+        }
+      }
+    },
+    "Badge": {
+      "libraryName": "Badge",
+      "sourceNodeId": "7814:342",
+      "propertyMappings": {
+        "color": {
+          "figmaProperty": "Hue",
+          "values": {
+            "purple": "Purple",
+            "green": "Green",
+            "blue": "Blue"
+          }
+        },
+        "size": {
+          "figmaProperty": "Size",
+          "values": {
+            "sm": "SM",
+            "md": "MD",
+            "lg": "LG"
+          }
+        },
+        "variant": {
+          "figmaProperty": "Style",
+          "values": {
+            "solid": "Solid",
+            "outline": "Outline"
+          }
+        }
+      }
+    }
+  },
+  "screens": [
+    {
+      "id": "dashboard-desktop",
+      "name": "Insurance dashboard · Desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "root": {
+        "id": "desktop-root",
+        "name": "Dashboard",
+        "type": "FRAME",
+        "width": 1440,
+        "height": 900,
+        "expectedBounds": {
+          "width": 1440,
+          "height": 900
+        },
+        "style": {
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "value": "#F5F5F5",
+                "variable": "surface/base/secondary"
+              }
+            }
+          ]
+        },
+        "layout": {
+          "mode": "VERTICAL",
+          "primaryAxisSizing": "FIXED",
+          "counterAxisSizing": "FIXED",
+          "gap": 32,
+          "padding": {
+            "top": 40,
+            "right": 40,
+            "bottom": 40,
+            "left": 40
+          }
+        },
+        "children": [
+          {
+            "id": "desktop-header",
+            "name": "Header",
+            "type": "FRAME",
+            "height": 64,
+            "layoutChild": {
+              "align": "STRETCH"
+            },
+            "layout": {
+              "mode": "HORIZONTAL",
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "SPACE_BETWEEN",
+              "counterAxisAlign": "CENTER"
+            },
+            "children": [
+              {
+                "id": "desktop-heading",
+                "name": "Greeting",
+                "type": "TEXT",
+                "characters": "Good morning, Sandeep",
+                "typography": {
+                  "fontFamily": "Inter",
+                  "fontStyle": "Bold",
+                  "fontSize": 32,
+                  "lineHeight": 38,
+                  "textAutoResize": "WIDTH_AND_HEIGHT"
+                },
+                "style": {
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "color": {
+                        "value": "#1A1A1A",
+                        "variable": "text/primary"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "desktop-buy-button",
+                "name": "Buy new insurance",
+                "type": "COMPONENT_INSTANCE",
+                "component": "Button",
+                "properties": {
+                  "variant": "primary",
+                  "size": "md",
+                  "label": "Buy new insurance"
+                }
+              }
+            ]
+          },
+          {
+            "id": "desktop-card",
+            "name": "Active policies card",
+            "type": "FRAME",
+            "width": 304,
+            "height": 160,
+            "style": {
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "value": "#FFFFFF",
+                    "variable": "surface/base/primary"
+                  }
+                }
+              ],
+              "cornerRadius": 16
+            },
+            "layout": {
+              "mode": "VERTICAL",
+              "primaryAxisSizing": "FIXED",
+              "counterAxisSizing": "FIXED",
+              "primaryAxisAlign": "SPACE_BETWEEN",
+              "padding": {
+                "top": 20,
+                "right": 20,
+                "bottom": 20,
+                "left": 20
+              }
+            },
+            "children": [
+              {
+                "id": "desktop-card-label",
+                "name": "Metric label",
+                "type": "TEXT",
+                "characters": "Active policies",
+                "typography": {
+                  "fontFamily": "Inter",
+                  "fontStyle": "Regular",
+                  "fontSize": 14,
+                  "lineHeight": 20
+                },
+                "style": {
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "color": {
+                        "value": "#5E5E5E",
+                        "variable": "text/secondary"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "desktop-card-value",
+                "name": "Metric value",
+                "type": "TEXT",
+                "characters": "3",
+                "typography": {
+                  "fontFamily": "Inter",
+                  "fontStyle": "Bold",
+                  "fontSize": 32,
+                  "lineHeight": 38
+                },
+                "style": {
+                  "fills": [
+                    {
+                      "type": "SOLID",
+                      "color": {
+                        "value": "#1A1A1A",
+                        "variable": "text/primary"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "dashboard-mobile",
+      "name": "Insurance dashboard · Mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "root": {
+        "id": "mobile-root",
+        "name": "Dashboard",
+        "type": "FRAME",
+        "width": 390,
+        "height": 844,
+        "expectedBounds": {
+          "width": 390,
+          "height": 844
+        },
+        "style": {
+          "fills": [
+            {
+              "type": "SOLID",
+              "color": {
+                "value": "#F5F5F5",
+                "variable": "surface/base/secondary"
+              }
+            }
+          ]
+        },
+        "layout": {
+          "mode": "VERTICAL",
+          "primaryAxisSizing": "FIXED",
+          "counterAxisSizing": "FIXED",
+          "gap": 16,
+          "padding": {
+            "top": 20,
+            "right": 20,
+            "bottom": 20,
+            "left": 20
+          }
+        },
+        "children": [
+          {
+            "id": "mobile-heading",
+            "name": "Greeting",
+            "type": "TEXT",
+            "characters": "Good morning,\nSandeep",
+            "width": 350,
+            "typography": {
+              "fontFamily": "Inter",
+              "fontStyle": "Bold",
+              "fontSize": 36,
+              "lineHeight": 40,
+              "textAutoResize": "HEIGHT"
+            },
+            "style": {
+              "fills": [
+                {
+                  "type": "SOLID",
+                  "color": {
+                    "value": "#1A1A1A",
+                    "variable": "text/primary"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "mobile-buy-button",
+            "name": "Buy new insurance",
+            "type": "COMPONENT_INSTANCE",
+            "component": "Button",
+            "layoutChild": {
+              "align": "STRETCH"
+            },
+            "properties": {
+              "variant": "primary",
+              "size": "md",
+              "label": "Buy new insurance"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

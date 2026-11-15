@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ACKO JSON Layer Importer</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+        font-size: 12px;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        color: var(--figma-color-text);
+        background: var(--figma-color-bg);
+      }
+
+      button, textarea, input { font: inherit; }
+      button { cursor: pointer; }
+      button:disabled { cursor: not-allowed; opacity: 0.45; }
+
+      .app {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+      }
+
+      header {
+        padding: 20px 20px 16px;
+        border-bottom: 1px solid var(--figma-color-border);
+      }
+
+      .title-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .mark {
+        display: grid;
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        color: white;
+        background: #6545e4;
+        font-size: 15px;
+        font-weight: 700;
+        place-items: center;
+      }
+
+      h1, p { margin: 0; }
+      h1 { font-size: 14px; line-height: 20px; }
+      .subtitle { margin-top: 3px; color: var(--figma-color-text-secondary); line-height: 17px; }
+
+      main {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 14px;
+        padding: 16px 20px;
+        overflow: auto;
+      }
+
+      .registry-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px;
+        border: 1px solid var(--figma-color-border);
+        border-radius: 8px;
+        background: var(--figma-color-bg-secondary);
+      }
+
+      .registry-copy { min-width: 0; }
+      .registry-title { font-weight: 600; }
+      .registry-status {
+        margin-top: 3px;
+        color: var(--figma-color-text-secondary);
+        line-height: 16px;
+      }
+
+      .registry-actions {
+        display: flex;
+        flex: none;
+        gap: 6px;
+      }
+
+      .routes-card {
+        border: 1px solid var(--figma-color-border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .routes-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px;
+        background: var(--figma-color-bg-secondary);
+      }
+
+      .routes-copy { min-width: 0; }
+      .routes-title { font-weight: 600; }
+      .routes-status {
+        margin-top: 3px;
+        color: var(--figma-color-text-secondary);
+        line-height: 16px;
+      }
+      .routes-status.error {
+        max-height: 120px;
+        overflow: auto;
+        color: var(--figma-color-text-danger);
+        white-space: pre-wrap;
+      }
+
+      .routes-list { max-height: 220px; overflow: auto; }
+      .routes-list:empty { display: none; }
+
+      .routes-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 8px 12px;
+        border-top: 1px solid var(--figma-color-border);
+        background: var(--figma-color-bg-secondary);
+      }
+      .routes-footer.hidden { display: none; }
+      .select-all {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--figma-color-text-secondary);
+        cursor: pointer;
+      }
+      .select-all input { accent-color: #6545e4; }
+
+      .route-option {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 9px 12px;
+        border-top: 1px solid var(--figma-color-border);
+        cursor: pointer;
+      }
+      .route-option:hover { background: var(--figma-color-bg-hover); }
+      .route-option input { margin-top: 2px; accent-color: #6545e4; }
+      .route-option.selected { background: var(--figma-color-bg-brand-tertiary); }
+      .route-copy { min-width: 0; }
+      .route-name { font-weight: 600; }
+      .route-meta {
+        margin-top: 2px;
+        color: var(--figma-color-text-secondary);
+        font-size: 11px;
+      }
+      .route-path { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+      #copy-registry { display: none; }
+      #copy-registry.visible { display: inline-block; }
+
+      .drop-zone {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px;
+        border: 1px dashed var(--figma-color-border-strong);
+        border-radius: 8px;
+        background: var(--figma-color-bg-secondary);
+      }
+
+      .drop-zone.dragging {
+        border-color: var(--figma-color-border-brand-strong);
+        background: var(--figma-color-bg-brand-tertiary);
+      }
+
+      .file-copy { min-width: 0; }
+      .file-title { font-weight: 600; }
+      .file-name {
+        margin-top: 2px;
+        overflow: hidden;
+        color: var(--figma-color-text-secondary);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .secondary-button,
+      .ghost-button,
+      .primary-button {
+        min-height: 32px;
+        padding: 0 12px;
+        border-radius: 6px;
+        font-weight: 600;
+      }
+
+      .secondary-button {
+        border: 1px solid var(--figma-color-border-strong);
+        color: var(--figma-color-text);
+        background: var(--figma-color-bg);
+      }
+
+      .ghost-button {
+        border: 1px solid transparent;
+        color: var(--figma-color-text-secondary);
+        background: transparent;
+      }
+
+      .primary-button {
+        border: 1px solid #6545e4;
+        color: white;
+        background: #6545e4;
+      }
+
+      label.field-label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 230px;
+        padding: 12px;
+        resize: vertical;
+        border: 1px solid var(--figma-color-border);
+        border-radius: 8px;
+        outline: none;
+        color: var(--figma-color-text);
+        background: var(--figma-color-bg-secondary);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 11px;
+        line-height: 16px;
+        tab-size: 2;
+      }
+
+      textarea:focus { border-color: var(--figma-color-border-brand-strong); }
+
+      .option-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        color: var(--figma-color-text-secondary);
+        line-height: 17px;
+      }
+
+      .option-row input { margin-top: 2px; accent-color: #6545e4; }
+
+      .report {
+        display: none;
+        border: 1px solid var(--figma-color-border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .report.visible { display: block; }
+      .report-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 12px;
+        background: var(--figma-color-bg-secondary);
+      }
+
+      .report-title { font-weight: 600; }
+      .status-pill {
+        padding: 2px 7px;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .status-pill.success { color: var(--figma-color-text-success); background: var(--figma-color-bg-success-tertiary); }
+      .status-pill.error { color: var(--figma-color-text-danger); background: var(--figma-color-bg-danger-tertiary); }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-top: 1px solid var(--figma-color-border);
+        border-bottom: 1px solid var(--figma-color-border);
+      }
+
+      .summary-item { padding: 9px 10px; }
+      .summary-item + .summary-item { border-left: 1px solid var(--figma-color-border); }
+      .summary-value { font-weight: 700; }
+      .summary-label { margin-top: 2px; color: var(--figma-color-text-secondary); font-size: 10px; }
+
+      .issues { max-height: 180px; overflow: auto; }
+      .issue {
+        display: grid;
+        grid-template-columns: 8px 1fr;
+        gap: 8px;
+        padding: 9px 12px;
+        border-top: 1px solid var(--figma-color-border);
+      }
+      .issue:first-child { border-top: 0; }
+      .issue-dot { width: 7px; height: 7px; margin-top: 4px; border-radius: 50%; }
+      .issue.ERROR .issue-dot { background: var(--figma-color-icon-danger); }
+      .issue.WARNING .issue-dot { background: var(--figma-color-icon-warning); }
+      .issue.INFO .issue-dot { background: var(--figma-color-icon-brand); }
+      .issue-message { line-height: 16px; }
+      .issue-meta { margin-top: 2px; color: var(--figma-color-text-tertiary); font-family: ui-monospace, monospace; font-size: 10px; }
+      .empty-issues { padding: 12px; color: var(--figma-color-text-secondary); }
+
+      footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        padding: 12px 20px;
+        border-top: 1px solid var(--figma-color-border);
+        background: var(--figma-color-bg);
+      }
+
+      .busy-label { display: none; margin-right: auto; align-self: center; color: var(--figma-color-text-secondary); }
+      .busy-label.visible { display: block; }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <div class="title-row">
+          <div class="mark">A</div>
+          <div>
+            <h1>ACKO JSON Layer Importer</h1>
+            <p class="subtitle">Validate mappings before creating native Figma layers.</p>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="registry-card" aria-live="polite">
+          <div class="registry-copy">
+            <p class="registry-title">Umbrella library registry</p>
+            <p class="registry-status" id="registry-status">In the Umbrella source file, scan once to save published component, variable, and style keys. The canvas is not changed.</p>
+          </div>
+          <div class="registry-actions">
+            <button class="ghost-button" id="copy-registry" type="button">Copy</button>
+            <button class="secondary-button" id="export-registry" type="button">Scan this file</button>
+          </div>
+        </section>
+
+        <section class="routes-card" aria-label="App routes">
+          <div class="routes-header">
+            <div class="routes-copy">
+              <p class="routes-title">App routes</p>
+              <p class="routes-status" id="routes-status" aria-live="polite">Looking for the local app…</p>
+            </div>
+            <button class="secondary-button" id="refresh-routes" type="button">Refresh</button>
+          </div>
+          <div class="routes-list" id="routes-list" role="group" aria-label="Routes"></div>
+          <div class="routes-footer hidden" id="routes-footer">
+            <label class="select-all">
+              <input id="select-all-routes" type="checkbox" />
+              <span>Select all</span>
+            </label>
+            <button class="primary-button" id="export-routes" type="button" disabled>Export selected</button>
+          </div>
+        </section>
+
+        <div class="drop-zone" id="drop-zone">
+          <div class="file-copy">
+            <p class="file-title">Choose a manifest</p>
+            <p class="file-name" id="file-name">Drop a .json file here or paste it below.</p>
+          </div>
+          <button class="secondary-button" id="choose-file" type="button">Choose file</button>
+          <input id="file-input" type="file" accept="application/json,.json" hidden />
+        </div>
+
+        <div>
+          <label class="field-label" for="json-input">Manifest JSON</label>
+          <textarea id="json-input" spellcheck="false" placeholder="Paste a schemaVersion 1.0 manifest here…"></textarea>
+        </div>
+
+        <label class="option-row">
+          <input id="update-existing" type="checkbox" checked />
+          <span>Update frames with the same stable screen ID. Existing frames are replaced only after the new frame is created successfully.</span>
+        </label>
+
+        <section class="report" id="report" aria-live="polite">
+          <div class="report-header">
+            <span class="report-title" id="report-title">Validation report</span>
+            <span class="status-pill" id="status-pill">Ready</span>
+          </div>
+          <div class="summary-grid">
+            <div class="summary-item"><div class="summary-value" id="screens-count">0</div><div class="summary-label">Screens</div></div>
+            <div class="summary-item"><div class="summary-value" id="layers-count">0</div><div class="summary-label">Layers</div></div>
+            <div class="summary-item"><div class="summary-value" id="components-count">0</div><div class="summary-label">Components</div></div>
+            <div class="summary-item"><div class="summary-value" id="variables-count">0</div><div class="summary-label">Variables</div></div>
+          </div>
+          <div class="issues" id="issues"></div>
+        </section>
+      </main>
+
+      <footer>
+        <span class="busy-label" id="busy-label">Working…</span>
+        <button class="ghost-button" id="close" type="button">Close</button>
+        <button class="secondary-button" id="validate" type="button">Validate</button>
+        <button class="primary-button" id="generate" type="button" disabled>Generate layers</button>
+      </footer>
+    </div>
+
+    <script>
+      const jsonInput = document.getElementById('json-input')
+      const fileInput = document.getElementById('file-input')
+      const fileName = document.getElementById('file-name')
+      const dropZone = document.getElementById('drop-zone')
+      const validateButton = document.getElementById('validate')
+      const generateButton = document.getElementById('generate')
+      const closeButton = document.getElementById('close')
+      const exportRegistryButton = document.getElementById('export-registry')
+      const copyRegistryButton = document.getElementById('copy-registry')
+      const registryStatus = document.getElementById('registry-status')
+      const busyLabel = document.getElementById('busy-label')
+      const routesStatus = document.getElementById('routes-status')
+      const routesList = document.getElementById('routes-list')
+      const refreshRoutesButton = document.getElementById('refresh-routes')
+      const routesFooter = document.getElementById('routes-footer')
+      const selectAllRoutes = document.getElementById('select-all-routes')
+      const exportRoutesButton = document.getElementById('export-routes')
+      // Must match `devAllowedDomains` in manifest.json and PORT in tools/figma-bridge/server.ts.
+      const BRIDGE_URL = 'http://localhost:5180'
+      let lastValidationPassed = false
+      let lastRegistryJson = ''
+      let routePages = []
+      const selectedRoutes = new Set()
+      let exporting = false
+
+      function plural(count, word) {
+        return `${count} ${word}${count === 1 ? '' : 's'}`
+      }
+
+      function describePage(page) {
+        const viewports = page.viewports.map((viewport) => `${viewport.id} ${viewport.width}`).join(' · ')
+        return `${viewports} · ${plural(page.states.length, 'state')}`
+      }
+
+      function setRouteStatus(text, isError = false) {
+        routesStatus.textContent = text
+        routesStatus.classList.toggle('error', isError)
+      }
+
+      function updateRouteControls() {
+        const count = selectedRoutes.size
+        routesFooter.classList.toggle('hidden', routePages.length === 0)
+        selectAllRoutes.checked = count > 0 && count === routePages.length
+        selectAllRoutes.indeterminate = count > 0 && count < routePages.length
+        selectAllRoutes.disabled = exporting
+        refreshRoutesButton.disabled = exporting
+        exportRoutesButton.disabled = exporting || count === 0
+        exportRoutesButton.textContent = exporting ? 'Exporting…' : count ? `Export selected (${count})` : 'Export selected'
+        routesList.querySelectorAll('.route-option').forEach((row) => {
+          const checkbox = row.querySelector('input')
+          checkbox.checked = selectedRoutes.has(checkbox.value)
+          checkbox.disabled = exporting
+          row.classList.toggle('selected', checkbox.checked)
+        })
+      }
+
+      function renderRoutes(pages) {
+        routePages = pages
+        const available = new Set(pages.map((page) => page.route))
+        selectedRoutes.forEach((route) => { if (!available.has(route)) selectedRoutes.delete(route) })
+        routesList.replaceChildren()
+        pages.forEach((page) => {
+          const option = document.createElement('label')
+          option.className = 'route-option'
+          const checkbox = document.createElement('input')
+          checkbox.type = 'checkbox'
+          checkbox.value = page.route
+          checkbox.addEventListener('change', () => {
+            if (checkbox.checked) selectedRoutes.add(page.route)
+            else selectedRoutes.delete(page.route)
+            updateRouteControls()
+          })
+          const copy = document.createElement('div')
+          copy.className = 'route-copy'
+          const name = document.createElement('div')
+          name.className = 'route-name'
+          name.textContent = page.name
+          const meta = document.createElement('div')
+          meta.className = 'route-meta'
+          const path = document.createElement('span')
+          path.className = 'route-path'
+          path.textContent = page.route
+          meta.append(path, ` · ${describePage(page)}`)
+          copy.append(name, meta)
+          option.append(checkbox, copy)
+          routesList.appendChild(option)
+        })
+        updateRouteControls()
+      }
+
+      function bridgeErrorMessage(error, action) {
+        return error instanceof TypeError
+          ? 'Can’t reach the app. Start it with npm run dev, then select Refresh.'
+          : `Couldn’t ${action}: ${error instanceof Error ? error.message : String(error)}`
+      }
+
+      async function refreshRoutes() {
+        refreshRoutesButton.disabled = true
+        setRouteStatus('Loading routes…')
+        try {
+          const response = await fetch(`${BRIDGE_URL}/routes`, { cache: 'no-store' })
+          const body = await response.json()
+          if (!response.ok) throw new Error(body.error || `The bridge answered ${response.status}.`)
+          renderRoutes(body.pages)
+          const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          setRouteStatus(`${plural(body.pages.length, 'route')} · refreshed ${time}`)
+        } catch (error) {
+          renderRoutes([])
+          setRouteStatus(bridgeErrorMessage(error, 'load routes'), true)
+        } finally {
+          refreshRoutesButton.disabled = exporting
+        }
+      }
+
+      /** Runs the export for the checked routes, loads the result into the
+       *  manifest box and validates it, so Generate layers is the only step left. */
+      async function exportSelectedRoutes() {
+        const routes = routePages.map((page) => page.route).filter((route) => selectedRoutes.has(route))
+        exporting = true
+        updateRouteControls()
+        setRouteStatus(`Exporting ${plural(routes.length, 'route')}… this can take a minute.`)
+        try {
+          const response = await fetch(`${BRIDGE_URL}/export`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ routes }),
+          })
+          const body = await response.json()
+          if (!response.ok) throw new Error(body.error || `The bridge answered ${response.status}.`)
+          jsonInput.value = JSON.stringify(body.manifest, null, 2)
+          fileName.textContent = `Exported ${routes.join(', ')}`
+          lastValidationPassed = false
+          generateButton.disabled = true
+          setRouteStatus(`Exported ${plural(body.screens, 'screen')}, ${plural(body.layers, 'layer')} in ${body.seconds}s${body.warnings ? ` · ${plural(body.warnings, 'export warning')}` : ''}. Loaded below and validating.`)
+          send('validate')
+        } catch (error) {
+          setRouteStatus(bridgeErrorMessage(error, 'export'), true)
+        } finally {
+          exporting = false
+          updateRouteControls()
+        }
+      }
+
+      function parseJson() {
+        try {
+          return { value: JSON.parse(jsonInput.value) }
+        } catch (error) {
+          return { error: error instanceof Error ? error.message : String(error) }
+        }
+      }
+
+      function localError(message) {
+        renderReport({
+          ok: false,
+          issues: [{ severity: 'ERROR', code: 'INVALID_JSON', message }],
+          summary: { screens: 0, layers: 0, components: 0, variables: 0, created: 0, updated: 0 },
+        }, 'Validation report')
+      }
+
+      function send(type) {
+        const parsed = parseJson()
+        if (parsed.error) {
+          localError(parsed.error)
+          return
+        }
+        const message = { type, document: parsed.value }
+        if (type === 'import') {
+          message.options = { updateExisting: document.getElementById('update-existing').checked }
+        }
+        parent.postMessage({ pluginMessage: message }, '*')
+      }
+
+      function setBusy(busy) {
+        validateButton.disabled = busy
+        generateButton.disabled = busy || !lastValidationPassed
+        exportRegistryButton.disabled = busy
+        copyRegistryButton.disabled = busy
+        fileInput.disabled = busy
+        busyLabel.classList.toggle('visible', busy)
+      }
+
+      function publishedCount(items) {
+        return items.filter((item) => item.publishStatus !== 'UNPUBLISHED').length
+      }
+
+      function renderRegistry(registry) {
+        if (!registry) return
+        lastRegistryJson = JSON.stringify(registry, null, 2)
+        const publishedComponents = publishedCount(registry.components)
+        const publishedVariables = publishedCount(registry.variables)
+        const publishedTextStyles = publishedCount(registry.textStyles || [])
+        const publishedPaintStyles = publishedCount(registry.paintStyles || [])
+        const publishedEffectStyles = publishedCount(registry.effectStyles || [])
+        const publishedGridStyles = publishedCount(registry.gridStyles || [])
+        const scanWarnings = registry.scanWarnings || []
+        const warningSummary = scanWarnings.length
+          ? ` ${scanWarnings.length} component-property warning${scanWarnings.length === 1 ? '' : 's'} recorded; copy the registry for details.`
+          : ' Copy the registry if you want to inspect or share its exact mappings.'
+        registryStatus.textContent = `Saved ${publishedComponents} published components, ${publishedVariables} published variables, ${publishedTextStyles} text styles, ${publishedPaintStyles} paint styles, ${publishedEffectStyles} effect styles, and ${publishedGridStyles} grid styles.${warningSummary}`
+        copyRegistryButton.classList.add('visible')
+      }
+
+      async function copyRegistry() {
+        if (!lastRegistryJson) return
+        try {
+          await navigator.clipboard.writeText(lastRegistryJson)
+        } catch {
+          const helper = document.createElement('textarea')
+          helper.value = lastRegistryJson
+          helper.setAttribute('readonly', '')
+          helper.style.position = 'fixed'
+          helper.style.opacity = '0'
+          document.body.appendChild(helper)
+          helper.select()
+          document.execCommand('copy')
+          helper.remove()
+        }
+        copyRegistryButton.textContent = 'Copied'
+        window.setTimeout(() => { copyRegistryButton.textContent = 'Copy' }, 1500)
+      }
+
+      function renderReport(report, title) {
+        document.getElementById('report').classList.add('visible')
+        document.getElementById('report-title').textContent = title
+        const status = document.getElementById('status-pill')
+        status.textContent = report.ok ? 'Ready' : 'Blocked'
+        status.className = `status-pill ${report.ok ? 'success' : 'error'}`
+        document.getElementById('screens-count').textContent = report.summary.screens
+        document.getElementById('layers-count').textContent = report.summary.layers
+        document.getElementById('components-count').textContent = report.summary.components
+        document.getElementById('variables-count').textContent = report.summary.variables
+
+        const issues = document.getElementById('issues')
+        issues.replaceChildren()
+        if (report.issues.length === 0) {
+          const empty = document.createElement('div')
+          empty.className = 'empty-issues'
+          empty.textContent = 'No mapping or schema issues found.'
+          issues.appendChild(empty)
+        } else {
+          report.issues.forEach((issue) => {
+            const row = document.createElement('div')
+            row.className = `issue ${issue.severity}`
+            const dot = document.createElement('span')
+            dot.className = 'issue-dot'
+            const copy = document.createElement('div')
+            const message = document.createElement('div')
+            message.className = 'issue-message'
+            message.textContent = issue.message
+            const meta = document.createElement('div')
+            meta.className = 'issue-meta'
+            meta.textContent = [issue.severity, issue.code, issue.path].filter(Boolean).join(' · ')
+            copy.append(message, meta)
+            row.append(dot, copy)
+            issues.appendChild(row)
+          })
+        }
+      }
+
+      async function loadFile(file) {
+        if (!file) return
+        fileName.textContent = file.name
+        jsonInput.value = await file.text()
+        lastValidationPassed = false
+        generateButton.disabled = true
+      }
+
+      refreshRoutesButton.addEventListener('click', refreshRoutes)
+      exportRoutesButton.addEventListener('click', exportSelectedRoutes)
+      selectAllRoutes.addEventListener('change', () => {
+        selectedRoutes.clear()
+        if (selectAllRoutes.checked) routePages.forEach((page) => selectedRoutes.add(page.route))
+        updateRouteControls()
+      })
+      document.getElementById('choose-file').addEventListener('click', () => fileInput.click())
+      fileInput.addEventListener('change', () => loadFile(fileInput.files[0]))
+      validateButton.addEventListener('click', () => send('validate'))
+      generateButton.addEventListener('click', () => send('import'))
+      exportRegistryButton.addEventListener('click', () => parent.postMessage({ pluginMessage: { type: 'export-registry' } }, '*'))
+      copyRegistryButton.addEventListener('click', copyRegistry)
+      closeButton.addEventListener('click', () => parent.postMessage({ pluginMessage: { type: 'close' } }, '*'))
+      jsonInput.addEventListener('input', () => {
+        lastValidationPassed = false
+        generateButton.disabled = true
+      })
+
+      ;['dragenter', 'dragover'].forEach((eventName) => {
+        dropZone.addEventListener(eventName, (event) => {
+          event.preventDefault()
+          dropZone.classList.add('dragging')
+        })
+      })
+      ;['dragleave', 'drop'].forEach((eventName) => {
+        dropZone.addEventListener(eventName, (event) => {
+          event.preventDefault()
+          dropZone.classList.remove('dragging')
+        })
+      })
+      dropZone.addEventListener('drop', (event) => loadFile(event.dataTransfer.files[0]))
+
+      window.onmessage = (event) => {
+        const message = event.data.pluginMessage
+        if (!message) return
+        if (message.type === 'busy') setBusy(message.busy)
+        if (message.type === 'validation-result') {
+          lastValidationPassed = message.report.ok
+          generateButton.disabled = !lastValidationPassed
+          renderReport(message.report, 'Validation report')
+        }
+        if (message.type === 'import-result') {
+          lastValidationPassed = message.report.ok
+          renderReport(message.report, message.report.ok ? 'Import complete' : 'Import failed')
+        }
+        if (message.type === 'registry-result') renderRegistry(message.registry)
+      }
+
+      parent.postMessage({ pluginMessage: { type: 'get-registry' } }, '*')
+      refreshRoutes()
+    </script>
+  </body>
+</html>
