@@ -6,7 +6,7 @@ import { Button } from '@acko/button'
 import { Checkbox } from '@acko/checkbox'
 import { TextInput } from '@acko/text-input'
 import { Typography } from '@acko/typography'
-import { CircleCheck, Headset, Receipt, Truck, Wrench } from 'lucide-react'
+import { CircleCheck } from 'lucide-react'
 
 // Sizes and weights measured from the approved reference page (mobile, then md+).
 const H_HERO = 'text-[32px]! leading-[38px]! tracking-[-0.96px]! font-medium! md:text-[44px]! md:leading-[48px]! xl:text-[52px]! xl:leading-[56px]! xl:tracking-[-1.2px]!'
@@ -244,7 +244,6 @@ function FilmIntro() {
   const backdropRef = useRef(null)
   const introTextRef = useRef(null)
   const cueRef = useRef(null)
-  const offerRef = useRef(null)
   const haloRef = useRef(null)
   const [mounted, setMounted] = useState(false)
   const [staticMode] = useState(isStaticMode)
@@ -329,12 +328,6 @@ function FilmIntro() {
       if (filmRef.current) filmRef.current.style.opacity = String(sm(p, 0.06, 0.24) * (1 - away))
       if (filmBoxRef.current) filmBoxRef.current.style.transform = `scale(${(0.94 + 0.06 * sm(p, 0.06, 0.32)) * (1 - 0.97 * away)})`
       if (cueRef.current) cueRef.current.style.opacity = String(1 - sm(p, 0, 0.06))
-      if (offerRef.current) {
-        const o = sm(p, 0.3, 0.38) * (1 - sm(p, 0.46, 0.52))
-        offerRef.current.style.opacity = String(o)
-        offerRef.current.style.transform = `translateY(${(1 - o) * 16}px)`
-        offerRef.current.style.pointerEvents = o > 0.5 ? 'auto' : 'none'
-      }
       if (haloRef.current) haloRef.current.style.opacity = String(sm(p, 0.04, 0.2) * (1 - sm(p, 0.36, 0.56)))
       drawFrame(p)
     }
@@ -473,12 +466,6 @@ function FilmIntro() {
             <div className="h-32 w-1 bg-surface-static-white/40" />
           </div>
         </div>
-        {!IS_AUTOMATION && (
-          <div ref={offerRef} className="pointer-events-none absolute inset-x-0 bottom-[6svh] z-30 flex flex-col items-center gap-16 px-20 opacity-0">
-            <Typography textStyle="body-lg-regular" className="text-center! text-[#d6d0e6]! md:text-[20px]! md:leading-[28px]!">A dashcam that comes with ACKO car insurance.</Typography>
-            <Button variant="primary-on-dark" size="md" onClick={() => document.getElementById('drivecam-early-access')?.scrollIntoView({ block: 'start' })}>Get early access</Button>
-          </div>
-        )}
       </div>
     </section>
   )
@@ -617,11 +604,12 @@ const hotspots = [
   { n: 4, x: 66.7, y: 54, side: 'right', title: 'You’re in control', text: 'Switch off the camera or the microphone any time.' },
 ]
 
+// Stock photos from Unsplash (free licence), as placeholders until we have our own.
 const insuranceBenefits = [
-  { Icon: Headset, title: 'One person', text: 'A dedicated claims manager. You make one call, and they stay with you until your car is back.' },
-  { Icon: Truck, title: 'We come to you', text: 'Pickup and drop, wherever you are.' },
-  { Icon: Wrench, title: 'Garages we trust', text: 'Handpicked and monitored by ACKO. A 53-point quality check and a 1-year warranty on the work.' },
-  { Icon: Receipt, title: 'See every step', text: 'Photos and invoices for every part replaced, on your phone.' },
+  { image: '/drivecam/benefits/claims-manager.webp', title: 'One person', text: 'A dedicated claims manager. You make one call, and they stay with you until your car is back.' },
+  { image: '/drivecam/benefits/pickup.webp', title: 'We come to you', text: 'Pickup and drop, wherever you are.' },
+  { image: '/drivecam/benefits/garage.webp', title: 'Garages we trust', text: 'Handpicked and monitored by ACKO. A 53-point quality check and a 1-year warranty on the work.' },
+  { image: '/drivecam/benefits/invoice.webp', title: 'See every step', text: 'Photos and invoices for every part replaced, on your phone.' },
 ]
 
 const behaviours = [
@@ -658,9 +646,8 @@ function LookCloser() {
   return (
     <section id="drivecam-features" aria-label="Features" data-figma-id="drivecam-features" className="flex w-full flex-col items-center bg-surface-page-static-black">
       <div className="flex w-full max-w-[1200px] flex-col gap-56 px-20 py-72 md:gap-[88px] md:px-56 md:py-[120px]">
-        <Reveal className="flex flex-col gap-12">
-          <Typography textStyle="label-md-semibold" className="text-[#a58cf7]!">LOOK CLOSER</Typography>
-          <Typography textStyle="display-xl" as="h2" color="static" className="text-[34px]! leading-[1.1]! tracking-[-0.03em]! font-light! md:text-[56px]!">Everything it does, <span className="text-[#a58cf7]!">up close.</span></Typography>
+        <Reveal className="flex flex-col items-center">
+          <Typography textStyle="display-xl" as="h2" color="static" className="text-center! text-[34px]! leading-[1.1]! tracking-[-0.03em]! font-light! md:text-[56px]!">Everything it does, <span className="text-[#a58cf7]!">up close.</span></Typography>
         </Reveal>
 
         <div className="flex flex-col items-center gap-40 md:flex-row md:gap-24">
@@ -775,18 +762,18 @@ export default function DriveCamRevealPage() {
 
       <LookCloser />
 
-      <section id="drivecam-hero" aria-label="DriveCam with ACKO car insurance" data-figma-id="drivecam-hero" className="flex w-full flex-col items-center bg-[#f7f6f2]">
-        <div className="flex w-full max-w-[1200px] flex-col-reverse items-center gap-32 px-20 pt-[96px] md:flex-row md:items-end md:gap-56 md:px-56 md:pt-[120px]">
-          <Ambassador image={asset('/drivecam/ambassador-left.webp')} label="Ambassador holding the DriveCam" delay={0} className="flex h-[340px] w-[233px] shrink-0 bg-contain bg-bottom bg-no-repeat md:h-[520px] md:w-[356px] xl:h-[600px] xl:w-[410px]" />
-          <div className="flex min-w-0 flex-1 flex-col items-start gap-20 md:gap-24 md:pb-[140px]">
+      <section id="drivecam-hero" aria-label="DriveCam with ACKO car insurance" data-figma-id="drivecam-hero" className="flex w-full flex-col items-center bg-[#f0ece6]">
+        {/* Both ambassadors frame the headline from lg up (text in its own column, so nothing overlaps). Below lg the text comes first and the two stand side by side underneath. */}
+        <div className="flex w-full max-w-[1200px] flex-row flex-wrap items-end justify-center gap-x-16 gap-y-40 px-20 pt-[96px] lg:flex-nowrap lg:gap-x-32 lg:px-40 lg:pt-[120px]">
+          <div className="order-first flex w-full flex-col items-center gap-20 text-center! lg:order-none lg:min-w-0 lg:flex-1 lg:gap-24 lg:pb-[120px]">
             <Reveal className="flex">
-              <Typography textStyle="display-xl" as="h2" className="text-[34px]! leading-[1.12]! tracking-[-0.03em]! font-light! text-text-static-dark! md:text-[48px]! xl:text-[60px]!">
+              <Typography textStyle="display-xl" as="h2" className="text-center! text-[30px]! leading-[1.15]! tracking-[-0.03em]! font-light! text-text-static-dark! md:text-[40px]! lg:text-[34px]! xl:text-[42px]!">
                 Proof settles the argument. It doesn’t fix the car.{' '}
                 <span className="text-text-brand-default!">So we built DriveCam into your car insurance.</span>
               </Typography>
             </Reveal>
             <Reveal delay={120} className="flex">
-              <Typography textStyle="body-lg-regular" color="secondary" className="max-w-[440px]">
+              <Typography textStyle="body-lg-regular" color="secondary" className="max-w-[420px] text-center!">
                 An industry-first premium insurance plan with a dashcam.
               </Typography>
             </Reveal>
@@ -794,60 +781,56 @@ export default function DriveCamRevealPage() {
               <Button variant="primary" size="lg" onClick={() => go('drivecam-early-access')}>Get early access</Button>
             </Reveal>
           </div>
+          <Ambassador image={asset('/drivecam/ambassador-left.webp')} label="Ambassador holding the DriveCam" delay={0} className="flex h-[260px] w-[178px] shrink-0 bg-contain bg-bottom bg-no-repeat md:h-[360px] md:w-[246px] lg:order-first lg:h-[480px] lg:w-[328px] xl:h-[560px] xl:w-[383px]" />
+          <Ambassador image={asset('/drivecam/ambassador-right.webp')} label="Second ambassador showing the DriveCam" delay={160} className="flex h-[260px] w-[133px] shrink-0 bg-contain bg-bottom bg-no-repeat md:h-[360px] md:w-[184px] lg:h-[480px] lg:w-[245px] xl:h-[560px] xl:w-[286px]" />
         </div>
       </section>
 
-      <section aria-label="What the insurance adds" data-figma-id="drivecam-benefits" className="flex w-full flex-col items-center bg-[#f7f6f2]">
-        <div className="flex w-full max-w-[1200px] flex-col items-center gap-32 px-20 pt-72 md:flex-row md:items-end md:gap-56 md:px-56 md:pt-[120px]">
-          <div className="flex w-full min-w-0 flex-col gap-32 md:flex-1 md:gap-40 md:pb-[120px]">
-            <Reveal className="flex">
-              <Typography textStyle="display-xl" as="h3" className="text-[28px]! leading-[1.15]! tracking-[-0.03em]! font-light! text-text-static-dark! md:text-[44px]!">
-                One call. One person. <span className="text-text-brand-default!">Everything after.</span>
-              </Typography>
-            </Reveal>
-            {/* Two by two from md up. On phones the cards pin one over the next as you scroll. */}
-            <div className="flex flex-col gap-16 md:flex-row md:flex-wrap md:gap-y-16">
-              {insuranceBenefits.map(({ Icon, title, text }, i) => (
-                <div
-                  key={title}
-                  className={`flex min-w-0 flex-col overflow-hidden rounded-3xl bg-surface-card-default shadow-xs md:w-[calc(50%-8px)] ${IS_AUTOMATION ? '' : 'sticky md:static'}`}
-                  style={IS_AUTOMATION ? undefined : { top: 96 + i * 14 }}
-                >
-                  {/* Image slot: swap the icon for a photo later (claims manager, pickup, garage, phone with invoice). */}
-                  <div aria-hidden="true" className="flex h-[140px] w-full items-center justify-center bg-[#ece7de]">
-                    <Icon className="size-40 text-text-brand-default" strokeWidth={1.5} />
-                  </div>
-                  <div className="flex flex-col gap-8 p-24">
-                    <Typography textStyle="label-md-semibold" className="text-text-brand-default!">{String(i + 1).padStart(2, '0')}</Typography>
-                    <Typography textStyle="heading-lg" as="h4" className={`text-text-static-dark! ${H_CARD}`}>{title}</Typography>
-                    <Typography textStyle="body-md-regular" className="text-text-static-dark/70!">{text}</Typography>
-                  </div>
+      <section aria-label="What the insurance adds" data-figma-id="drivecam-benefits" className="flex w-full flex-col items-center bg-[#f7f6f2]" style={fadeStyle(C_BEIGE)}>
+        <div className="flex w-full max-w-[1200px] flex-col items-center gap-32 px-20 py-72 md:gap-48 md:px-56 md:py-[120px]">
+          <Reveal className="flex">
+            <Typography textStyle="display-xl" as="h3" className="text-center! text-[28px]! leading-[1.15]! tracking-[-0.03em]! font-light! text-text-static-dark! md:text-[44px]!">
+              One call. One person. <span className="text-text-brand-default!">Everything after.</span>
+            </Typography>
+          </Reveal>
+          {/* Four in a row from md up. On phones the cards pin one over the next as you scroll. */}
+          <div className="flex w-full flex-col gap-16 md:flex-row">
+            {insuranceBenefits.map(({ image, title, text }, i) => (
+              <div
+                key={title}
+                className={`flex min-w-0 flex-col overflow-hidden rounded-3xl bg-surface-card-default shadow-xs md:flex-1 ${IS_AUTOMATION ? '' : 'sticky md:static'}`}
+                style={IS_AUTOMATION ? undefined : { top: 96 + i * 14 }}
+              >
+                <div aria-hidden="true" className="flex h-[160px] w-full bg-cover bg-center md:h-[180px]" style={{ backgroundImage: `url(${asset(image)})` }} />
+                <div className="flex flex-col gap-8 px-24 pb-24 pt-20">
+                  <Typography textStyle="label-md-semibold" className="text-text-brand-default!">{String(i + 1).padStart(2, '0')}</Typography>
+                  <Typography textStyle="heading-lg" as="h4" className={`text-text-static-dark! ${H_CARD}`}>{title}</Typography>
+                  <Typography textStyle="body-md-regular" className="text-text-static-dark/70!">{text}</Typography>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-          <Ambassador image={asset('/drivecam/ambassador-right.webp')} label="Second ambassador showing the DriveCam" delay={0} className="flex h-[340px] w-[174px] shrink-0 bg-contain bg-bottom bg-no-repeat md:h-[560px] md:w-[286px] xl:h-[620px] xl:w-[317px]" />
         </div>
       </section>
 
-      <section id="drivecam-early-access" aria-label="Early access" data-figma-id="drivecam-early-access" className="relative flex w-full flex-col items-center bg-[#ede9f3]">
-        <div className="flex w-full max-w-[1200px] flex-col gap-40 px-20 py-56 md:flex-row md:items-start md:gap-72 md:px-56 md:py-96">
-          <div className="flex min-w-0 flex-1 flex-col gap-16">
+      <section id="drivecam-early-access" aria-label="Early access" data-figma-id="drivecam-early-access" className="relative flex w-full flex-col items-center bg-[#ede9f3]" style={fadeStyle(C_OFF)}>
+        <div className="flex w-full max-w-[1200px] flex-col items-center gap-40 px-20 py-56 md:gap-48 md:px-56 md:py-96">
+          <div className="flex w-full max-w-[640px] flex-col items-center gap-16">
             <Eyebrow>EARLY ACCESS</Eyebrow>
-            <Typography textStyle="display-xl" as="h2" className={H_XL}>Be first to get <span className={`${LIGHT} text-text-brand-default!`}>DriveCam.</span></Typography>
-            <Typography textStyle="body-lg-regular" color="secondary" className="max-w-[360px]">
+            <Typography textStyle="display-xl" as="h2" className={`text-center! ${H_XL}`}>Be first to get <span className={`${LIGHT} text-text-brand-default!`}>DriveCam.</span></Typography>
+            <Typography textStyle="body-lg-regular" color="secondary" className="max-w-[480px] text-center!">
               We’re opening in phases, eligible cars first. Tell us about your car and we’ll message you when it’s ready.
             </Typography>
           </div>
 
           {submitted ? (
-            <div role="status" aria-label="Early access request submitted" className="flex min-w-0 flex-1 flex-col items-start gap-16 rounded-3xl bg-surface-card-default p-24 md:p-32">
+            <div role="status" aria-label="Early access request submitted" className="flex w-full max-w-[560px] flex-col items-start gap-16 rounded-3xl bg-surface-card-default p-24 md:p-32">
               <CircleCheck className="size-32 text-text-brand-default" aria-hidden="true" />
               <Typography textStyle="heading-lg" as="h3">You’re on the list</Typography>
               <Typography textStyle="body-md-regular" color="secondary">We’ll message you when access opens.</Typography>
             </div>
           ) : (
-            <form aria-label="Join DriveCam early access" onSubmit={submit} noValidate className="flex min-w-0 flex-1 flex-col gap-20 rounded-3xl bg-surface-card-default p-24 md:p-32">
+            <form aria-label="Join DriveCam early access" onSubmit={submit} noValidate className="flex w-full max-w-[560px] flex-col gap-20 rounded-3xl bg-surface-card-default p-24 md:p-32">
               <TextInput label="Car registration number" inputType="registrationNumber" placeholder="KA01AB1234" value={form.reg} onChange={set('reg')} errorText={errors.reg} required />
               <TextInput label="Mobile number" inputType="phone" placeholder="10 digits" value={form.mobile} onChange={set('mobile')} errorText={errors.mobile} required />
               <TextInput label="Pincode" inputType="pincode" placeholder="6 digits" value={form.pincode} onChange={set('pincode')} errorText={errors.pincode} required />
@@ -866,12 +849,12 @@ export default function DriveCamRevealPage() {
       </section>
 
       <section id="drivecam-faqs" aria-label="Frequently asked questions" data-figma-id="drivecam-faqs" className="relative flex w-full flex-col items-center bg-[#f7f6f2]" style={fadeStyle(C_LAV)}>
-        <div className="flex w-full max-w-[1200px] flex-col gap-32 px-20 py-56 md:flex-row md:gap-72 md:px-56 md:py-96">
-          <div className="flex flex-col gap-12 md:w-[300px] md:shrink-0">
+        <div className="flex w-full max-w-[1200px] flex-col items-center gap-32 px-20 py-56 md:gap-48 md:px-56 md:py-96">
+          <div className="flex flex-col items-center gap-12">
             <Eyebrow>FAQS</Eyebrow>
-            <Typography textStyle="display-xl" as="h2" className={H_XL}>Questions, <span className={`${LIGHT} text-text-brand-default!`}>answered.</span></Typography>
+            <Typography textStyle="display-xl" as="h2" className={`text-center! ${H_XL}`}>Questions, <span className={`${LIGHT} text-text-brand-default!`}>answered.</span></Typography>
           </div>
-          <div className="flex min-w-0 flex-1 flex-col">
+          <div className="flex w-full max-w-[760px] flex-col">
             <Accordion type="single" size="md" defaultValue="faq-0">
               {faqs.map(({ q, a }, i) => (
                 <AccordionItem key={q} value={`faq-${i}`} title={q}>{a}</AccordionItem>
