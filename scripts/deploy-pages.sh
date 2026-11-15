@@ -5,7 +5,11 @@ set -e
 cd "$(dirname "$0")/.."
 REMOTE="$(git remote get-url origin)"
 GH_PAGES=1 npx vite build
-cp dist/index.html dist/404.html   # lets links like /acko-drivecam/drivecam-reveal open directly
+cp dist/index.html dist/404.html   # fallback for any other path
+# Give each page its own copy so direct links return 200, not GitHub's 404 (matters for link previews).
+for route in drivecam-reveal drivecam dash-cam acko stay health-insurance; do
+  mkdir -p "dist/$route" && cp dist/index.html "dist/$route/index.html"
+done
 touch dist/.nojekyll
 cd dist
 rm -rf .git
