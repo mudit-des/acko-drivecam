@@ -779,7 +779,7 @@ export default function DriveCamRevealPage() {
         </div>
       </section>
 
-      <section aria-label="What the insurance adds" data-figma-id="drivecam-benefits" className="flex w-full flex-col items-center bg-[#f7f6f2]">
+      <section id="drivecam-benefits" aria-label="What the insurance adds" data-figma-id="drivecam-benefits" className="flex w-full flex-col items-center bg-[#f7f6f2]">
         <div className="flex w-full max-w-[1200px] flex-col items-center gap-32 px-20 py-72 md:gap-48 md:px-56 md:py-[120px]">
           <Reveal className="flex">
             <Typography textStyle="display-xl" as="h3" className={`text-center! text-text-static-dark! ${H_SECTION}`}>
@@ -856,15 +856,23 @@ export default function DriveCamRevealPage() {
       <footer aria-label="ACKO footer" data-figma-id="drivecam-footer" className="relative flex w-full flex-col items-center bg-surface-page-static-black">
         <div className="flex w-full max-w-[1200px] flex-col gap-48 px-20 pb-32 pt-72 md:gap-64 md:px-56 md:pt-[120px]">
           <h2 className="flex flex-row flex-wrap items-baseline gap-x-12 pb-24 md:gap-x-16 md:pb-48 xl:gap-x-20">
-            <Typography textStyle="display-2xl" as="span" className="text-[36px]! leading-[1]! tracking-[-0.05em]! font-semibold! text-[#928b9f]! md:text-[56px]! xl:text-[72px]!">DriveCam</Typography>
-            <Typography textStyle="display-2xl" as="span" className="text-[36px]! leading-[1.05]! tracking-[-0.05em]! font-light! text-[#928b9f]! md:text-[56px]! xl:text-[72px]!">launching soon.</Typography>
+            <Typography textStyle="display-2xl" as="span" className="text-[36px]! leading-[1]! tracking-[-0.05em]! font-light! text-[#928b9f]! md:text-[56px]! xl:text-[72px]!">Building the protection destination</Typography>
+            <Typography textStyle="display-2xl" as="span" className="text-[36px]! leading-[1.05]! tracking-[-0.05em]! font-semibold! text-[#928b9f]! md:text-[56px]! xl:text-[72px]!">for your car.</Typography>
           </h2>
           <div className="h-1 w-full bg-surface-static-white/15" />
           <div className="flex items-center justify-between gap-16">
             <AckoLogo textFill="#ffffff" />
-            <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex cursor-pointer">
-              <Typography textStyle="label-sm-regular" className="text-[#c0b7dd]!">Back to top ↑</Typography>
-            </button>
+            {/* Small links, like the Clinic's footer. */}
+            <nav aria-label="Footer links" className="flex flex-wrap items-center justify-end gap-x-24 gap-y-8">
+              {[['Features', 'drivecam-features'], ['Platinum benefits', 'drivecam-benefits'], ['Early access', 'drivecam-early-access'], ['FAQs', 'drivecam-faqs']].map(([label, id]) => (
+                <a key={id} href={`#${id}`} onClick={(e) => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }} className="flex">
+                  <Typography textStyle="label-sm-regular" className="text-[#c0b7dd]!">{label}</Typography>
+                </a>
+              ))}
+              <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex cursor-pointer">
+                <Typography textStyle="label-sm-regular" className="text-[#c0b7dd]!">Back to top ↑</Typography>
+              </button>
+            </nav>
           </div>
         </div>
       </footer>
