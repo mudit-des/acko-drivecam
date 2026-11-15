@@ -12,6 +12,8 @@ const H_HERO = 'text-[32px]! leading-[38px]! tracking-[-0.96px]! font-medium! md
 const H_XL = 'text-[32px]! leading-[40px]! tracking-[-0.96px]! font-medium! md:text-[48px]! md:leading-[60px]!'
 const H_LG = 'text-[28px]! leading-[35px]! tracking-[-0.6px]! font-medium! md:text-[40px]! md:leading-[50px]!'
 const H_CARD = 'text-[20px]! leading-[28px]! tracking-[-0.1px]! font-medium!'
+// Section headlines share one size (the statement is the only larger one).
+const H_SECTION = 'text-[32px]! leading-[1.12]! tracking-[-0.03em]! font-light! md:text-[44px]! xl:text-[52px]!'
 const LIGHT = 'font-normal! md:font-light!'
 
 const numbers = [
@@ -22,14 +24,14 @@ const numbers = [
 
 const faqs = [
   { q: 'What is ACKO DriveCam?', a: 'DriveCam is ACKO’s dashcam. It records every drive to your microSD card and locks the footage the moment it senses an impact. It comes with ACKO car insurance.' },
+  { q: 'Do I pay extra for DriveCam?', a: 'No. DriveCam comes with the insurance. You only need to buy a microSD card separately, and you can optionally pay a small fee for professional installation.' },
   { q: 'When does it launch?', a: 'DriveCam with ACKO car insurance is launching soon and will open to eligible customers in phases. Check your eligibility above, and we will message you the moment it goes live.' },
   { q: 'How does early access work?', a: 'Enter your car’s registration number, mobile number and pincode. We check whether your car is eligible and message you the moment DriveCam is ready for it.' },
-  { q: 'Why might my car not be eligible yet?', a: 'DriveCam is launching for the first time, so we are making it available to more customers gradually. If your car is not eligible today, we will save your details and message you first when it opens up.' },
-  { q: 'Do I pay extra for DriveCam?', a: 'No. DriveCam comes with the insurance. You only need to buy a microSD card separately, and you can optionally pay a small fee for professional installation.' },
-  { q: 'What does DriveCam record?', a: 'DriveCam records in 1440p Quad HD with a 156° wide-angle view and clear low-light and night recording. A built-in collision sensor locks the footage automatically when it detects an impact. It supports microSD cards up to 512GB.' },
-  { q: 'Does it include a microSD card?', a: 'No. DriveCam records non-stop, so it needs a high-endurance microSD card (Class 10, U3, V30, up to 512GB). Our DriveCam page lists recommended cards.' },
-  { q: 'How do I install DriveCam?', a: 'Once your policy is issued, DriveCam is shipped by Ekart and usually arrives in 48 to 72 hours. You can track it in the ACKO app. After delivery, tap Set Up in the app. Installing it yourself takes about 15 minutes, or you can book Ready Assist to have it professionally installed for a small fee.' },
   { q: 'Can ACKO or anyone else see my footage?', a: 'No. Recordings stay on your microSD card and under your control. ACKO cannot access them. You share a clip only if you choose to.' },
+  { q: 'Does it include a microSD card?', a: 'No. DriveCam records non-stop, so it needs a high-endurance microSD card (Class 10, U3, V30, up to 512GB). Our DriveCam page lists recommended cards.' },
+  { q: 'Why might my car not be eligible yet?', a: 'DriveCam is launching for the first time, so we are making it available to more customers gradually. If your car is not eligible today, we will save your details and message you first when it opens up.' },
+  { q: 'What does DriveCam record?', a: 'DriveCam records in 1440p Quad HD with a 156° wide-angle view and clear low-light and night recording. A built-in collision sensor locks the footage automatically when it detects an impact. It supports microSD cards up to 512GB.' },
+  { q: 'How do I install DriveCam?', a: 'Once your policy is issued, DriveCam is shipped by Ekart and usually arrives in 48 to 72 hours. You can track it in the ACKO app. After delivery, tap Set Up in the app. Installing it yourself takes about 15 minutes, or you can book Ready Assist to have it professionally installed for a small fee.' },
   { q: 'Can I turn off the camera or microphone?', a: 'Yes. You can switch off both the dashcam and its microphone manually at any time. You can also browse, overwrite or delete videos on the microSD card whenever you like.' },
   { q: 'Does DriveCam need the internet?', a: 'No. DriveCam records to the microSD card without the internet. Your phone connects to it over Wi-Fi, so you can browse, clip and download videos of up to 10 minutes in the ACKO app. You need to be within Wi-Fi range of the camera to control it.' },
   { q: 'What happens to DriveCam if I do not renew my policy?', a: 'DriveCam keeps recording and the footage on your microSD card stays accessible. App access remains available only while you have an active ACKO policy.' },
@@ -525,8 +527,8 @@ function Statement() {
   )
 }
 
-// "See it in action": the road film, as a normal video. It plays once, muted, when most of it is on screen, and rewinds
-// when you scroll away so it plays again next time. Nothing is tied to the scroll position.
+// "See it in action": the road film, as a normal video on loop. It plays muted while it's on screen and pauses when
+// you scroll away (picking up where it left off when you come back). Nothing is tied to the scroll position.
 function ActionFilm() {
   const sectionRef = useRef(null)
   const videoRef = useRef(null)
@@ -537,28 +539,23 @@ function ActionFilm() {
     const section = sectionRef.current
     const video = videoRef.current
     if (!section || !video) return undefined
-    let played = false
     const play = new IntersectionObserver(([entry]) => {
-      if (entry.intersectionRatio >= 0.6 && !played) {
-        played = true
-        video.currentTime = 0
-        video.play().catch(() => {})
-      } else if (entry.intersectionRatio < 0.15 && played) {
-        played = false
-        video.pause()
-        video.currentTime = 0
-      }
-    }, { threshold: [0, 0.15, 0.6] })
+      if (entry.intersectionRatio >= 0.4) video.play().catch(() => {})
+      else if (entry.intersectionRatio < 0.15) video.pause()
+    }, { threshold: [0, 0.15, 0.4] })
     // Start fetching the video a screen or so before it is reached.
     const warm = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
-        video.preload = 'auto'
-        video.load()
+        // Skip if playback already started: calling load() then would cancel it.
+        if (video.paused && video.readyState === 0) {
+          video.preload = 'auto'
+          video.load()
+        }
         warm.disconnect()
       }
     }, { rootMargin: '150% 0px' })
-    play.observe(section)
     warm.observe(section)
+    play.observe(section)
     return () => {
       play.disconnect()
       warm.disconnect()
@@ -575,6 +572,7 @@ function ActionFilm() {
           src={asset('/drivecam/in-action.mp4')}
           poster={asset('/drivecam/in-action-poster.webp')}
           muted
+          loop
           playsInline
           preload="none"
           controls={staticMode}
@@ -646,7 +644,7 @@ function LookCloser() {
     <section id="drivecam-features" aria-label="Features" data-figma-id="drivecam-features" className="flex w-full flex-col items-center bg-surface-page-static-black">
       <div className="flex w-full max-w-[1200px] flex-col gap-56 px-20 py-72 md:gap-[88px] md:px-56 md:py-[120px]">
         <Reveal className="flex flex-col items-center">
-          <Typography textStyle="display-xl" as="h2" color="static" className="text-center! text-[34px]! leading-[1.1]! tracking-[-0.03em]! font-light! md:text-[56px]!">Everything it does, <span className="text-[#a58cf7]!">up close.</span></Typography>
+          <Typography textStyle="display-xl" as="h2" color="static" className={`text-center! ${H_SECTION}`}>Everything it does, <span className="text-[#a58cf7]!">up close.</span></Typography>
         </Reveal>
 
         <div className="flex flex-col items-center gap-40 md:flex-row md:gap-24">
@@ -667,10 +665,12 @@ function LookCloser() {
                 onMouseLeave={() => setActive(0)}
                 onBlur={() => setActive(0)}
                 onClick={() => setActive(active === n ? 0 : n)}
-                className={`absolute flex size-28 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full shadow-[0_0_0_6px_rgba(165,140,247,0.28)] transition-[background-color,transform] duration-200 ${active === n ? 'scale-125 bg-white' : 'bg-[#a58cf7]'}`}
+                className="absolute flex size-44 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full"
                 style={{ left: `${x}%`, top: `${y}%` }}
               >
-                <Typography textStyle="label-sm-semibold" className="text-[#171717]!">{n}</Typography>
+                <span className={`flex size-28 items-center justify-center rounded-full shadow-[0_0_0_6px_rgba(165,140,247,0.28)] transition-[background-color,transform] duration-200 ${active === n ? 'scale-125 bg-white' : 'bg-[#a58cf7]'}`}>
+                  <Typography textStyle="label-sm-semibold" className="text-[#171717]!">{n}</Typography>
+                </span>
               </button>
             ))}
           </div>
@@ -689,14 +689,9 @@ function LookCloser() {
           ))}
         </div>
 
-        <div className="flex flex-col gap-24 md:flex-row md:gap-32">
-          {behaviours.map(({ title, text }, i) => (
-            <Reveal key={title} delay={i * 110} className="flex min-w-0 flex-1 flex-col gap-8 border-t border-surface-static-white/20 pt-20">
-              <Typography textStyle="heading-lg" as="h3" color="static" className={H_CARD}>{title}</Typography>
-              <Typography textStyle="body-md-regular" className="text-[#b4aad6]!">{text}</Typography>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal className="flex justify-center">
+          <Typography textStyle="body-lg-regular" className="text-center! text-[#b4aad6]!">{behaviours.map((b) => b.title).join(' · ')}</Typography>
+        </Reveal>
       </div>
     </section>
   )
@@ -708,6 +703,7 @@ export default function DriveCamRevealPage() {
   const [submitted, setSubmitted] = useState(false)
   const [showBar, setShowBar] = useState(false)
   const [barLate, setBarLate] = useState(false)
+  const [allFaqs, setAllFaqs] = useState(false)
 
   // Slim "Get early access" bar: shown once the opening film has finished, hidden while the form itself is on screen.
   useEffect(() => {
@@ -765,14 +761,13 @@ export default function DriveCamRevealPage() {
           <Ambassador image={asset('/drivecam/ambassador-right.webp')} label="Ambassador showing the DriveCam" delay={0} className="flex h-[380px] w-[194px] shrink-0 bg-contain bg-bottom bg-no-repeat md:h-[480px] md:w-[245px] lg:h-[600px] lg:w-[307px] xl:h-[680px] xl:w-[347px]" />
           <div className="flex w-full min-w-0 flex-col items-start gap-20 md:gap-24 lg:flex-1 lg:pb-[120px]">
             <Reveal className="flex">
-              <Typography textStyle="display-xl" as="h2" className="text-[34px]! leading-[1.12]! tracking-[-0.03em]! font-light! text-text-static-dark! md:text-[48px]! xl:text-[60px]!">
-                Proof settles the argument. It doesn’t fix the car.{' '}
-                <span className="text-text-brand-default!">So we built DriveCam into your car insurance.</span>
+              <Typography textStyle="display-xl" as="h2" className={`text-text-static-dark! ${H_SECTION}`}>
+                An industry-first premium insurance plan <span className="text-text-brand-default!">with a dashcam.</span>
               </Typography>
             </Reveal>
             <Reveal delay={120} className="flex">
-              <Typography textStyle="body-lg-regular" color="secondary" className="max-w-[440px]">
-                An industry-first premium insurance plan with a dashcam.
+              <Typography textStyle="body-lg-regular" color="secondary" className="max-w-[480px]">
+                Proof settles the argument. It doesn’t fix the car. So we built DriveCam into your car insurance.
               </Typography>
             </Reveal>
             <Reveal delay={280} className="flex">
@@ -785,7 +780,7 @@ export default function DriveCamRevealPage() {
       <section aria-label="What the insurance adds" data-figma-id="drivecam-benefits" className="flex w-full flex-col items-center bg-[#f7f6f2]">
         <div className="flex w-full max-w-[1200px] flex-col items-center gap-32 px-20 py-72 md:gap-48 md:px-56 md:py-[120px]">
           <Reveal className="flex">
-            <Typography textStyle="display-xl" as="h3" className="text-center! text-[28px]! leading-[1.15]! tracking-[-0.03em]! font-light! text-text-static-dark! md:text-[44px]!">
+            <Typography textStyle="display-xl" as="h3" className={`text-center! text-text-static-dark! ${H_SECTION}`}>
               One call. One person. <span className="text-text-brand-default!">Everything after.</span>
             </Typography>
           </Reveal>
@@ -813,8 +808,7 @@ export default function DriveCamRevealPage() {
         <div className="flex w-full max-w-[1200px] flex-col items-center gap-40 px-20 pt-56 md:px-56 md:pt-96 lg:flex-row lg:items-end lg:gap-56">
           <div className="flex w-full min-w-0 flex-col gap-32 pb-16 md:gap-40 lg:flex-1 lg:pb-96">
           <div className="flex flex-col gap-16">
-            <Eyebrow>EARLY ACCESS</Eyebrow>
-            <Typography textStyle="display-xl" as="h2" className={H_XL}>Be first to get <span className={`${LIGHT} text-text-brand-default!`}>DriveCam.</span></Typography>
+            <Typography textStyle="display-xl" as="h2" className={`text-text-static-dark! ${H_SECTION}`}>Be first to get <span className="text-text-brand-default!">DriveCam.</span></Typography>
             <Typography textStyle="body-lg-regular" color="secondary" className="max-w-[480px]">
               We’re opening in phases, eligible cars first. Tell us about your car and we’ll message you when it’s ready.
             </Typography>
@@ -843,15 +837,17 @@ export default function DriveCamRevealPage() {
       <section id="drivecam-faqs" aria-label="Frequently asked questions" data-figma-id="drivecam-faqs" className="relative flex w-full flex-col items-center bg-[#f7f6f2]">
         <div className="flex w-full max-w-[1200px] flex-col items-center gap-32 px-20 py-56 md:gap-48 md:px-56 md:py-96">
           <div className="flex flex-col items-center gap-12">
-            <Eyebrow>FAQS</Eyebrow>
-            <Typography textStyle="display-xl" as="h2" className={`text-center! ${H_XL}`}>Questions, <span className={`${LIGHT} text-text-brand-default!`}>answered.</span></Typography>
+            <Typography textStyle="display-xl" as="h2" className={`text-center! text-text-static-dark! ${H_SECTION}`}>Questions, <span className="text-text-brand-default!">answered.</span></Typography>
           </div>
           <div className="flex w-full max-w-[760px] flex-col">
             <Accordion type="single" size="md" defaultValue="faq-0">
-              {faqs.map(({ q, a }, i) => (
+              {faqs.slice(0, allFaqs ? faqs.length : 6).map(({ q, a }, i) => (
                 <AccordionItem key={q} value={`faq-${i}`} title={q}>{a}</AccordionItem>
               ))}
             </Accordion>
+            <div className="flex justify-center pt-24">
+              <Button variant="secondary" size="md" onClick={() => setAllFaqs((v) => !v)}>{allFaqs ? 'Fewer questions' : 'More questions'}</Button>
+            </div>
           </div>
         </div>
       </section>
@@ -876,13 +872,11 @@ export default function DriveCamRevealPage() {
         <div className={`pointer-events-auto flex w-full max-w-[640px] items-center justify-between gap-12 rounded-full bg-surface-card-default py-8 pl-20 pr-8 shadow-m transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none ${showBar ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-24 opacity-0'}`}>
           <div className="flex min-w-0 items-center gap-12">
             <Link to="/acko" aria-label="ACKO home" tabIndex={showBar ? 0 : -1} className="flex"><AckoLogo /></Link>
-            {/* Like the Clinic's bar: section links first, then a launch note once you're past the product part. */}
+            {/* Like the Clinic's bar: what it is first, then a launch note once you're past the product part. */}
             <div className="relative hidden pl-12 md:flex">
-              <nav aria-label="Main navigation" aria-hidden={barLate} className={`flex items-center gap-20 transition-[opacity,transform] duration-300 ${barLate ? 'pointer-events-none -translate-y-8 opacity-0' : 'translate-y-0 opacity-100'}`}>
-                <a href="#drivecam-hero" tabIndex={showBar && !barLate ? 0 : -1} className="flex"><Typography textStyle="label-md-medium">DriveCam</Typography></a>
-                <a href="#drivecam-features" tabIndex={showBar && !barLate ? 0 : -1} className="flex"><Typography textStyle="label-md-medium">Features</Typography></a>
-                <a href="#drivecam-faqs" tabIndex={showBar && !barLate ? 0 : -1} className="flex"><Typography textStyle="label-md-medium">FAQs</Typography></a>
-              </nav>
+              <div aria-hidden={barLate} className={`flex items-center whitespace-nowrap transition-[opacity,transform] duration-300 ${barLate ? '-translate-y-8 opacity-0' : 'translate-y-0 opacity-100'}`}>
+                <Typography textStyle="label-md-medium" color="secondary">Comes with ACKO car insurance</Typography>
+              </div>
               <div aria-hidden={!barLate} className={`absolute inset-y-0 left-12 flex items-center whitespace-nowrap transition-[opacity,transform] duration-300 ${barLate ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
                 <Typography textStyle="label-md-medium" color="secondary">DriveCam · Launching soon</Typography>
               </div>
