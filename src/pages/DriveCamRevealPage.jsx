@@ -799,53 +799,61 @@ function FooterRoad() {
         </Typography>
         <div role="img" aria-label="A car driving towards the text with its headlight on" className="absolute bottom-0 right-0 flex h-[42px] w-[260px] shrink-0 md:relative md:h-[52px] md:w-[340px]" style={glide}>
           {!IS_AUTOMATION && (
-            <div aria-hidden="true" className="absolute bottom-[-1px] right-[94px] flex h-[36px] w-[calc(100%-94px)] md:right-[118px] md:h-[44px] md:w-[calc(100%-118px)]" style={{ filter: 'blur(5px)' }}>
+            <div aria-hidden="true" className="absolute bottom-[-9px] right-[99px] flex h-[36px] w-[calc(100%-99px)] md:right-[125px] md:h-[44px] md:w-[calc(100%-125px)]" style={{ filter: 'blur(9px)' }}>
               <div
                 className="absolute inset-0 flex"
-                style={{ backgroundImage: 'linear-gradient(to left, rgba(255,255,255,0.6), rgba(210,200,255,0.22) 40%, rgba(165,140,247,0))', clipPath: 'polygon(100% 46%, 100% 72%, 0 100%, 0 8%)' }}
+                style={{ backgroundImage: 'linear-gradient(to left, rgba(242,244,255,0.6), rgba(216,208,255,0.2) 45%, rgba(165,140,247,0))', clipPath: 'polygon(100% 39%, 100% 66%, 0 100%, 0 0)' }}
               />
             </div>
           )}
-          {/* A rim-lit compact SUV facing left: a near-black body whose shape comes from light catching the roof and
-              shoulder, dark glass, quiet wheels, a slim running light above the round headlight and a red tail light. */}
-          <svg viewBox="0 0 100 40" aria-hidden="true" className="absolute bottom-[-4px] right-0 h-[40px] w-[100px] md:bottom-[-5px] md:h-[50px] md:w-[125px]">
-            <defs>
-              <linearGradient id="footer-car-body" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor="#1f1e24" />
-                <stop offset="1" stopColor="#0e0e11" />
-              </linearGradient>
-              <linearGradient id="footer-car-rim" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stopColor="#ffffff" stopOpacity=".55" />
-                <stop offset=".5" stopColor="#cfc8e8" stopOpacity=".28" />
-                <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            <path d="M5 31C3.8 29 3.2 26 3.4 23.6 3.6 21.4 4.6 19.4 6.6 18.8L26 15.8C28 15.5 29.6 14.8 31 13.6L38.6 7C39.8 6 41.4 5.6 43 5.6L80 5.4C82.4 5.4 84.2 6.2 85.6 7.6L90.6 12.6C92.4 14.4 93.4 16.4 93.6 18.8L94.2 28.6C94.3 30.2 93.6 31 92.2 31H86.5A10.5 10.5 0 0 0 65.5 31H31.5A10.5 10.5 0 0 0 10.5 31Z" fill={IS_AUTOMATION ? '#18171c' : 'url(#footer-car-body)'} />
-            <path d="M32.6 14.6L39.8 8.2C40.8 7.4 42 7 43.2 7H58V14.6ZM60 7H72V14.6H60ZM74 7H79.6C81.2 7 82.6 7.6 83.6 8.6L88.6 14.6H74Z" fill="#070708" />
-            <path d="M31.5 31H65.5V29.2H31.5ZM10.5 31A10.5 10.5 0 0 1 31.5 31M65.5 31A10.5 10.5 0 0 1 86.5 31" fill="#0a0a0c" stroke="#0a0a0c" strokeWidth="1.8" />
-            <path d="M6.6 18.8L26 15.8C28 15.5 29.6 14.8 31 13.6L38.6 7C39.8 6 41.4 5.6 43 5.6L80 5.4C82.4 5.4 84.2 6.2 85.6 7.6L90.6 12.6" fill="none" stroke={IS_AUTOMATION ? '#6b6676' : 'url(#footer-car-rim)'} strokeWidth=".7" />
-            <path d="M46 4.2H79M49 4.2V5.5M76 4.2V5.4" stroke="#ffffff" strokeOpacity=".22" strokeWidth=".7" strokeLinecap="round" />
-            <path d="M9 21.4L92 19.6" stroke="#ffffff" strokeOpacity=".07" strokeWidth=".6" />
-            <circle cx="21" cy="30.2" r="7.8" fill="#050506" />
-            <circle cx="21" cy="30.2" r="4.8" fill="#141317" stroke="#ffffff" strokeOpacity=".14" strokeWidth=".5" />
-            <circle cx="21" cy="30.2" r="1.2" fill="#2c2b31" />
-            <circle cx="76" cy="30.2" r="7.8" fill="#050506" />
-            <circle cx="76" cy="30.2" r="4.8" fill="#141317" stroke="#ffffff" strokeOpacity=".14" strokeWidth=".5" />
-            <circle cx="76" cy="30.2" r="1.2" fill="#2c2b31" />
-            <path d="M5.4 20.1L12.6 19.1" stroke="#ffffff" strokeOpacity=".8" strokeWidth=".7" strokeLinecap="round" />
-            <circle cx="5.4" cy="22" r="1.5" fill="#ffffff" />
-            <path d="M93.2 13.8L93.8 18.6" stroke="#c23a4a" strokeWidth="1" strokeLinecap="round" />
+          {/* A rim-lit Range Rover Evoque-style SUV facing left, drawn as a silhouette in the dark: a near-black body
+              shaped only by light catching the bonnet, roof and spoiler, barely-there wheels, a slim swept LED headlight
+              with soft bloom and a red tail light glowing behind. Blur and gradients fall back to solid shapes for Figma. */}
+          <svg viewBox="0 0 108 46" aria-hidden="true" overflow="visible" className="absolute bottom-[-14px] right-0 h-[46px] w-[108px] md:bottom-[-15px] md:h-[58px] md:w-[136px]">
+            {!IS_AUTOMATION && (
+              <defs>
+                <linearGradient id="footer-car-rim" x1="8" y1="0" x2="98" y2="0" gradientUnits="userSpaceOnUse">
+                  <stop offset="0" stopColor="#ffffff" stopOpacity=".35" />
+                  <stop offset=".3" stopColor="#ffffff" stopOpacity=".9" />
+                  <stop offset=".55" stopColor="#e6e2f2" stopOpacity=".75" />
+                  <stop offset=".85" stopColor="#cfc8e8" stopOpacity=".35" />
+                  <stop offset="1" stopColor="#ffffff" stopOpacity=".05" />
+                </linearGradient>
+                <linearGradient id="footer-car-shoulder" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stopColor="#ffffff" stopOpacity=".2" />
+                  <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
+                </linearGradient>
+                <filter id="footer-car-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation=".7" /></filter>
+                <filter id="footer-car-bloom" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6" /></filter>
+                <filter id="footer-car-glow" x="-50%" y="-200%" width="200%" height="500%"><feGaussianBlur stdDeviation="3.2" /></filter>
+                <filter id="footer-car-haze" x="-50%" y="-100%" width="200%" height="300%"><feGaussianBlur stdDeviation="7" /></filter>
+              </defs>
+            )}
+            {!IS_AUTOMATION && <ellipse cx="54" cy="13" rx="38" ry="8" fill="#ffffff" opacity=".07" filter="url(#footer-car-haze)" />}
+            {!IS_AUTOMATION && <ellipse cx="100.5" cy="20" rx="5" ry="3.6" fill="#ff2a44" opacity=".45" filter="url(#footer-car-glow)" />}
+            <path d="M8.2 36.2C7.4 34.8 7.1 32.6 7.2 30.2L7.5 25.3C7.6 23.9 8.1 22.9 8.9 22.3 9.3 21 9.8 20.6 10.3 20.3L21.4 18.6 31.1 17C32.4 16.8 33.4 16.3 34.4 15.5L45.4 10.2C46.6 9.4 48.4 8.6 50.6 8.4L85.3 8.6C88.6 8.8 91.2 9.4 93 10.4L89.8 11.7C91.8 12.6 93.6 13.9 94.8 15.6 96 16.2 97 16.8 97.6 17.7 98.6 21 99.1 24.6 99.2 28.1L99.2 33.9C99.2 34.8 98.4 35.3 97.1 35.3L93.1 35.6A9.7 9.7 0 0 0 73.9 35.6L73.6 36.4H34.3L34 35.6A9.7 9.7 0 0 0 14.8 35.6Z" fill="#040405" />
+            <circle cx="24.4" cy="34.4" r="7.7" fill="#020202" />
+            <circle cx="83.5" cy="34.4" r="7.7" fill="#020202" />
+            <path d="M19.4 28.6A7.7 7.7 0 0 1 29.4 28.6M78.5 28.6A7.7 7.7 0 0 1 88.5 28.6" fill="none" stroke="#ffffff" strokeOpacity=".06" strokeWidth=".5" />
+            {!IS_AUTOMATION && <path d="M8.9 22.3C9.3 21 9.8 20.6 10.3 20.3L21.4 18.6 31.1 17C32.4 16.8 33.4 16.3 34.4 15.5L45.4 10.2C46.6 9.4 48.4 8.6 50.6 8.4L85.3 8.6C88.6 8.8 91.2 9.4 93 10.4" fill="none" stroke="url(#footer-car-rim)" strokeWidth="1.6" opacity=".7" filter="url(#footer-car-bloom)" />}
+            <path d="M8.9 22.3C9.3 21 9.8 20.6 10.3 20.3L21.4 18.6 31.1 17C32.4 16.8 33.4 16.3 34.4 15.5L45.4 10.2C46.6 9.4 48.4 8.6 50.6 8.4L85.3 8.6C88.6 8.8 91.2 9.4 93 10.4" fill="none" stroke={IS_AUTOMATION ? '#8e889b' : 'url(#footer-car-rim)'} strokeWidth=".5" />
+            <path d="M94.8 15.6C96 16.2 97 16.8 97.6 17.7" fill="none" stroke="#ffffff" strokeOpacity=".12" strokeWidth=".4" />
+            {!IS_AUTOMATION && <path d="M14 22.4L94 17.4" stroke="url(#footer-car-shoulder)" strokeWidth=".7" filter="url(#footer-car-soft)" />}
+            <path d="M40.8 16.9C41.4 15.4 42.6 14.6 44.2 14.5L45 17 41.6 17.6Z" fill="#060607" stroke="#ffffff" strokeOpacity=".35" strokeWidth=".3" />
+            {!IS_AUTOMATION && <path d="M8.4 23.2L19.4 21.4 19.6 22.2 8.8 24.8Z" fill="#ffffff" opacity=".9" filter="url(#footer-car-bloom)" />}
+            <path d="M8.4 23.2L19.4 21.4 19.6 22.2 8.8 24.8Z" fill="#f6f8ff" />
+            <path d="M8.4 31.2L13.6 30.4" stroke="#ffffff" strokeOpacity=".12" strokeWidth=".5" strokeLinecap="round" />
+            {!IS_AUTOMATION && <path d="M91.6 19L97.8 18.4 98.2 20.6 92.4 21.2Z" fill="#ff3550" filter="url(#footer-car-soft)" />}
+            <path d="M91.6 19L97.8 18.4 98.2 20.6 92.4 21.2Z" fill="#ff5c70" />
           </svg>
-          {/* Glow around the round headlight in the nose. */}
-          <div aria-hidden="true" className="absolute bottom-[11px] right-[91px] flex size-7 rounded-full shadow-[0_0_9px_3px_rgba(255,255,255,0.8),0_0_24px_8px_rgba(165,140,247,0.45)] md:bottom-[14px] md:right-[114px] md:size-8" />
         </div>
       </div>
       <div aria-hidden="true" className={`relative flex h-2 w-full ${IS_AUTOMATION ? 'bg-surface-static-white/30' : ''}`} style={IS_AUTOMATION ? undefined : { backgroundImage: ROAD_DASHES }}>
         {!IS_AUTOMATION && (
           <>
             {/* The stretch of road under the beam: same dashes, brighter, fading out away from the car. */}
-            <div className="absolute inset-0 flex" style={{ ...glide, backgroundImage: ROAD_DASHES_LIT, WebkitMaskImage: 'linear-gradient(to left, transparent 100px, #000 116px, transparent 400px)', maskImage: 'linear-gradient(to left, transparent 100px, #000 116px, transparent 400px)' }} />
-            <div className="absolute right-[110px] top-[-6px] flex h-[14px] w-[170px] rounded-full md:right-[134px]" style={{ ...glide, backgroundImage: 'radial-gradient(closest-side, rgba(220,212,255,0.22), rgba(165,140,247,0))' }} />
+            <div className="absolute inset-0 flex" style={{ ...glide, backgroundImage: ROAD_DASHES_LIT, WebkitMaskImage: 'linear-gradient(to left, transparent 96px, #000 112px, transparent 400px)', maskImage: 'linear-gradient(to left, transparent 96px, #000 112px, transparent 400px)' }} />
+            <div className="absolute right-[104px] top-[-6px] flex h-[14px] w-[170px] rounded-full md:right-[130px]" style={{ ...glide, backgroundImage: 'radial-gradient(closest-side, rgba(220,212,255,0.22), rgba(165,140,247,0))' }} />
           </>
         )}
       </div>
