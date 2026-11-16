@@ -792,39 +792,60 @@ function FooterRoad() {
   return (
     <div ref={ref} className="flex flex-col gap-10">
       <div className="relative flex items-end justify-between gap-24">
-        <Typography textStyle="body-lg-regular" as="p" className={`relative z-10 min-w-0 pr-[96px] text-[24px]! md:pr-0 leading-[1.15]! tracking-[-0.02em]! font-light! md:text-[30px]! xl:text-[34px]! xl:whitespace-nowrap ${IS_AUTOMATION ? 'text-[#a39daf]!' : 'text-transparent!'}`}>
+        <Typography textStyle="body-lg-regular" as="p" className={`relative z-10 min-w-0 pr-[112px] text-[24px]! md:pr-0 leading-[1.15]! tracking-[-0.02em]! font-light! md:text-[30px]! xl:text-[34px]! xl:whitespace-nowrap ${IS_AUTOMATION ? 'text-[#a39daf]!' : 'text-transparent!'}`}>
           <span className="inline" style={IS_AUTOMATION ? undefined : lit}>
             Building the <span className="font-semibold!">protection destination</span> for your car
           </span>
         </Typography>
-        <div role="img" aria-label="A car driving towards the text with its headlight on" className="absolute bottom-0 right-0 flex h-[42px] w-[230px] shrink-0 md:relative md:h-[52px] md:w-[300px]" style={glide}>
+        <div role="img" aria-label="A car driving towards the text with its headlight on" className="absolute bottom-0 right-0 flex h-[42px] w-[260px] shrink-0 md:relative md:h-[52px] md:w-[340px]" style={glide}>
           {!IS_AUTOMATION && (
-            <div aria-hidden="true" className="absolute bottom-[-1px] right-[78px] flex h-[36px] w-[calc(100%-78px)] md:right-[97px] md:h-[44px] md:w-[calc(100%-97px)]" style={{ filter: 'blur(5px)' }}>
+            <div aria-hidden="true" className="absolute bottom-[-1px] right-[94px] flex h-[36px] w-[calc(100%-94px)] md:right-[118px] md:h-[44px] md:w-[calc(100%-118px)]" style={{ filter: 'blur(5px)' }}>
               <div
                 className="absolute inset-0 flex"
-                style={{ backgroundImage: 'linear-gradient(to left, rgba(255,255,255,0.6), rgba(210,200,255,0.22) 40%, rgba(165,140,247,0))', clipPath: 'polygon(100% 62%, 100% 92%, 0 100%, 0 8%)' }}
+                style={{ backgroundImage: 'linear-gradient(to left, rgba(255,255,255,0.6), rgba(210,200,255,0.22) 40%, rgba(165,140,247,0))', clipPath: 'polygon(100% 46%, 100% 72%, 0 100%, 0 8%)' }}
               />
             </div>
           )}
-          {/* Facing left: long bonnet and raked windscreen at the front, short boot and a faint tail light at the back. */}
-          <svg viewBox="0 0 80 26" aria-hidden="true" className="absolute bottom-[-3px] right-0 h-[27px] w-[84px] md:h-[34px] md:w-[104px]">
-            <path d="M2 17.6c0-1.7 1.1-2.7 3-3l17.5-1.8 8.5-5.6c1.6-.9 3.3-1.3 5.2-1.3H50c3.6 0 6.2 1.1 8.5 3.3l3.5 3.4 11.5.8c2.9.3 4.5 1.8 4.5 4.2v2c0 .8-.6 1.4-1.4 1.4H3.4c-.8 0-1.4-.6-1.4-1.4z" fill="#26242b" stroke="#3d3a45" strokeWidth=".8" />
-            <path d="M24.8 12.4l6.8-4.4c1.4-.8 2.8-1.1 4.4-1.1h5.5v5.5zM43.5 6.9h6.1c2.8 0 5 .9 6.8 2.7l3 2.8H43.5z" fill="#121114" />
-            <rect x="75.6" y="14.4" width="2" height="1.6" rx=".8" fill="#7a2a33" />
-            <circle cx="16" cy="21" r="4.4" fill="#0d0d0f" stroke="#3d3a45" strokeWidth="1" />
-            <circle cx="64" cy="21" r="4.4" fill="#0d0d0f" stroke="#3d3a45" strokeWidth="1" />
-            <circle cx="5.4" cy="16.6" r="2.1" fill="#ffffff" />
+          {/* A rim-lit compact SUV facing left: a near-black body whose shape comes from light catching the roof and
+              shoulder, dark glass, quiet wheels, a slim running light above the round headlight and a red tail light. */}
+          <svg viewBox="0 0 100 40" aria-hidden="true" className="absolute bottom-[-4px] right-0 h-[40px] w-[100px] md:bottom-[-5px] md:h-[50px] md:w-[125px]">
+            <defs>
+              <linearGradient id="footer-car-body" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#1f1e24" />
+                <stop offset="1" stopColor="#0e0e11" />
+              </linearGradient>
+              <linearGradient id="footer-car-rim" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stopColor="#ffffff" stopOpacity=".55" />
+                <stop offset=".5" stopColor="#cfc8e8" stopOpacity=".28" />
+                <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <path d="M5 31C3.8 29 3.2 26 3.4 23.6 3.6 21.4 4.6 19.4 6.6 18.8L26 15.8C28 15.5 29.6 14.8 31 13.6L38.6 7C39.8 6 41.4 5.6 43 5.6L80 5.4C82.4 5.4 84.2 6.2 85.6 7.6L90.6 12.6C92.4 14.4 93.4 16.4 93.6 18.8L94.2 28.6C94.3 30.2 93.6 31 92.2 31H86.5A10.5 10.5 0 0 0 65.5 31H31.5A10.5 10.5 0 0 0 10.5 31Z" fill={IS_AUTOMATION ? '#18171c' : 'url(#footer-car-body)'} />
+            <path d="M32.6 14.6L39.8 8.2C40.8 7.4 42 7 43.2 7H58V14.6ZM60 7H72V14.6H60ZM74 7H79.6C81.2 7 82.6 7.6 83.6 8.6L88.6 14.6H74Z" fill="#070708" />
+            <path d="M31.5 31H65.5V29.2H31.5ZM10.5 31A10.5 10.5 0 0 1 31.5 31M65.5 31A10.5 10.5 0 0 1 86.5 31" fill="#0a0a0c" stroke="#0a0a0c" strokeWidth="1.8" />
+            <path d="M6.6 18.8L26 15.8C28 15.5 29.6 14.8 31 13.6L38.6 7C39.8 6 41.4 5.6 43 5.6L80 5.4C82.4 5.4 84.2 6.2 85.6 7.6L90.6 12.6" fill="none" stroke={IS_AUTOMATION ? '#6b6676' : 'url(#footer-car-rim)'} strokeWidth=".7" />
+            <path d="M46 4.2H79M49 4.2V5.5M76 4.2V5.4" stroke="#ffffff" strokeOpacity=".22" strokeWidth=".7" strokeLinecap="round" />
+            <path d="M9 21.4L92 19.6" stroke="#ffffff" strokeOpacity=".07" strokeWidth=".6" />
+            <circle cx="21" cy="30.2" r="7.8" fill="#050506" />
+            <circle cx="21" cy="30.2" r="4.8" fill="#141317" stroke="#ffffff" strokeOpacity=".14" strokeWidth=".5" />
+            <circle cx="21" cy="30.2" r="1.2" fill="#2c2b31" />
+            <circle cx="76" cy="30.2" r="7.8" fill="#050506" />
+            <circle cx="76" cy="30.2" r="4.8" fill="#141317" stroke="#ffffff" strokeOpacity=".14" strokeWidth=".5" />
+            <circle cx="76" cy="30.2" r="1.2" fill="#2c2b31" />
+            <path d="M5.4 20.1L12.6 19.1" stroke="#ffffff" strokeOpacity=".8" strokeWidth=".7" strokeLinecap="round" />
+            <circle cx="5.4" cy="22" r="1.5" fill="#ffffff" />
+            <path d="M93.2 13.8L93.8 18.6" stroke="#c23a4a" strokeWidth="1" strokeLinecap="round" />
           </svg>
-          {/* Glow around the round headlight, which sits in the nose below the bonnet line. */}
-          <div aria-hidden="true" className="absolute bottom-[3px] right-[75px] flex size-7 rounded-full shadow-[0_0_9px_3px_rgba(255,255,255,0.8),0_0_24px_8px_rgba(165,140,247,0.45)] md:bottom-[5px] md:right-[93px] md:size-8" />
+          {/* Glow around the round headlight in the nose. */}
+          <div aria-hidden="true" className="absolute bottom-[11px] right-[91px] flex size-7 rounded-full shadow-[0_0_9px_3px_rgba(255,255,255,0.8),0_0_24px_8px_rgba(165,140,247,0.45)] md:bottom-[14px] md:right-[114px] md:size-8" />
         </div>
       </div>
       <div aria-hidden="true" className={`relative flex h-2 w-full ${IS_AUTOMATION ? 'bg-surface-static-white/30' : ''}`} style={IS_AUTOMATION ? undefined : { backgroundImage: ROAD_DASHES }}>
         {!IS_AUTOMATION && (
           <>
             {/* The stretch of road under the beam: same dashes, brighter, fading out away from the car. */}
-            <div className="absolute inset-0 flex" style={{ ...glide, backgroundImage: ROAD_DASHES_LIT, WebkitMaskImage: 'linear-gradient(to left, transparent 84px, #000 98px, transparent 360px)', maskImage: 'linear-gradient(to left, transparent 84px, #000 98px, transparent 360px)' }} />
-            <div className="absolute right-[96px] top-[-6px] flex h-[14px] w-[170px] rounded-full md:right-[112px]" style={{ ...glide, backgroundImage: 'radial-gradient(closest-side, rgba(220,212,255,0.22), rgba(165,140,247,0))' }} />
+            <div className="absolute inset-0 flex" style={{ ...glide, backgroundImage: ROAD_DASHES_LIT, WebkitMaskImage: 'linear-gradient(to left, transparent 100px, #000 116px, transparent 400px)', maskImage: 'linear-gradient(to left, transparent 100px, #000 116px, transparent 400px)' }} />
+            <div className="absolute right-[110px] top-[-6px] flex h-[14px] w-[170px] rounded-full md:right-[134px]" style={{ ...glide, backgroundImage: 'radial-gradient(closest-side, rgba(220,212,255,0.22), rgba(165,140,247,0))' }} />
           </>
         )}
       </div>
