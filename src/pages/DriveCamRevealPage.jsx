@@ -5,7 +5,7 @@ import { Accordion, AccordionItem } from '@acko/accordion'
 import { Button } from '@acko/button'
 import { TextInput } from '@acko/text-input'
 import { Typography } from '@acko/typography'
-import { CircleCheck } from 'lucide-react'
+import { CircleCheck, Headset, Receipt, Truck, Wrench } from 'lucide-react'
 
 // Sizes and weights measured from the approved reference page (mobile, then md+).
 const H_HERO = 'text-[32px]! leading-[38px]! tracking-[-0.96px]! font-medium! md:text-[44px]! md:leading-[48px]! xl:text-[52px]! xl:leading-[56px]! xl:tracking-[-1.2px]!'
@@ -477,6 +477,42 @@ const statementWords = [
   ...'DriveCam remembers it as it happened.'.split(' ').map((w) => ({ w, accent: true })),
 ]
 
+const bridgeWords = [
+  ...'Proof settles the argument.'.split(' ').map((w) => ({ w, accent: false })),
+  ...'It doesn’t fix the car.'.split(' ').map((w) => ({ w, accent: true })),
+]
+
+// Bridge into insurance: closes the product half on the problem, lighting up word by word like the opening statement.
+// The section after it answers: "So we built DriveCam into your car insurance."
+function Bridge() {
+  const sectionRef = useRef(null)
+  const wordRefs = useRef([])
+  const [staticMode] = useState(isStaticMode)
+  useLayoutEffect(() => {
+    if (staticMode) return undefined
+    const section = sectionRef.current
+    if (!section) return undefined
+    const count = bridgeWords.length
+    return registerScene(section, (top, h, vh) => {
+      const p = clamp((vh * 0.95 - top) / (vh * 0.6))
+      wordRefs.current.forEach((el, i) => {
+        if (!el) return
+        const start = (i / count) * 0.72
+        el.style.opacity = String(0.28 + 0.72 * ease(seg(p, start, start + 0.28)))
+      })
+    })
+  }, [staticMode])
+  return (
+    <section ref={sectionRef} aria-label="Proof settles the argument" data-figma-id="drivecam-bridge" className="relative z-20 flex w-full flex-col items-center bg-surface-page-static-black px-20 pb-[96px] pt-24 md:px-56 md:pb-[160px] md:pt-40">
+      <Typography textStyle="display-xl" as="h2" color="static" className="max-w-[1000px] text-center! text-[34px]! leading-[1.14]! tracking-[-0.03em]! font-light! md:text-[60px]! xl:text-[76px]!">
+        {bridgeWords.map(({ w, accent }, i) => (
+          <span key={`${w}-${i}`} ref={(el) => { wordRefs.current[i] = el }} className={accent ? 'text-[#a58cf7]!' : undefined}>{w}{i < bridgeWords.length - 1 ? ' ' : ''}</span>
+        ))}
+      </Typography>
+    </section>
+  )
+}
+
 // The statement lights up word by word as you scroll through it, then the line underneath fades up.
 function Statement() {
   const sectionRef = useRef(null)
@@ -603,10 +639,10 @@ const hotspots = [
 
 // Stock photos from Unsplash (free licence), as placeholders until we have our own.
 const insuranceBenefits = [
-  { image: '/drivecam/benefits/claims-manager.webp', title: 'Relationship manager', text: 'A dedicated claims manager. You make one call, and they stay with you until your car is back.' },
-  { image: '/drivecam/benefits/pickup.webp', title: 'Convenience when needed', text: 'Pickup and drop, wherever you are.' },
-  { image: '/drivecam/benefits/garage.webp', title: 'A trusted network of garages', text: 'Handpicked and monitored by ACKO. A 53-point quality check and a 1-year warranty on the work.' },
-  { image: '/drivecam/benefits/invoice.webp', title: '100% transparency', text: 'Photos and invoices for every part replaced, on your phone.' },
+  { Icon: Headset, image: '/drivecam/benefits/claims-manager.webp', title: 'Relationship manager', text: 'A dedicated claims manager. You make one call, and they stay with you until your car is back.' },
+  { Icon: Truck, image: '/drivecam/benefits/pickup.webp', title: 'Convenience when needed', text: 'Pickup and drop, wherever you are.' },
+  { Icon: Wrench, image: '/drivecam/benefits/garage.webp', title: 'A trusted network of garages', text: 'Handpicked and monitored by ACKO. A 53-point quality check and a 1-year warranty on the work.' },
+  { Icon: Receipt, image: '/drivecam/benefits/invoice.webp', title: '100% transparency', text: 'Photos and invoices for every part replaced, on your phone.' },
 ]
 
 const behaviours = [
@@ -851,54 +887,65 @@ export default function DriveCamRevealPage() {
 
       <LookCloser />
 
-      <section id="drivecam-hero" aria-label="DriveCam with ACKO car insurance" data-figma-id="drivecam-hero" className="flex w-full flex-col items-center bg-[#f0ece6]">
-        <div className="flex w-full max-w-[1200px] flex-col-reverse items-center gap-32 px-20 pt-[96px] md:px-56 md:pt-[120px] lg:flex-row lg:items-end lg:gap-56">
+      <Bridge />
+
+      <section id="drivecam-hero" aria-label="DriveCam with ACKO car insurance" data-figma-id="drivecam-hero" className="relative flex w-full flex-col items-center bg-[#f0ece6]">
+        {/* Curved edge into the benefits below (side-by-side layout only): flat along the section's bottom under the
+            ambassador, so the line meets his legs exactly, then rising and softening into a blend on the right. */}
+        {!IS_AUTOMATION && (
+          <div aria-hidden="true" className="pointer-events-none absolute bottom-0 right-0 hidden h-[200px] overflow-hidden lg:left-[419px] lg:flex xl:left-[calc(max((100%_-_1200px)/2,_0px)_+_459px)]">
+            <svg viewBox="0 0 1440 200" preserveAspectRatio="none" className="h-full w-full">
+              <defs>
+                {/* Crisp on the left, increasingly soft towards the right. */}
+                <filter id="drivecam-curve-soft" x="-10%" y="-60%" width="120%" height="200%">
+                  <feGaussianBlur stdDeviation="26" />
+                </filter>
+                <linearGradient id="drivecam-curve-fade" x1="0" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse">
+                  <stop offset="0.15" stopColor="#fff" stopOpacity="1" />
+                  <stop offset="0.75" stopColor="#fff" stopOpacity="0" />
+                </linearGradient>
+                <mask id="drivecam-curve-crisp-mask"><rect width="1440" height="200" fill="url(#drivecam-curve-fade)" /></mask>
+              </defs>
+              <path d="M0 200 C 360 200, 980 110, 1500 30 L1500 260 L0 260 Z" fill="#ede9f3" filter="url(#drivecam-curve-soft)" />
+              <path d="M0 200 C 360 200, 980 110, 1500 30 L1500 260 L0 260 Z" fill="#ede9f3" mask="url(#drivecam-curve-crisp-mask)" />
+            </svg>
+          </div>
+        )}
+        <div className="relative z-10 flex w-full max-w-[1200px] flex-col-reverse items-center gap-32 px-20 pt-[96px] md:px-56 md:pt-[120px] lg:flex-row lg:items-end lg:gap-56">
           <Ambassador image={asset('/drivecam/ambassador-right.webp')} label="Ambassador showing the DriveCam" delay={0} className="flex h-[380px] w-[194px] shrink-0 bg-contain bg-bottom bg-no-repeat md:h-[480px] md:w-[245px] lg:h-[600px] lg:w-[307px] xl:h-[680px] xl:w-[347px]" />
           <div className="flex w-full min-w-0 flex-col items-start gap-20 md:gap-24 lg:flex-1 lg:pb-[120px]">
             <Reveal className="flex">
               <Typography textStyle="display-xl" as="h2" className={`text-text-static-dark! ${H_SECTION}`}>
-                An industry-first premium insurance plan <span className="text-text-brand-default!">with a dashcam.</span>
+                So we built DriveCam into <span className="text-text-brand-default!">your car insurance.</span>
               </Typography>
             </Reveal>
             <Reveal delay={120} className="flex">
               <Typography textStyle="body-lg-regular" color="secondary" className="max-w-[480px]">
-                Proof settles the argument. It doesn’t fix the car. So we built DriveCam into your car insurance.
+                An industry-first premium insurance plan with a dashcam.
               </Typography>
             </Reveal>
             <Reveal delay={280} className="flex">
               <Button variant="primary" size="lg" onClick={() => go('drivecam-early-access')}>Get early access</Button>
             </Reveal>
+            {/* Exclusive benefits, two by two, each with an icon. */}
+            <div id="drivecam-benefits" aria-label="Exclusive benefits" className="flex w-full flex-col gap-20 pt-24 md:flex-row md:flex-wrap md:gap-x-32 md:gap-y-28 md:pt-40">
+              {insuranceBenefits.map(({ Icon, title, text }, i) => (
+                <Reveal key={title} delay={360 + i * 90} className="flex min-w-0 items-start gap-14 md:w-[calc(50%-16px)]">
+                  <span aria-hidden="true" className="flex size-40 shrink-0 items-center justify-center rounded-full bg-white/70 text-text-brand-default">
+                    <Icon className="size-20" strokeWidth={1.75} />
+                  </span>
+                  <span className="flex min-w-0 flex-col gap-4">
+                    <Typography textStyle="label-lg-semibold" as="h3" className="text-text-static-dark!">{title}</Typography>
+                    <Typography textStyle="body-sm-regular" className="text-text-static-dark/70!">{text}</Typography>
+                  </span>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="drivecam-benefits" aria-label="What the insurance adds" data-figma-id="drivecam-benefits" className="flex w-full flex-col items-center bg-[#f7f6f2]">
-        <div className="flex w-full max-w-[1200px] flex-col items-center gap-32 px-20 py-72 md:gap-48 md:px-56 md:py-[120px]">
-          <Reveal className="flex">
-            <Typography textStyle="display-xl" as="h3" className={`text-center! text-text-static-dark! ${H_SECTION}`}>
-              Exclusive <span className="text-text-brand-default!">benefits.</span>
-            </Typography>
-          </Reveal>
-          {/* Four in a row from md up. On phones the cards pin one over the next as you scroll. */}
-          <div className="flex w-full flex-col gap-16 md:flex-row">
-            {insuranceBenefits.map(({ image, title, text }, i) => (
-              <div
-                key={title}
-                className={`flex min-w-0 flex-col overflow-hidden rounded-3xl bg-surface-card-default shadow-xs md:flex-1 ${IS_AUTOMATION ? '' : 'sticky md:static'}`}
-                style={IS_AUTOMATION ? undefined : { top: 96 + i * 14 }}
-              >
-                <div aria-hidden="true" className="flex h-[160px] w-full bg-cover bg-center md:h-[180px]" style={{ backgroundImage: `url(${asset(image)})` }} />
-                <div className="flex flex-col gap-8 px-24 pb-24 pt-20">
-                  <Typography textStyle="heading-lg" as="h4" className={`text-text-static-dark! ${H_CARD}`}>{title}</Typography>
-                  <Typography textStyle="body-md-regular" className="text-text-static-dark/70!">{text}</Typography>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="drivecam-early-access" aria-label="Early access" data-figma-id="drivecam-early-access" className="relative flex w-full flex-col items-center bg-[#ede9f3]" style={fadeStyle(C_OFF)}>
+      <section id="drivecam-early-access" aria-label="Early access" data-figma-id="drivecam-early-access" className="relative flex w-full flex-col items-center bg-[#ede9f3]">
         <div className="flex w-full max-w-[1200px] flex-col items-center gap-40 px-20 pt-56 md:px-56 md:pt-96 lg:flex-row lg:items-end lg:gap-56">
           <div className="flex w-full min-w-0 flex-col gap-32 pb-16 md:gap-40 lg:flex-1 lg:pb-96">
           <div className="flex flex-col gap-16">
