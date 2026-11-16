@@ -5,7 +5,7 @@ import { Accordion, AccordionItem } from '@acko/accordion'
 import { Button } from '@acko/button'
 import { TextInput } from '@acko/text-input'
 import { Typography } from '@acko/typography'
-import { CircleCheck, Headset, Receipt, Truck, Wrench } from 'lucide-react'
+import { CircleCheck, Headset, ReceiptIndianRupee, Truck, Wrench } from 'lucide-react'
 
 // Sizes and weights measured from the approved reference page (mobile, then md+).
 const H_HERO = 'text-[32px]! leading-[38px]! tracking-[-0.96px]! font-medium! md:text-[44px]! md:leading-[48px]! xl:text-[52px]! xl:leading-[56px]! xl:tracking-[-1.2px]!'
@@ -621,9 +621,10 @@ function ActionFilm() {
 }
 
 const IS_AUTOMATION = typeof navigator !== 'undefined' && Boolean(navigator.webdriver)
-const C_OFF = '#f7f6f2'
-const C_LAV = '#ede9f3'
-const C_BEIGE = '#f0ece6'
+// ACKO design-system surfaces: Grey 50 (surfacePagePrimary), Purple 100 (brandPrimary100), Grey 150 (surfacePageSecondary).
+const C_OFF = '#fafafa'
+const C_LAV = '#f2ebff'
+const C_BEIGE = '#efeff0'
 const C_CHAR = '#252225'
 
 // Soft seam: the top of a band fades in from the colour of the band above it (a background, so it sits behind the content).
@@ -642,7 +643,7 @@ const insuranceBenefits = [
   { Icon: Headset, image: '/drivecam/benefits/claims-manager.webp', title: 'Relationship manager', text: 'A dedicated claims manager. You make one call, and they stay with you until your car is back.' },
   { Icon: Truck, image: '/drivecam/benefits/pickup.webp', title: 'Convenience when needed', text: 'Pickup and drop, wherever you are.' },
   { Icon: Wrench, image: '/drivecam/benefits/garage.webp', title: 'A trusted network of garages', text: 'Handpicked and monitored by ACKO. A 53-point quality check and a 1-year warranty on the work.' },
-  { Icon: Receipt, image: '/drivecam/benefits/invoice.webp', title: '100% transparency', text: 'Photos and invoices for every part replaced, on your phone.' },
+  { Icon: ReceiptIndianRupee, image: '/drivecam/benefits/invoice.webp', title: '100% transparency', text: 'Photos and invoices for every part replaced, on your phone.' },
 ]
 
 const behaviours = [
@@ -878,7 +879,7 @@ export default function DriveCamRevealPage() {
   const go = (id) => document.getElementById(id).scrollIntoView({ block: 'start' })
 
   return (
-    <main aria-label="ACKO DriveCam" data-figma-id="drivecam-home" className="flex min-h-screen w-full flex-col items-center bg-[#f7f6f2]" style={BLACK_BUTTONS}>
+    <main aria-label="ACKO DriveCam" data-figma-id="drivecam-home" className="flex min-h-screen w-full flex-col items-center bg-surface-page-primary" style={BLACK_BUTTONS}>
       <FilmIntro />
 
       <Statement />
@@ -889,25 +890,16 @@ export default function DriveCamRevealPage() {
 
       <Bridge />
 
-      <section id="drivecam-hero" aria-label="DriveCam with ACKO car insurance" data-figma-id="drivecam-hero" className="relative flex w-full flex-col items-center bg-[#f0ece6]">
+      <section id="drivecam-hero" aria-label="DriveCam with ACKO car insurance" data-figma-id="drivecam-hero" className="relative flex w-full flex-col items-center bg-surface-page-secondary">
         {/* Curved edge into the benefits below (side-by-side layout only): flat along the section's bottom under the
             ambassador, so the line meets his legs exactly, then rising and softening into a blend on the right. */}
         {!IS_AUTOMATION && (
           <div aria-hidden="true" className="pointer-events-none absolute bottom-0 right-0 hidden h-[200px] overflow-hidden lg:left-[419px] lg:flex xl:left-[calc(max((100%_-_1200px)/2,_0px)_+_459px)]">
             <svg viewBox="0 0 1440 200" preserveAspectRatio="none" className="h-full w-full">
-              <defs>
-                {/* Crisp on the left, increasingly soft towards the right. */}
-                <filter id="drivecam-curve-soft" x="-10%" y="-60%" width="120%" height="200%">
-                  <feGaussianBlur stdDeviation="26" />
-                </filter>
-                <linearGradient id="drivecam-curve-fade" x1="0" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse">
-                  <stop offset="0.15" stopColor="#fff" stopOpacity="1" />
-                  <stop offset="0.75" stopColor="#fff" stopOpacity="0" />
-                </linearGradient>
-                <mask id="drivecam-curve-crisp-mask"><rect width="1440" height="200" fill="url(#drivecam-curve-fade)" /></mask>
-              </defs>
-              <path d="M0 200 C 360 200, 980 110, 1500 30 L1500 260 L0 260 Z" fill="#ede9f3" filter="url(#drivecam-curve-soft)" />
-              <path d="M0 200 C 360 200, 980 110, 1500 30 L1500 260 L0 260 Z" fill="#ede9f3" mask="url(#drivecam-curve-crisp-mask)" />
+              {/* Three translucent bands of the next section's colour, all meeting the crisp line under the ambassador. */}
+              <path d="M0 200 C 380 200, 950 70, 1440 0 L1440 200 Z" fill="#f2ebff" fillOpacity="0.3" />
+              <path d="M0 200 C 400 200, 980 105, 1440 55 L1440 200 Z" fill="#f2ebff" fillOpacity="0.55" />
+              <path d="M0 200 C 420 200, 1000 140, 1440 110 L1440 200 Z" fill="#f2ebff" />
             </svg>
           </div>
         )}
@@ -945,8 +937,19 @@ export default function DriveCamRevealPage() {
         </div>
       </section>
 
-      <section id="drivecam-early-access" aria-label="Early access" data-figma-id="drivecam-early-access" className="relative flex w-full flex-col items-center bg-[#ede9f3]">
-        <div className="flex w-full max-w-[1200px] flex-col items-center gap-40 px-20 pt-56 md:px-56 md:pt-96 lg:flex-row lg:items-end lg:gap-56">
+      <section id="drivecam-early-access" aria-label="Early access" data-figma-id="drivecam-early-access" className="relative flex w-full flex-col items-center bg-brand-primary100">
+        {/* Mirror of the curve above: crisp along the bottom under the ambassador (right), rising and blending softly
+            into the FAQ section towards the left. Side-by-side layout only. */}
+        {!IS_AUTOMATION && (
+          <div aria-hidden="true" className="pointer-events-none absolute bottom-0 left-0 hidden h-[200px] overflow-hidden lg:right-[466px] lg:flex xl:right-[calc(max((100%_-_1200px)/2,_0px)_+_521px)]">
+            <svg viewBox="0 0 1440 200" preserveAspectRatio="none" className="h-full w-full">
+              <path d="M1440 200 C 1060 200, 490 70, 0 0 L0 200 Z" fill="#fafafa" fillOpacity="0.3" />
+              <path d="M1440 200 C 1040 200, 460 105, 0 55 L0 200 Z" fill="#fafafa" fillOpacity="0.55" />
+              <path d="M1440 200 C 1020 200, 440 140, 0 110 L0 200 Z" fill="#fafafa" />
+            </svg>
+          </div>
+        )}
+        <div className="relative z-10 flex w-full max-w-[1200px] flex-col items-center gap-40 px-20 pt-56 md:px-56 md:pt-96 lg:flex-row lg:items-end lg:gap-56">
           <div className="flex w-full min-w-0 flex-col gap-32 pb-16 md:gap-40 lg:flex-1 lg:pb-96">
           <div className="flex flex-col gap-16">
             <Typography textStyle="display-xl" as="h2" className={`text-text-static-dark! ${H_SECTION}`}>Be first to get <span className="text-text-brand-default!">DriveCam.</span></Typography>
@@ -975,7 +978,7 @@ export default function DriveCamRevealPage() {
         </div>
       </section>
 
-      <section id="drivecam-faqs" aria-label="Frequently asked questions" data-figma-id="drivecam-faqs" className="relative flex w-full flex-col items-center bg-[#f7f6f2]">
+      <section id="drivecam-faqs" aria-label="Frequently asked questions" data-figma-id="drivecam-faqs" className="relative flex w-full flex-col items-center bg-surface-page-primary">
         <div className="flex w-full max-w-[1200px] flex-col items-center gap-32 px-20 py-56 md:gap-48 md:px-56 md:py-96">
           <div className="flex flex-col items-center gap-12">
             <Typography textStyle="display-xl" as="h2" className={`text-center! text-text-static-dark! ${H_SECTION}`}>Questions, <span className="text-text-brand-default!">answered.</span></Typography>
