@@ -1003,7 +1003,7 @@ export default function DriveCamRevealPage() {
             <AckoLogo textFill="#ffffff" />
             {/* Small links, like the Clinic's footer. */}
             <nav aria-label="Footer links" className="flex flex-wrap items-center gap-x-24 gap-y-12 md:justify-end">
-              {[['Features', 'drivecam-features'], ['Benefits', 'drivecam-benefits'], ['Early access', 'drivecam-early-access'], ['FAQs', 'drivecam-faqs']].map(([label, id]) => (
+              {[['Features', 'drivecam-features'], ['Benefits', 'drivecam-hero'], ['Early access', 'drivecam-early-access'], ['FAQs', 'drivecam-faqs']].map(([label, id]) => (
                 <a key={id} href={`#${id}`} onClick={(e) => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }} className="flex">
                   <Typography textStyle="label-sm-regular" className="text-[#c0b7dd]!">{label}</Typography>
                 </a>
