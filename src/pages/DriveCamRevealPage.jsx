@@ -328,7 +328,7 @@ function FilmIntro() {
       const away = sm(p, 0.5, 0.76)
       if (filmRef.current) filmRef.current.style.opacity = String(sm(p, 0.06, 0.24) * (1 - away))
       if (filmBoxRef.current) filmBoxRef.current.style.transform = `scale(${(0.94 + 0.06 * sm(p, 0.06, 0.32)) * (1 - 0.97 * away)})`
-      if (cueRef.current) cueRef.current.style.opacity = String(1 - sm(p, 0, 0.06))
+      if (cueRef.current) cueRef.current.style.opacity = String(1 - sm(p, 0.8, 0.9))
       if (haloRef.current) haloRef.current.style.opacity = String(sm(p, 0.04, 0.2) * (1 - sm(p, 0.36, 0.56)))
       drawFrame(p)
     }
@@ -420,7 +420,7 @@ function FilmIntro() {
       aria-label="Introduction"
       data-figma-id="drivecam-intro"
       ref={trackRef}
-      className="relative flex h-[320svh] w-full flex-col items-center md:h-[400svh]"
+      className="relative flex h-[320svh] w-full flex-col items-center bg-surface-page-static-black md:h-[400svh]"
     >
       <div className={`sticky top-0 flex h-svh w-full flex-col items-center overflow-hidden ${IS_AUTOMATION ? 'bg-surface-page-static-white' : 'bg-surface-page-static-black'}`}>
         {!IS_AUTOMATION && (
@@ -464,7 +464,7 @@ function FilmIntro() {
           </div>
           <div ref={cueRef} className="absolute inset-x-0 bottom-32 flex flex-col items-center gap-8">
             <Typography textStyle="label-md-medium" className="text-text-static-light/60!">Scroll</Typography>
-            <div className="h-32 w-1 bg-surface-static-white/40" />
+            <div className="h-32 w-1 animate-pulse bg-surface-static-white/40 motion-reduce:animate-none" />
           </div>
         </div>
       </div>
@@ -490,11 +490,11 @@ function Statement() {
     if (!section) return undefined
     const count = statementWords.length
     return registerScene(section, (top, h, vh) => {
-      const p = clamp((vh * 0.78 - top) / (vh * 0.6))
+      const p = clamp((vh * 0.95 - top) / (vh * 0.6))
       wordRefs.current.forEach((el, i) => {
         if (!el) return
         const start = (i / count) * 0.72
-        el.style.opacity = String(0.14 + 0.86 * ease(seg(p, start, start + 0.28)))
+        el.style.opacity = String(0.28 + 0.72 * ease(seg(p, start, start + 0.28)))
       })
       if (subRef.current) {
         const t = ease(seg(p, 0.82, 1))
@@ -509,7 +509,7 @@ function Statement() {
       ref={sectionRef}
       aria-label="Everyone remembers an accident differently"
       data-figma-id="drivecam-statement"
-      className="relative z-20 flex w-full flex-col items-center bg-surface-page-static-black px-20 py-72 md:px-56 md:py-[140px] -mt-[59svh] md:-mt-[81svh]"
+      className="relative z-20 flex w-full flex-col items-center bg-surface-page-static-black px-20 pb-72 pt-40 md:px-56 md:pb-[140px] md:pt-72 -mt-[75svh] md:-mt-[100svh]"
     >
       <div className="flex w-full max-w-[1000px] flex-col items-center gap-24 md:gap-32">
         <Typography textStyle="display-xl" as="h2" color="static" className="text-center! text-[34px]! leading-[1.14]! tracking-[-0.03em]! font-light! md:text-[60px]! xl:text-[76px]!">
@@ -563,7 +563,7 @@ function ActionFilm() {
   }, [staticMode])
 
   return (
-    <section ref={sectionRef} aria-label="See it in action" data-figma-id="drivecam-action" className="flex w-full justify-center bg-surface-page-static-black">
+    <section ref={sectionRef} aria-label="See it in action" data-figma-id="drivecam-action" className="relative z-20 flex w-full justify-center bg-surface-page-static-black">
       {IS_AUTOMATION ? (
         <div role="img" aria-label="DriveCam in action" className="flex aspect-[2/1] w-full max-w-[1600px] bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${asset('/drivecam/in-action-poster.webp')})` }} />
       ) : (
@@ -641,10 +641,10 @@ function LookCloser() {
     </button>
   )
   return (
-    <section id="drivecam-features" aria-label="Features" data-figma-id="drivecam-features" className="flex w-full flex-col items-center bg-surface-page-static-black">
+    <section id="drivecam-features" aria-label="Features" data-figma-id="drivecam-features" className="relative z-20 flex w-full flex-col items-center bg-surface-page-static-black">
       <div className="flex w-full max-w-[1200px] flex-col gap-56 px-20 py-72 md:gap-[88px] md:px-56 md:py-[120px]">
         <Reveal className="flex flex-col items-center">
-          <Typography textStyle="display-xl" as="h2" color="static" className={`text-center! ${H_SECTION}`}>Everything it does, <span className="text-[#a58cf7]!">up close.</span></Typography>
+          <Typography textStyle="display-xl" as="h2" color="static" className={`text-center! ${H_SECTION}`}>Meet your <span className="text-[#a58cf7]!">DriveCam</span></Typography>
         </Reveal>
 
         <div className="flex flex-col items-center gap-40 md:flex-row md:gap-24">
@@ -754,13 +754,13 @@ function FooterRoad() {
 
   return (
     <div ref={ref} className="flex flex-col gap-10">
-      <div className="flex items-end justify-between gap-24">
-        <Typography textStyle="body-lg-regular" as="p" className={`min-w-0 text-[24px]! leading-[1.15]! tracking-[-0.02em]! font-light! md:text-[30px]! xl:text-[34px]! xl:whitespace-nowrap ${IS_AUTOMATION ? 'text-[#a39daf]!' : 'text-transparent!'}`}>
+      <div className="relative flex items-end justify-between gap-24">
+        <Typography textStyle="body-lg-regular" as="p" className={`relative z-10 min-w-0 pr-[96px] text-[24px]! md:pr-0 leading-[1.15]! tracking-[-0.02em]! font-light! md:text-[30px]! xl:text-[34px]! xl:whitespace-nowrap ${IS_AUTOMATION ? 'text-[#a39daf]!' : 'text-transparent!'}`}>
           <span className="inline" style={IS_AUTOMATION ? undefined : lit}>
             Building the <span className="font-semibold!">protection destination</span> for your car
           </span>
         </Typography>
-        <div role="img" aria-label="A car driving towards the text with its headlight on" className="relative flex h-[42px] w-[230px] shrink-0 md:h-[52px] md:w-[300px]" style={glide}>
+        <div role="img" aria-label="A car driving towards the text with its headlight on" className="absolute bottom-0 right-0 flex h-[42px] w-[230px] shrink-0 md:relative md:h-[52px] md:w-[300px]" style={glide}>
           {!IS_AUTOMATION && (
             <div aria-hidden="true" className="absolute bottom-[-1px] right-[78px] flex h-[36px] w-[calc(100%-78px)] md:right-[97px] md:h-[44px] md:w-[calc(100%-97px)]" style={{ filter: 'blur(5px)' }}>
               <div
@@ -876,7 +876,7 @@ export default function DriveCamRevealPage() {
         <div className="flex w-full max-w-[1200px] flex-col items-center gap-32 px-20 py-72 md:gap-48 md:px-56 md:py-[120px]">
           <Reveal className="flex">
             <Typography textStyle="display-xl" as="h3" className={`text-center! text-text-static-dark! ${H_SECTION}`}>
-              Exclusive <span className="text-text-brand-default!">Platinum benefits.</span>
+              Exclusive <span className="text-text-brand-default!">benefits.</span>
             </Typography>
           </Reveal>
           {/* Four in a row from md up. On phones the cards pin one over the next as you scroll. */}
@@ -898,7 +898,7 @@ export default function DriveCamRevealPage() {
         </div>
       </section>
 
-      <section id="drivecam-early-access" aria-label="Early access" data-figma-id="drivecam-early-access" className="relative flex w-full flex-col items-center bg-[#ede9f3]">
+      <section id="drivecam-early-access" aria-label="Early access" data-figma-id="drivecam-early-access" className="relative flex w-full flex-col items-center bg-[#ede9f3]" style={fadeStyle(C_OFF)}>
         <div className="flex w-full max-w-[1200px] flex-col items-center gap-40 px-20 pt-56 md:px-56 md:pt-96 lg:flex-row lg:items-end lg:gap-56">
           <div className="flex w-full min-w-0 flex-col gap-32 pb-16 md:gap-40 lg:flex-1 lg:pb-96">
           <div className="flex flex-col gap-16">
@@ -919,8 +919,8 @@ export default function DriveCamRevealPage() {
               <TextInput label="Car registration number" inputType="registrationNumber" placeholder="KA01AB1234" value={form.reg} onChange={set('reg')} errorText={errors.reg} required />
               <TextInput label="Mobile number" inputType="phone" placeholder="10 digits" value={form.mobile} onChange={set('mobile')} errorText={errors.mobile} required />
               <TextInput label="Pincode" inputType="pincode" placeholder="6 digits" value={form.pincode} onChange={set('pincode')} errorText={errors.pincode} required />
-              <Button variant="primary" size="lg" type="submit" fullWidth>Join early access</Button>
-              <Typography textStyle="body-sm-regular" color="secondary" className="text-center!">No payment needed. By clicking Join early access, you agree to the Terms and Conditions.</Typography>
+              <Button variant="primary" size="lg" type="submit" fullWidth>Get early access</Button>
+              <Typography textStyle="body-sm-regular" color="secondary" className="text-center!">No payment needed. By clicking here, you agree to the Terms and Conditions.</Typography>
             </form>
           )}
           </div>
@@ -949,11 +949,11 @@ export default function DriveCamRevealPage() {
       <footer aria-label="ACKO footer" data-figma-id="drivecam-footer" className="relative flex w-full flex-col items-center overflow-hidden bg-surface-page-static-black">
         <div className="flex w-full max-w-[1200px] flex-col gap-32 px-20 pb-40 pt-72 md:gap-40 md:px-56 md:pb-48 md:pt-[96px]">
           <FooterRoad />
-          <div className="flex items-center justify-between gap-16">
+          <div className="flex flex-col items-start gap-24 md:flex-row md:items-center md:justify-between md:gap-16">
             <AckoLogo textFill="#ffffff" />
             {/* Small links, like the Clinic's footer. */}
-            <nav aria-label="Footer links" className="flex flex-wrap items-center justify-end gap-x-24 gap-y-8">
-              {[['Features', 'drivecam-features'], ['Platinum benefits', 'drivecam-benefits'], ['Early access', 'drivecam-early-access'], ['FAQs', 'drivecam-faqs']].map(([label, id]) => (
+            <nav aria-label="Footer links" className="flex flex-wrap items-center gap-x-24 gap-y-12 md:justify-end">
+              {[['Features', 'drivecam-features'], ['Benefits', 'drivecam-benefits'], ['Early access', 'drivecam-early-access'], ['FAQs', 'drivecam-faqs']].map(([label, id]) => (
                 <a key={id} href={`#${id}`} onClick={(e) => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }} className="flex">
                   <Typography textStyle="label-sm-regular" className="text-[#c0b7dd]!">{label}</Typography>
                 </a>
