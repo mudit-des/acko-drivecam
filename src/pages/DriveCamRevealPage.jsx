@@ -65,6 +65,9 @@ const introLines = [
   [{ w: 'ACKO' }, { w: 'DriveCam.' }],
 ]
 
+const INTRO_SUB = 'Our premium car insurance now paired with a dashcam'
+const INTRO_SUB_SIZE = 'text-[17px]! leading-[1.4]! md:text-[22px]! xl:text-[24px]!'
+
 const INTRO_SIZE = 'text-[44px]! leading-[46px]! tracking-[-1.8px]! md:text-[88px]! md:leading-[90px]! md:tracking-[-3.5px]! xl:text-[120px]! xl:leading-[120px]! xl:tracking-[-5px]!'
 
 const FRAME_COUNT = 172
@@ -406,6 +409,7 @@ function FilmIntro() {
               </span>
             ))}
           </h1>
+          <Typography textStyle="body-lg-regular" as="p" className={`max-w-[300px] pt-24 text-center! text-text-static-light/60! md:max-w-none ${INTRO_SUB_SIZE}`}>{INTRO_SUB}</Typography>
         </div>
         <div className="flex w-full flex-col items-center bg-surface-page-static-white px-20 py-48">
           <div role="img" aria-label="DriveCam" className="flex aspect-square w-[min(86vw,560px)] bg-contain bg-center bg-no-repeat" style={{ backgroundImage: `url(${asset('/drivecam/frames/hero/f0172.jpg')})` }} />
@@ -461,6 +465,12 @@ function FilmIntro() {
                 </span>
               ))}
             </h1>
+            <span
+              className={`inline-block transition-[opacity,transform] duration-700 ease-out motion-reduce:transition-none ${mounted ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'}`}
+              style={{ transitionDelay: '640ms' }}
+            >
+              <Typography textStyle="body-lg-regular" as="p" className={`max-w-[300px] text-center! text-text-static-light/60! md:max-w-none ${INTRO_SUB_SIZE}`}>{INTRO_SUB}</Typography>
+            </span>
           </div>
           <div ref={cueRef} className="absolute inset-x-0 bottom-32 flex flex-col items-center gap-8">
             <Typography textStyle="label-md-medium" className="text-text-static-light/60!">Scroll</Typography>
@@ -933,7 +943,7 @@ export default function DriveCamRevealPage() {
           </div>
         )}
         <div className="relative z-10 flex w-full max-w-[1200px] flex-col-reverse items-center gap-32 px-20 pt-[96px] md:px-56 md:pt-[120px] lg:flex-row lg:items-end lg:gap-56">
-          <Ambassador image={asset('/drivecam/ambassador-right.webp')} label="Ambassador showing the DriveCam" delay={0} className="flex h-[380px] w-[194px] shrink-0 bg-contain bg-bottom bg-no-repeat md:h-[480px] md:w-[245px] lg:h-[600px] lg:w-[307px] xl:h-[680px] xl:w-[347px]" />
+          <Ambassador image={asset('/drivecam/ambassador-right-drivecam.webp')} label="Ambassador showing the DriveCam" delay={0} className="flex h-[380px] w-[194px] shrink-0 bg-contain bg-bottom bg-no-repeat md:h-[480px] md:w-[245px] lg:h-[600px] lg:w-[307px] xl:h-[680px] xl:w-[347px]" />
           <div className="flex w-full min-w-0 flex-col items-start gap-20 md:gap-24 lg:flex-1 lg:pb-[120px]">
             <Reveal className="flex">
               <Typography textStyle="display-xl" as="h2" className={`text-text-static-dark! ${H_SECTION}`}>
@@ -1003,7 +1013,7 @@ export default function DriveCamRevealPage() {
             </form>
           )}
           </div>
-          <Ambassador image={asset('/drivecam/ambassador-left.webp')} label="Ambassador holding the DriveCam" delay={0} className="flex h-[380px] w-[260px] shrink-0 bg-contain bg-bottom bg-no-repeat md:h-[480px] md:w-[328px] lg:h-[600px] lg:w-[410px] xl:h-[680px] xl:w-[465px]" />
+          <Ambassador image={asset('/drivecam/ambassador-left-drivecam.webp')} label="Ambassador holding the DriveCam" delay={0} className="flex h-[380px] w-[260px] shrink-0 bg-contain bg-bottom bg-no-repeat md:h-[480px] md:w-[328px] lg:h-[600px] lg:w-[410px] xl:h-[680px] xl:w-[465px]" />
         </div>
       </section>
 
@@ -1050,7 +1060,7 @@ export default function DriveCamRevealPage() {
           <div className="flex min-w-0 items-center gap-12">
             <Link to="/acko" aria-label="ACKO home" tabIndex={showBar ? 0 : -1} className="flex"><AckoLogo /></Link>
             <div className="hidden pl-12 md:flex">
-              <Typography textStyle="label-md-medium" color="secondary">DriveCam · Launching soon</Typography>
+              <Typography textStyle="label-md-medium" color="secondary">DriveCam · Comes with ACKO car insurance</Typography>
             </div>
           </div>
           <Button variant="primary" size="sm" tabIndex={showBar ? 0 : -1} onClick={() => go('drivecam-early-access')}>Get early access</Button>
