@@ -861,6 +861,10 @@ function FooterRoad() {
       <div aria-hidden="true" className={`relative flex h-2 w-full ${IS_AUTOMATION ? 'bg-surface-static-white/30' : ''}`} style={IS_AUTOMATION ? undefined : { backgroundImage: ROAD_DASHES }}>
         {!IS_AUTOMATION && (
           <>
+            {/* The road carries on past the content column to both edges of the screen. The left stretch runs its
+                dashes leftwards from the column edge so the spacing stays continuous where they meet. */}
+            <div className="absolute right-full top-0 flex h-2" style={{ width: 'calc((100vw - 100%) / 2 + 2px)', backgroundImage: 'repeating-linear-gradient(to left, transparent 0 14px, rgba(255,255,255,0.22) 14px 32px)' }} />
+            <div className="absolute left-full top-0 flex h-2" style={{ width: 'calc((100vw - 100%) / 2 + 2px)', backgroundImage: ROAD_DASHES }} />
             {/* The stretch of road under the beam: same dashes, brighter, fading out away from the car. */}
             <div className="absolute inset-0 flex" style={{ ...glide, backgroundImage: ROAD_DASHES_LIT, WebkitMaskImage: 'linear-gradient(to left, transparent 96px, #000 112px, transparent 400px)', maskImage: 'linear-gradient(to left, transparent 96px, #000 112px, transparent 400px)' }} />
             <div className="absolute right-[104px] top-[-6px] flex h-[14px] w-[170px] rounded-full md:right-[130px]" style={{ ...glide, backgroundImage: 'radial-gradient(closest-side, rgba(220,212,255,0.22), rgba(165,140,247,0))' }} />
@@ -1036,8 +1040,8 @@ export default function DriveCamRevealPage() {
       </section>
 
       <footer aria-label="ACKO footer" data-figma-id="drivecam-footer" className="relative flex w-full flex-col items-center overflow-hidden bg-surface-page-static-black">
-        <div className="flex w-full max-w-[1200px] flex-col gap-32 px-20 pb-40 pt-72 md:gap-40 md:px-56 md:pb-48 md:pt-[96px]">
-          <FooterRoad />
+        {/* Logo and links first; the road, sentence and car close the page at the very bottom. */}
+        <div className="flex w-full max-w-[1200px] flex-col gap-64 px-20 pb-48 pt-48 md:gap-[88px] md:px-56 md:pb-64 md:pt-64">
           <div className="flex flex-col items-start gap-24 md:flex-row md:items-center md:justify-between md:gap-16">
             <AckoLogo textFill="#ffffff" />
             {/* Small links, like the Clinic's footer. */}
@@ -1052,6 +1056,7 @@ export default function DriveCamRevealPage() {
               </button>
             </nav>
           </div>
+          <FooterRoad />
         </div>
       </footer>
       {!navigator.webdriver && (
