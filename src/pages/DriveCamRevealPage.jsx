@@ -66,7 +66,7 @@ const introLines = [
 ]
 
 const INTRO_SUB = 'Our premium car insurance now paired with a dashcam'
-const INTRO_SUB_SIZE = 'text-[17px]! leading-[1.4]! md:text-[22px]! xl:text-[24px]!'
+const INTRO_SUB_SIZE = 'text-[17px]! leading-[1.4]! font-light! antialiased md:text-[22px]! xl:text-[24px]!'
 
 const INTRO_SIZE = 'text-[44px]! leading-[46px]! tracking-[-1.8px]! md:text-[88px]! md:leading-[90px]! md:tracking-[-3.5px]! xl:text-[120px]! xl:leading-[120px]! xl:tracking-[-5px]!'
 
@@ -955,9 +955,6 @@ export default function DriveCamRevealPage() {
                 An industry-first premium insurance plan with a dashcam.
               </Typography>
             </Reveal>
-            <Reveal delay={280} className="flex">
-              <Button variant="primary" size="lg" onClick={() => go('drivecam-early-access')}>Get early access</Button>
-            </Reveal>
             {/* Exclusive benefits, two by two, each with an icon. */}
             <div id="drivecam-benefits" aria-label="Exclusive benefits" className="flex w-full flex-col gap-20 pt-24 md:flex-row md:flex-wrap md:gap-x-32 md:gap-y-28 md:pt-40">
               {insuranceBenefits.map(({ Icon, title, text }, i) => (
@@ -972,6 +969,9 @@ export default function DriveCamRevealPage() {
                 </Reveal>
               ))}
             </div>
+            <Reveal delay={720} className="flex pt-16 md:pt-24">
+              <Button variant="primary" size="lg" onClick={() => go('drivecam-early-access')}>Get early access</Button>
+            </Reveal>
           </div>
         </div>
       </section>
