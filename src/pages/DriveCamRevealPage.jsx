@@ -947,7 +947,7 @@ export default function DriveCamRevealPage() {
           </div>
         )}
         <div className="relative z-10 flex w-full max-w-[1200px] flex-col-reverse items-center gap-32 px-20 pt-[96px] md:px-56 md:pt-[120px] lg:flex-row lg:items-end lg:gap-56">
-          <Ambassador image={asset('/drivecam/ambassador-right-drivecam.webp')} label="Ambassador showing the DriveCam" delay={0} className="flex h-[380px] w-[194px] shrink-0 bg-contain bg-bottom bg-no-repeat md:h-[480px] md:w-[245px] lg:h-[600px] lg:w-[307px] xl:h-[680px] xl:w-[347px]" />
+          <Ambassador image={asset('/drivecam/ambassador-dhoni.webp')} label="Ambassador showing the DriveCam" delay={0} className="flex h-[380px] w-[194px] shrink-0 bg-contain bg-bottom bg-no-repeat md:h-[480px] md:w-[245px] lg:h-[600px] lg:w-[307px] xl:h-[680px] xl:w-[347px]" />
           <div className="flex w-full min-w-0 flex-col items-start gap-20 md:gap-24 lg:flex-1 lg:pb-[120px]">
             <Reveal className="flex">
               <Typography textStyle="display-xl" as="h2" className={`text-text-static-dark! ${H_SECTION}`}>
@@ -1017,7 +1017,7 @@ export default function DriveCamRevealPage() {
             </form>
           )}
           </div>
-          <Ambassador image={asset('/drivecam/ambassador-left-drivecam.webp')} label="Ambassador holding the DriveCam" delay={0} className="flex h-[380px] w-[260px] shrink-0 bg-contain bg-bottom bg-no-repeat md:h-[480px] md:w-[328px] lg:h-[600px] lg:w-[410px] xl:h-[680px] xl:w-[465px]" />
+          <Ambassador image={asset('/drivecam/ambassador-madhavan.webp')} label="Ambassador holding the DriveCam" delay={0} className="flex h-[380px] w-[260px] shrink-0 bg-contain bg-bottom bg-no-repeat md:h-[480px] md:w-[328px] lg:h-[600px] lg:w-[410px] xl:h-[680px] xl:w-[465px]" />
         </div>
       </section>
 
