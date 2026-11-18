@@ -516,7 +516,7 @@ function Bridge() {
     <section ref={sectionRef} aria-label="Proof settles the argument" data-figma-id="drivecam-bridge" className="relative z-20 flex w-full flex-col items-center bg-surface-page-static-black px-20 pb-[96px] pt-24 md:px-56 md:pb-[160px] md:pt-40">
       <Typography textStyle="display-xl" as="h2" color="static" className="max-w-[1000px] text-center! text-[34px]! leading-[1.14]! tracking-[-0.03em]! font-light! md:text-[60px]! xl:text-[76px]!">
         {bridgeWords.map(({ w, accent }, i) => (
-          <span key={`${w}-${i}`} ref={(el) => { wordRefs.current[i] = el }} className={accent ? 'text-[#a58cf7]!' : undefined}>{w}{i < bridgeWords.length - 1 ? ' ' : ''}</span>
+          <span key={`${w}-${i}`} ref={(el) => { wordRefs.current[i] = el }} className={accent ? 'text-brand-primary400!' : undefined}>{w}{i < bridgeWords.length - 1 ? ' ' : ''}</span>
         ))}
       </Typography>
     </section>
@@ -560,11 +560,11 @@ function Statement() {
       <div className="flex w-full max-w-[1000px] flex-col items-center gap-24 md:gap-32">
         <Typography textStyle="display-xl" as="h2" color="static" className="text-center! text-[34px]! leading-[1.14]! tracking-[-0.03em]! font-light! md:text-[60px]! xl:text-[76px]!">
           {statementWords.map(({ w, accent }, i) => (
-            <span key={`${w}-${i}`} ref={(el) => { wordRefs.current[i] = el }} className={accent ? 'text-[#a58cf7]!' : undefined}>{w}{i < statementWords.length - 1 ? ' ' : ''}</span>
+            <span key={`${w}-${i}`} ref={(el) => { wordRefs.current[i] = el }} className={accent ? 'text-brand-primary400!' : undefined}>{w}{i < statementWords.length - 1 ? ' ' : ''}</span>
           ))}
         </Typography>
         <div ref={subRef} className="flex w-full max-w-[560px] justify-center">
-          <Typography textStyle="body-lg-regular" className="text-center! text-[#b4aad6]!">
+          <Typography textStyle="body-lg-regular" className="text-center! text-brand-primary300! font-light! antialiased">
             Wrong challan. Road rage. The other driver’s story. Now you have proof, not arguments.
           </Typography>
         </div>
@@ -683,7 +683,7 @@ function LookCloser() {
       </span>
       <span className="flex flex-col gap-4">
         <Typography textStyle="label-lg-semibold" color="static" className={`transition-opacity duration-200 ${active && active !== n ? 'opacity-50' : ''}`}>{title}</Typography>
-        <Typography textStyle="body-md-regular" className={`text-[#b4aad6]! transition-opacity duration-200 ${active && active !== n ? 'opacity-50' : ''}`}>{text}</Typography>
+        <Typography textStyle="body-md-regular" className={`text-brand-primary300! font-light! antialiased transition-opacity duration-200 ${active && active !== n ? 'opacity-50' : ''}`}>{text}</Typography>
       </span>
     </button>
   )
@@ -691,7 +691,7 @@ function LookCloser() {
     <section id="drivecam-features" aria-label="Features" data-figma-id="drivecam-features" className="relative z-20 flex w-full flex-col items-center bg-surface-page-static-black">
       <div className="flex w-full max-w-[1200px] flex-col gap-56 px-20 py-72 md:gap-[88px] md:px-56 md:py-[120px]">
         <Reveal className="flex flex-col items-center">
-          <Typography textStyle="display-xl" as="h2" color="static" className={`text-center! ${H_SECTION}`}>Meet your <span className="text-[#a58cf7]!">DriveCam</span></Typography>
+          <Typography textStyle="display-xl" as="h2" color="static" className={`text-center! ${H_SECTION}`}>Meet your <span className="text-brand-primary400!">DriveCam</span></Typography>
         </Reveal>
 
         <div className="flex flex-col items-center gap-40 md:flex-row md:gap-24">
@@ -730,7 +730,7 @@ function LookCloser() {
               <div className="h-1 w-full bg-surface-static-white/20" />
               <div className="flex flex-col gap-12">
                 <Typography textStyle="display-2xl" as="p" color="static" className={NUMBER_SIZE}><CountUp to={to} suffix={suffix} delay={i * 140} /></Typography>
-                <Typography textStyle="label-md-semibold" className="text-[#b4aad6]!">{label}</Typography>
+                <Typography textStyle="label-md-semibold" className="text-brand-primary300!">{label}</Typography>
               </div>
             </Reveal>
           ))}
@@ -740,7 +740,7 @@ function LookCloser() {
           {behaviours.map(({ title, text }, i) => (
             <Reveal key={title} delay={i * 110} className="flex min-w-0 flex-1 flex-col gap-8 border-t border-surface-static-white/20 pt-20">
               <Typography textStyle="heading-lg" as="h3" color="static" className={H_CARD}>{title}</Typography>
-              <Typography textStyle="body-md-regular" className="text-[#b4aad6]!">{text}</Typography>
+              <Typography textStyle="body-md-regular" className="text-brand-primary300! font-light! antialiased">{text}</Typography>
             </Reveal>
           ))}
         </div>
@@ -802,7 +802,7 @@ function FooterRoad() {
   return (
     <div ref={ref} className="flex flex-col gap-10">
       <div className="relative flex items-end justify-between gap-24">
-        <Typography textStyle="body-lg-regular" as="p" className={`relative z-10 min-w-0 pr-[112px] text-[24px]! md:pr-0 leading-[1.15]! tracking-[-0.02em]! font-light! md:text-[30px]! xl:text-[34px]! xl:whitespace-nowrap ${IS_AUTOMATION ? 'text-[#a39daf]!' : 'text-transparent!'}`}>
+        <Typography textStyle="body-lg-regular" as="p" className={`relative z-10 min-w-0 pr-[112px] text-[20px]! md:pr-0 leading-[1.15]! tracking-[-0.02em]! font-light! md:text-[30px]! xl:text-[34px]! xl:whitespace-nowrap ${IS_AUTOMATION ? 'text-[#a39daf]!' : 'text-transparent!'}`}>
           <span className="inline" style={IS_AUTOMATION ? undefined : lit}>
             Building the <span className="font-semibold!">protection destination</span> for your car
           </span>
@@ -955,7 +955,7 @@ export default function DriveCamRevealPage() {
               </Typography>
             </Reveal>
             <Reveal delay={120} className="flex">
-              <Typography textStyle="body-lg-regular" color="secondary" className="max-w-[480px]">
+              <Typography textStyle="body-lg-regular" color="secondary" className="max-w-[560px] md:text-[18px]! md:leading-[26px]! font-light! antialiased">
                 An industry-first premium insurance plan with a dashcam.
               </Typography>
             </Reveal>
@@ -968,7 +968,7 @@ export default function DriveCamRevealPage() {
                   </span>
                   <span className="flex min-w-0 flex-col gap-4">
                     <Typography textStyle="label-lg-semibold" as="h3" className="text-text-static-dark!">{title}</Typography>
-                    <Typography textStyle="body-sm-regular" className="text-text-static-dark/70!">{text}</Typography>
+                    <Typography textStyle="body-sm-regular" className="text-text-static-dark/70! text-[14px]! leading-[20px]! font-light! antialiased md:text-[16px]! md:leading-[24px]!">{text}</Typography>
                   </span>
                 </Reveal>
               ))}
@@ -995,8 +995,8 @@ export default function DriveCamRevealPage() {
         <div className="relative z-10 flex w-full max-w-[1200px] flex-col items-center gap-40 px-20 pt-56 md:px-56 md:pt-96 lg:flex-row lg:items-end lg:gap-56">
           <div className="flex w-full min-w-0 flex-col gap-32 pb-16 md:gap-40 lg:flex-1 lg:pb-96">
           <div className="flex flex-col gap-16">
-            <Typography textStyle="display-xl" as="h2" className={`text-text-static-dark! ${H_SECTION}`}>Be first to get <span className="text-text-brand-default!">DriveCam.</span></Typography>
-            <Typography textStyle="body-lg-regular" color="secondary" className="max-w-[480px]">
+            <Typography textStyle="display-xl" as="h2" className={`text-text-static-dark! ${H_SECTION}`}>Be first to get DriveCam.</Typography>
+            <Typography textStyle="body-lg-regular" color="secondary" className="max-w-[480px] font-light! antialiased">
               We’re opening in phases, eligible cars first. Tell us about your car and we’ll message you when it’s ready.
             </Typography>
           </div>
@@ -1005,7 +1005,7 @@ export default function DriveCamRevealPage() {
             <div role="status" aria-label="Early access request submitted" className="flex w-full max-w-[560px] flex-col items-start gap-16 rounded-3xl bg-surface-card-default p-24 md:p-32">
               <CircleCheck className="size-32 text-text-brand-default" aria-hidden="true" />
               <Typography textStyle="heading-lg" as="h3">You’re on the list</Typography>
-              <Typography textStyle="body-md-regular" color="secondary">We’ll message you when access opens.</Typography>
+              <Typography textStyle="body-md-regular" color="secondary" className="font-light! antialiased">We’ll message you when access opens.</Typography>
             </div>
           ) : (
             <form aria-label="Join DriveCam early access" onSubmit={submit} noValidate className="flex w-full max-w-[560px] flex-col gap-20 rounded-3xl bg-surface-card-default p-24 md:p-32">
@@ -1013,7 +1013,7 @@ export default function DriveCamRevealPage() {
               <TextInput label="Mobile number" inputType="phone" placeholder="10 digits" value={form.mobile} onChange={set('mobile')} errorText={errors.mobile} required />
               <TextInput label="Pincode" inputType="pincode" placeholder="6 digits" value={form.pincode} onChange={set('pincode')} errorText={errors.pincode} required />
               <Button variant="primary" size="lg" type="submit" fullWidth>Get early access</Button>
-              <Typography textStyle="body-sm-regular" color="secondary" className="text-center!">No payment needed. By clicking here, you agree to the Terms and Conditions.</Typography>
+              <Typography textStyle="body-sm-regular" color="secondary" className="text-center! font-light! antialiased">No payment needed. By clicking here, you agree to the Terms and Conditions.</Typography>
             </form>
           )}
           </div>
@@ -1024,7 +1024,7 @@ export default function DriveCamRevealPage() {
       <section id="drivecam-faqs" aria-label="Frequently asked questions" data-figma-id="drivecam-faqs" className="relative flex w-full flex-col items-center bg-surface-page-primary">
         <div className="flex w-full max-w-[1200px] flex-col items-center gap-32 px-20 py-56 md:gap-48 md:px-56 md:py-96">
           <div className="flex flex-col items-center gap-12">
-            <Typography textStyle="display-xl" as="h2" className={`text-center! text-text-static-dark! ${H_SECTION}`}>Questions, <span className="text-text-brand-default!">answered.</span></Typography>
+            <Typography textStyle="display-xl" as="h2" className={`text-center! text-text-static-dark! ${H_SECTION}`}>Questions, answered.</Typography>
           </div>
           <div className="flex w-full max-w-[760px] flex-col">
             <Accordion type="single" size="md" defaultValue="faq-0">
@@ -1048,11 +1048,11 @@ export default function DriveCamRevealPage() {
             <nav aria-label="Footer links" className="flex flex-wrap items-center gap-x-24 gap-y-12 md:justify-end">
               {[['Features', 'drivecam-features'], ['Benefits', 'drivecam-hero'], ['Early access', 'drivecam-early-access'], ['FAQs', 'drivecam-faqs']].map(([label, id]) => (
                 <a key={id} href={`#${id}`} onClick={(e) => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }} className="flex">
-                  <Typography textStyle="label-sm-regular" className="text-[#c0b7dd]!">{label}</Typography>
+                  <Typography textStyle="label-sm-regular" className="text-brand-primary200! text-[14px]! leading-[20px]!">{label}</Typography>
                 </a>
               ))}
               <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex cursor-pointer">
-                <Typography textStyle="label-sm-regular" className="text-[#c0b7dd]!">Back to top ↑</Typography>
+                <Typography textStyle="label-sm-regular" className="text-brand-primary200! text-[14px]! leading-[20px]!">Back to top ↑</Typography>
               </button>
             </nav>
           </div>
