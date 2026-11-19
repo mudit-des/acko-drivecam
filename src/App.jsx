@@ -4,16 +4,16 @@ import StayPage from './pages/StayPage'
 import AckoLandingPage from './pages/AckoLandingPage'
 import DashCamPage from './pages/DashCamPage'
 import DriveCamPage from './pages/DriveCamPage'
-import DriveCamRevealPage from './pages/DriveCamRevealPage'
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/stay" replace />} />
+      <Route path="/" element={<Navigate to="/drivecam" replace />} />
       <Route path="/stay" element={<StayPage />} />
       <Route path="/acko" element={<AckoLandingPage />} />
       <Route path="/drivecam" element={<DriveCamPage />} />
-      <Route path="/drivecam-reveal" element={<DriveCamRevealPage />} />
+      {/* Old link, kept so URLs already shared still land on the page. */}
+      <Route path="/drivecam-reveal" element={<Navigate to="/drivecam" replace />} />
       <Route path="/dash-cam"element={<DashCamPage />} />
       <Route path="/health-insurance"element={<HealthInsurancePage />} />
     </Routes>

@@ -18,4 +18,4 @@ git add -A
 git commit -q -m "Deploy to GitHub Pages"
 git push -q -f "$REMOTE" gh-pages
 rm -rf .git
-echo "Deployed: https://mudit-des.github.io/acko-drivecam/drivecam-reveal"
+echo "Deployed: https://mudit-des.github.io/acko-drivecam/drivecam"

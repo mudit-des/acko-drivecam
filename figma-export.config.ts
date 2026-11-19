@@ -41,16 +41,6 @@ export default defineFigmaExportConfig({
       states: [{ id: 'default', name: 'Default' }],
     },
     {
-      id: 'drivecam-reveal',
-      name: 'ACKO DriveCam landing page (sequential reveal)',
-      route: '/drivecam-reveal',
-      viewports: [
-        { id: 'desktop', width: 1440, height: 900 },
-        { id: 'mobile', width: 390, height: 844 },
-      ],
-      states: [{ id: 'default', name: 'Default' }],
-    },
-    {
       id: 'dash-cam',
       name: 'ACKO dash cam landing page',
       route: '/dash-cam',
