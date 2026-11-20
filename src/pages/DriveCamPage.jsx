@@ -801,9 +801,9 @@ function FooterRoad() {
   return (
     <div ref={ref} className="flex flex-col gap-10">
       <div className="relative flex items-end justify-between gap-24">
-        <Typography textStyle="body-lg-regular" as="p" className={`relative z-10 min-w-0 pr-[112px] text-[20px]! md:pr-0 leading-[1.15]! tracking-[-0.02em]! font-light! md:text-[30px]! xl:text-[34px]! xl:whitespace-nowrap ${IS_AUTOMATION ? 'text-[#a39daf]!' : 'text-transparent!'}`}>
+        <Typography textStyle="body-lg-regular" as="p" className={`relative z-10 min-w-0 pr-[112px] text-[20px]! md:pr-0 leading-[1.15]! tracking-[-0.02em]! font-normal! md:text-[30px]! xl:text-[34px]! xl:whitespace-nowrap ${IS_AUTOMATION ? 'text-[#a39daf]!' : 'text-transparent!'}`}>
           <span className="inline" style={IS_AUTOMATION ? undefined : lit}>
-            Building the <span className="font-semibold!">protection destination</span> for your car
+            Building the protection destination for your car
           </span>
         </Typography>
         <div role="img" aria-label="A car driving towards the text with its headlight on" className="absolute bottom-0 right-0 flex h-[42px] w-[260px] shrink-0 md:relative md:h-[52px] md:w-[340px]" style={glide}>
